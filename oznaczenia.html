@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Numerów Operacyjnych</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #666, #333);
+            flex-direction: column;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255,255,255,0.2);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        canvas {
+            border: 2px dashed rgba(255,255,255,0.3);
+            margin: 20px 0;
+            background: rgba(0,0,0,0.2);
+        }
+        input {
+            padding: 12px;
+            font-size: 16px;
+            width: 220px;
+            margin: 12px;
+            text-align: center;
+            background: rgba(255,255,255,0.8);
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 8px;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+        a {
+            margin-top: 15px;
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .controls {
+            margin: 25px 0;
+        }
+        h1 {
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        footer {
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        footer a {
+            color: #4CAF50;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Generator Numerów Operacyjnych</h1>
+        
+        <div class="controls">
+            <input type="text" id="customInput" placeholder="np. 423pX5" maxlength="6">
+            <button id="generateCustom">Zastosuj</button>
+        </div>
+        
+        <canvas id="outputCanvas" width="400" height="150"></canvas>
+        
+        <div class="controls">
+            <button id="generateRandom">Generuj Losowe</button>
+            <a id="downloadLink" href="#" download="numer_operacyjny.png">Pobierz Obraz</a>
+        </div>
+        <footer>Zrobione przez <a href="https://guns.lol/michaelfries" target="_blank">Michael Fries</a></footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('outputCanvas');
+            const ctx = canvas.getContext('2d');
+            const generateRandomBtn = document.getElementById('generateRandom');
+            const generateCustomBtn = document.getElementById('generateCustom');
+            const customInput = document.getElementById('customInput');
+            const downloadLink = document.getElementById('downloadLink');
+            
+            // Ładowanie czcionki
+            const font = new FontFace('Oznaczenia', 'url(Oznaczenia.ttf)');
+            
+            font.load().then(function(loadedFont) {
+                document.fonts.add(loadedFont);
+                generateRandom();
+            }).catch(function(error) {
+                console.error('Błąd ładowania czcionki:', error);
+                generateRandom();
+            });
+
+            // Generuj losowe oznaczenie
+            generateRandomBtn.addEventListener('click', generateRandom);
+            
+            // Generuj customowe oznaczenie
+            generateCustomBtn.addEventListener('click', function() {
+                const text = customInput.value.trim();
+                if (text) {
+                    drawText(text);
+                } else {
+                    alert("Wpisz poprawne oznaczenie!");
+                }
+            });
+
+            function generateRandom() {
+                const num1 = Math.floor(Math.random() * 101) + 400; // 400-500
+                const middleLetter = String.fromCharCode(Math.floor(Math.random() * 16) + 97); // a-p (mała)
+                
+                // Losowo wybierz czy w NUMER2 ma być litera (50% szans)
+                const useLetterInNum2 = Math.random() > 0.5;
+                let num2;
+                
+                if(useLetterInNum2) {
+                    const letter = String.fromCharCode(Math.floor(Math.random() * 26) + 65); // A-Z (wielka)
+                    const number = Math.floor(Math.random() * 10); // 0-9
+                    num2 = `${letter}${number}`;
+                } else {
+                    num2 = '21'; // Domyślna wartość
+                }
+                
+                const text = `${num1}${middleLetter}${num2}`;
+                customInput.value = text;
+                drawText(text);
+            }
+
+            function drawText(text) {
+                // Wyczyść canvas (przezroczysty)
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Ustaw styl tekstu (biały)
+                ctx.fillStyle = 'white';
+                ctx.font = '100px "Oznaczenia"';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                // Narysuj tekst
+                ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+                
+                // Aktualizuj link do pobrania (PNG z przezroczystym tłem)
+                downloadLink.href = canvas.toDataURL('image/png');
+            }
+        });
+    </script>
+</body>
+</html>

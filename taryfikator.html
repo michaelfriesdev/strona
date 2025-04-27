@@ -23,11 +23,6 @@
 
         h1 {
             color: white;
-            text-shadow: 
-                -2px -3px 0 #2e2e2e,  
-                 2px -3px 0 #2e2e2e,
-                -2px  2px 0 #2e2e2e,
-                 2px  2px 0 #2e2e2e;
         }
 
         a {
@@ -101,7 +96,6 @@
             border: none;
             cursor: pointer;
             border-radius: 5px;
-            transition: background 0.3s;
         }
 
             #summaryButton:hover {
@@ -176,17 +170,28 @@
 
     <script>
         const trafficOffenses = [
-            ["Przekroczenie prędkosci o 20+ km/h", 200, 0],
-            ["Przekroczenie prędkosci o 50+ km/h", 500, 0],
-            ["Przekroczenie prędkosci o 90+ km/h", 2000, 0],
+            ["Przekroczenie prędkości o 20+ km/h", 200, 0],
+            ["Przekroczenie prędkości o 50+ km/h", 500, 0],
+            ["Przekroczenie prędkości o 90+ km/h", 2000, 0],
             ["Przejazd na czerwonym świetle", 400, 0],
             ["Jazda bez pasów", 100, 0],
             ["Nieprawidłowe parkowanie", 150, 0],
-            ["Nieustapienię pierwszeństwa", 300, 0],
+            ["Nieustąpienie pierwszeństwa", 300, 0],
             ["Ucieczka przed policją", 10000, 24],
             ["Jazda pod wpływem alkoholu", 5000, 12],
             ["Próba wyłudzenia odszkodowania samochodowego", 20000, 48],
+            ["Spowodowanie kolizji drogowej", 1000, 6],
+            ["Nieprawidłowe wyprzedzanie", 400, 0],
+            ["Korzystanie z telefonu podczas jazdy", 200, 0],
+            ["Brak ważnych dokumentów (prawo jazdy, OC)", 250, 0],
+            ["Nieprawidłowe używanie świateł", 150, 0],
+            ["Przewożenie nadmiernej liczby pasażerów", 300, 0],
+            ["Zanieczyszczanie drogi (np. śmiecenie)", 200, 0],
+            ["Nadmierne użycie klaksonu", 100, 0],
+            ["Brak obowiązkowego wyposażenia pojazdu", 150, 0],
+            ["Niestosowanie się do znaków drogowych", 350, 0]
         ];
+
 
         const generalOffenses = [
             ["Posiadanie broni bez zezwolenia", 15000, 36],

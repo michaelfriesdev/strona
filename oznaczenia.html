@@ -106,7 +106,6 @@
             const customInput = document.getElementById('customInput');
             const downloadLink = document.getElementById('downloadLink');
             
-            // Ładowanie czcionki
             const font = new FontFace('Oznaczenia', 'url(Oznaczenia.ttf)');
             
             font.load().then(function(loadedFont) {
@@ -117,10 +116,8 @@
                 generateRandom();
             });
 
-            // Generuj losowe oznaczenie
             generateRandomBtn.addEventListener('click', generateRandom);
             
-            // Generuj customowe oznaczenie
             generateCustomBtn.addEventListener('click', function() {
                 const text = customInput.value.trim();
                 if (text) {
@@ -151,10 +148,8 @@
             }
 
             function drawText(text) {
-                // Wyczyść canvas (przezroczysty)
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 
-                // Ustaw styl tekstu (biały)
                 ctx.fillStyle = 'white';
                 ctx.font = '100px "Oznaczenia"';
                 ctx.textAlign = 'center';

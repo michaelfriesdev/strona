@@ -131,19 +131,18 @@
             });
 
             function generateRandom() {
-                const num1 = Math.floor(Math.random() * 101) + 400; // 400-500
-                const middleLetter = String.fromCharCode(Math.floor(Math.random() * 16) + 97); // a-p (mała)
+                const num1 = Math.floor(Math.random() * 101) + 400;
+                const middleLetter = String.fromCharCode(Math.floor(Math.random() * 16) + 97);
                 
-                // Losowo wybierz czy w NUMER2 ma być litera (50% szans)
                 const useLetterInNum2 = Math.random() > 0.5;
                 let num2;
                 
                 if(useLetterInNum2) {
-                    const letter = String.fromCharCode(Math.floor(Math.random() * 26) + 65); // A-Z (wielka)
-                    const number = Math.floor(Math.random() * 10); // 0-9
+                    const letter = String.fromCharCode(Math.floor(Math.random() * 26) + 65);
+                    const number = Math.floor(Math.random() * 10);
                     num2 = `${letter}${number}`;
                 } else {
-                    num2 = '21'; // Domyślna wartość
+                    num2 = '21';
                 }
                 
                 const text = `${num1}${middleLetter}${num2}`;
@@ -161,10 +160,8 @@
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 
-                // Narysuj tekst
                 ctx.fillText(text, canvas.width / 2, canvas.height / 2);
                 
-                // Aktualizuj link do pobrania (PNG z przezroczystym tłem)
                 downloadLink.href = canvas.toDataURL('image/png');
             }
         });

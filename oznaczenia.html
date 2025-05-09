@@ -77,6 +77,37 @@
             color: #4CAF50;
             text-decoration: underline;
         }
+        .slider-container {
+            margin: 15px 0;
+            color: white;
+            width: 100%;
+        }
+        .slider-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .slider {
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.2);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #4CAF50;
+            cursor: pointer;
+        }
+        .slider-value {
+            display: inline-block;
+            width: 50px;
+            text-align: center;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -86,6 +117,16 @@
         <div class="controls">
             <input type="text" id="customInput" placeholder="np. 423pX5" maxlength="6">
             <button id="generateCustom">Zastosuj</button>
+        </div>
+        
+        <div class="slider-container">
+            <label for="resolutionSlider">Rozdzielczość obrazu: <span id="resolutionValue" class="slider-value">400x150</span></label>
+            <input type="range" id="resolutionSlider" class="slider" min="200" max="800" value="400" step="50">
+        </div>
+        
+        <div class="slider-container">
+            <label for="fontSizeSlider">Wielkość czcionki: <span id="fontSizeValue" class="slider-value">100</span>px</label>
+            <input type="range" id="fontSizeSlider" class="slider" min="50" max="200" value="100" step="5">
         </div>
         
         <canvas id="outputCanvas" width="400" height="150"></canvas>
@@ -105,6 +146,13 @@
             const generateCustomBtn = document.getElementById('generateCustom');
             const customInput = document.getElementById('customInput');
             const downloadLink = document.getElementById('downloadLink');
+            const resolutionSlider = document.getElementById('resolutionSlider');
+            const fontSizeSlider = document.getElementById('fontSizeSlider');
+            const resolutionValue = document.getElementById('resolutionValue');
+            const fontSizeValue = document.getElementById('fontSizeValue');
+            
+            let currentText = '';
+            let currentFontSize = 100;
             
             const font = new FontFace('Oznaczenia', 'url(Oznaczenia.ttf)');
             
@@ -121,9 +169,29 @@
             generateCustomBtn.addEventListener('click', function() {
                 const text = customInput.value.trim();
                 if (text) {
+                    currentText = text;
                     drawText(text);
                 } else {
                     alert("Wpisz poprawne oznaczenie!");
+                }
+            });
+
+            resolutionSlider.addEventListener('input', function() {
+                const width = parseInt(this.value);
+                const height = Math.round(width * 0.375); // Zachowaj proporcje 400x150 (150/400=0.375)
+                canvas.width = width;
+                canvas.height = height;
+                resolutionValue.textContent = `${width}x${height}`;
+                if (currentText) {
+                    drawText(currentText);
+                }
+            });
+
+            fontSizeSlider.addEventListener('input', function() {
+                currentFontSize = parseInt(this.value);
+                fontSizeValue.textContent = currentFontSize;
+                if (currentText) {
+                    drawText(currentText);
                 }
             });
 
@@ -143,6 +211,7 @@
                 }
                 
                 const text = `${num1}${middleLetter}${num2}`;
+                currentText = text;
                 customInput.value = text;
                 drawText(text);
             }
@@ -151,7 +220,7 @@
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 
                 ctx.fillStyle = 'white';
-                ctx.font = '100px "Oznaczenia"';
+                ctx.font = `${currentFontSize}px "Oznaczenia"`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 

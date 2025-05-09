@@ -22,13 +22,15 @@
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0,0,0,0.3);
             text-align: center;
-            max-width: 500px;
-            width: 100%;
+            max-width: 600px;
+            width: 90%;
         }
         canvas {
             border: 2px dashed rgba(255,255,255,0.3);
             margin: 20px 0;
             background: rgba(0,0,0,0.2);
+            max-width: 100%;
+            height: auto;
         }
         input {
             padding: 12px;
@@ -63,15 +65,18 @@
             font-weight: bold;
         }
         .controls {
-            margin: 25px 0;
+            margin: 15px 0;
         }
         h1 {
             color: white;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            margin-top: 0;
         }
         footer {
             color: white;
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            margin-top: 20px;
+            font-size: 14px;
         }
         footer a {
             color: #4CAF50;
@@ -85,9 +90,10 @@
         .slider-container label {
             display: block;
             margin-bottom: 5px;
+            font-size: 14px;
         }
         .slider {
-            width: 90%;
+            width: 100%;
             height: 10px;
             border-radius: 5px;
             background: rgba(255,255,255,0.2);
@@ -107,6 +113,7 @@
             width: 50px;
             text-align: center;
             margin-left: 10px;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -121,7 +128,7 @@
         
         <div class="slider-container">
             <label for="resolutionSlider">Rozdzielczość obrazu: <span id="resolutionValue" class="slider-value">400x150</span></label>
-            <input type="range" id="resolutionSlider" class="slider" min="200" max="800" value="400" step="50">
+            <input type="range" id="resolutionSlider" class="slider" min="200" max="600" value="400" step="50">
         </div>
         
         <div class="slider-container">

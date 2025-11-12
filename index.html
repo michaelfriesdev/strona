@@ -152,8 +152,8 @@
         }
         
         .shop-items {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            display: flex;
+            justify-content: center;
             gap: 2rem;
             margin-top: 1.5rem;
         }
@@ -166,6 +166,7 @@
             box-shadow: 0 4px 8px rgba(139, 0, 0, 0.2);
             border: 1px solid #ffcccc;
             cursor: pointer;
+            max-width: 350px;
         }
         
         .shop-item:hover {
@@ -374,6 +375,19 @@
             color: #666666;
         }
         
+        .contact-info {
+            background-color: #fff5f5;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #8b0000;
+            margin: 1.5rem 0;
+        }
+        
+        .contact-info h4 {
+            color: #8b0000;
+            margin-bottom: 0.5rem;
+        }
+        
         .thumbnail-container {
             display: flex;
             gap: 0.5rem;
@@ -442,28 +456,20 @@
             
             <div class="gallery">
                 <div class="gallery-item">
-                    <img src="https://via.placeholder.com/300x180/ffffff/8b0000?text=Roblox+Straż" alt="Grafika 1">
+                    <img src="projekt1.jpg" alt="Grafika 1">
                     <p>Logo Roblox Straż</p>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://via.placeholder.com/300x180/ffffff/8b0000?text=Polska+Społeczność" alt="Grafika 2">
+                    <img src="projekt2.jpg" alt="Grafika 2">
                     <p>Polska Społeczność</p>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://via.placeholder.com/300x180/ffffff/8b0000?text=Developerzy" alt="Grafika 3">
+                    <img src="projekt3.jpg" alt="Grafika 3">
                     <p>Developerzy</p>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://via.placeholder.com/300x180/ffffff/8b0000?text=Roblox+Polska" alt="Grafika 4">
+                    <img src="projekt4.jpg" alt="Grafika 4">
                     <p>Roblox Polska</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://via.placeholder.com/300x180/ffffff/8b0000?text=Gry+Straż" alt="Grafika 5">
-                    <p>Gry Straż</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="https://via.placeholder.com/300x180/ffffff/8b0000?text=Projekty" alt="Grafika 6">
-                    <p>Projekty</p>
                 </div>
             </div>
         </section>
@@ -474,41 +480,11 @@
             
             <div class="shop-items">
                 <div class="shop-item" data-product="1">
-                    <img src="https://via.placeholder.com/300x200/ffffff/8b0000?text=Koszulka+Roblox+Straż" alt="Koszulka Roblox Straż">
+                    <img src="produkt1.jpg" alt="Koszulka Roblox Straż">
                     <div class="shop-item-content">
                         <h3>Koszulka Roblox Straż</h3>
-                        <p>Ekskluzywna koszulka z logo naszej społeczności.</p>
+                        <p>Ekskluzywna koszulka z logo naszej społeczności. Wykonana z wysokiej jakości bawełny, dostępna w różnych rozmiarach.</p>
                         <div class="price">49,99 PLN</div>
-                        <a href="#" class="btn">Kup teraz</a>
-                    </div>
-                </div>
-                
-                <div class="shop-item" data-product="2">
-                    <img src="https://via.placeholder.com/300x200/ffffff/8b0000?text=Czapka+Roblox+Straż" alt="Czapka Roblox Straż">
-                    <div class="shop-item-content">
-                        <h3>Czapka Roblox Straż</h3>
-                        <p>Stylowa czapka z naszym logo.</p>
-                        <div class="price">39,99 PLN</div>
-                        <a href="#" class="btn">Kup teraz</a>
-                    </div>
-                </div>
-                
-                <div class="shop-item" data-product="3">
-                    <img src="https://via.placeholder.com/300x200/ffffff/8b0000?text=Kubek+Roblox+Straż" alt="Kubek Roblox Straż">
-                    <div class="shop-item-content">
-                        <h3>Kubek Roblox Straż</h3>
-                        <p>Porcelanowy kubek z nadrukiem naszej społeczności.</p>
-                        <div class="price">29,99 PLN</div>
-                        <a href="#" class="btn">Kup teraz</a>
-                    </div>
-                </div>
-                
-                <div class="shop-item" data-product="4">
-                    <img src="https://via.placeholder.com/300x200/ffffff/8b0000?text=Naklejki+Roblox+Straż" alt="Naklejki Roblox Straż">
-                    <div class="shop-item-content">
-                        <h3>Naklejki Roblox Straż</h3>
-                        <p>Zestaw naklejek z różnymi wzorami naszej społeczności.</p>
-                        <div class="price">14,99 PLN</div>
                         <a href="#" class="btn">Kup teraz</a>
                     </div>
                 </div>
@@ -565,6 +541,12 @@
                     <h3 id="productTitle"></h3>
                     <div class="price" id="productPrice"></div>
                     <p id="productDescription"></p>
+                    
+                    <div class="contact-info">
+                        <h4>Jak dokonać zakupu?</h4>
+                        <p>Skontaktuj się z <strong id="sellerName">MistrzemStraży#1234</strong> na Discordzie, aby dokonać zakupu tego produktu.</p>
+                    </div>
+                    
                     <a href="#" class="btn">Kup teraz</a>
                 </div>
             </div>
@@ -603,51 +585,21 @@
             const productTitle = document.getElementById('productTitle');
             const productPrice = document.getElementById('productPrice');
             const productDescription = document.getElementById('productDescription');
+            const sellerName = document.getElementById('sellerName');
             const thumbnailContainer = document.querySelector('.thumbnail-container');
             
-            // Dane produktów
-            const products = {
-                1: {
-                    title: "Koszulka Roblox Straż",
-                    price: "49,99 PLN",
-                    description: "Ekskluzywna koszulka z logo naszej społeczności. Wykonana z wysokiej jakości bawełny, dostępna w różnych rozmiarach.",
-                    images: [
-                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Koszulka+Przód",
-                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Koszulka+Tył",
-                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Koszulka+Detal"
-                    ]
-                },
-                2: {
-                    title: "Czapka Roblox Straż",
-                    price: "39,99 PLN",
-                    description: "Stylowa czapka z naszym logo. Idealna na każdą pogodę, dostępna w różnych kolorach.",
-                    images: [
-                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Czapka+Przód",
-                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Czapka+Bok",
-                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Czapka+Tył"
-                    ]
-                },
-                3: {
-                    title: "Kubek Roblox Straż",
-                    price: "29,99 PLN",
-                    description: "Porcelanowy kubek z nadrukiem naszej społeczności. Pojemność 350ml, idealny do kawy lub herbaty.",
-                    images: [
-                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Kubek+Przód",
-                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Kubek+Bok",
-                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Kubek+Uchwyt"
-                    ]
-                },
-                4: {
-                    title: "Naklejki Roblox Straż",
-                    price: "14,99 PLN",
-                    description: "Zestaw naklejek z różnymi wzorami naszej społeczności. Idealne do laptopów, telefonów i innych powierzchni.",
-                    images: [
-                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Naklejki+Zestaw",
-                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Naklejka+1",
-                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Naklejka+2",
-                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Naklejka+3"
-                    ]
-                }
+            // Dane produktu
+            const product = {
+                title: "Koszulka Roblox Straż",
+                price: "49,99 PLN",
+                description: "Ekskluzywna koszulka z logo naszej społeczności. Wykonana z wysokiej jakości bawełny, dostępna w rozmiarach S, M, L, XL. Idealna dla każdego fana Roblox i naszej społeczności.",
+                seller: "MistrzStraży#1234",
+                images: [
+                    "produkt1.jpg",
+                    "produkt2.jpg",
+                    "produkt3.jpg",
+                    "produkt4.jpg"
+                ]
             };
             
             // Obsługa zakładek
@@ -671,48 +623,44 @@
             // Obsługa kliknięcia na produkt
             shopItems.forEach(item => {
                 item.addEventListener('click', function() {
-                    const productId = this.getAttribute('data-product');
-                    const product = products[productId];
+                    // Ustaw dane produktu w modal
+                    productTitle.textContent = product.title;
+                    productPrice.textContent = product.price;
+                    productDescription.textContent = product.description;
+                    sellerName.textContent = product.seller;
                     
-                    if (product) {
-                        // Ustaw dane produktu w modal
-                        productTitle.textContent = product.title;
-                        productPrice.textContent = product.price;
-                        productDescription.textContent = product.description;
+                    // Wyczyść thumbnails
+                    thumbnailContainer.innerHTML = '';
+                    
+                    // Ustaw główne zdjęcie i dodaj thumbnails
+                    if (product.images.length > 0) {
+                        mainProductImage.src = product.images[0];
                         
-                        // Wyczyść thumbnails
-                        thumbnailContainer.innerHTML = '';
-                        
-                        // Ustaw główne zdjęcie i dodaj thumbnails
-                        if (product.images.length > 0) {
-                            mainProductImage.src = product.images[0];
+                        product.images.forEach((image, index) => {
+                            const thumbnail = document.createElement('img');
+                            thumbnail.src = image;
+                            thumbnail.alt = `Miniatura ${index + 1}`;
+                            thumbnail.className = 'thumbnail' + (index === 0 ? ' active' : '');
                             
-                            product.images.forEach((image, index) => {
-                                const thumbnail = document.createElement('img');
-                                thumbnail.src = image;
-                                thumbnail.alt = `Miniatura ${index + 1}`;
-                                thumbnail.className = 'thumbnail' + (index === 0 ? ' active' : '');
+                            thumbnail.addEventListener('click', function() {
+                                // Zmień główne zdjęcie
+                                mainProductImage.src = image;
                                 
-                                thumbnail.addEventListener('click', function() {
-                                    // Zmień główne zdjęcie
-                                    mainProductImage.src = image;
-                                    
-                                    // Usuń klasę active ze wszystkich miniaturek
-                                    document.querySelectorAll('.thumbnail').forEach(thumb => {
-                                        thumb.classList.remove('active');
-                                    });
-                                    
-                                    // Dodaj klasę active do klikniętej miniaturki
-                                    this.classList.add('active');
+                                // Usuń klasę active ze wszystkich miniaturek
+                                document.querySelectorAll('.thumbnail').forEach(thumb => {
+                                    thumb.classList.remove('active');
                                 });
                                 
-                                thumbnailContainer.appendChild(thumbnail);
+                                // Dodaj klasę active do klikniętej miniaturki
+                                this.classList.add('active');
                             });
-                        }
-                        
-                        // Pokaż modal
-                        modal.style.display = 'flex';
+                            
+                            thumbnailContainer.appendChild(thumbnail);
+                        });
                     }
+                    
+                    // Pokaż modal
+                    modal.style.display = 'flex';
                 });
             });
             

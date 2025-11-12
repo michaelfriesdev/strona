@@ -1,1 +1,485 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Straż - Polska Społeczność Developerów</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #0e1a2b;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1a3a5f, #0e1a2b);
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            margin-left: 10px;
+            color: #00a2ff;
+            text-shadow: 0 0 10px rgba(0, 162, 255, 0.5);
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #00a2ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(0, 162, 255, 0.7);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 1.5rem;
+        }
+        
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav a:hover {
+            background-color: rgba(0, 162, 255, 0.2);
+            color: #00a2ff;
+        }
+        
+        nav a.active {
+            background-color: #00a2ff;
+            color: #0e1a2b;
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 2rem 0;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        h2 {
+            color: #00a2ff;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            text-align: center;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .gallery-item {
+            background-color: #1a3a5f;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .gallery-item p {
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .shop-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .shop-item {
+            background-color: #1a3a5f;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .shop-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .shop-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .shop-item-content {
+            padding: 1.5rem;
+        }
+        
+        .shop-item h3 {
+            color: #00a2ff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .shop-item p {
+            margin-bottom: 1rem;
+            color: #cccccc;
+        }
+        
+        .price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #00a2ff;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            background-color: #0088cc;
+        }
+        
+        .donate-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .donate-option {
+            background-color: #1a3a5f;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .donate-option:hover {
+            transform: translateY(-5px);
+        }
+        
+        .donate-option h3 {
+            color: #00a2ff;
+            margin-bottom: 1rem;
+        }
+        
+        .donate-option p {
+            margin-bottom: 1.5rem;
+            color: #cccccc;
+        }
+        
+        .donate-amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-bottom: 1.5rem;
+        }
+        
+        footer {
+            background-color: #0a1424;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .social-link {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: #1a3a5f;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background-color: #00a2ff;
+        }
+        
+        .copyright {
+            color: #888;
+            margin-top: 1rem;
+        }
+        
+        /* Responsywność */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav li {
+                margin: 0.5rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">RS</div>
+                    <h1>Roblox Straż</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="tab-link active" data-tab="grafiki">Grafiki</a></li>
+                        <li><a href="#" class="tab-link" data-tab="sklep">Sklep</a></li>
+                        <li><a href="#" class="tab-link" data-tab="donate">Donate</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="grafiki" class="tab-content active">
+            <h2>Grafiki Społeczności</h2>
+            <p style="text-align: center; margin-bottom: 1.5rem;">Oto kolekcja grafik stworzonych przez naszą społeczność developerów.</p>
+            
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/300x180/1a3a5f/00a2ff?text=Roblox+Straż" alt="Grafika 1">
+                    <p>Logo Roblox Straż</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/300x180/1a3a5f/00a2ff?text=Polska+Społeczność" alt="Grafika 2">
+                    <p>Polska Społeczność</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/300x180/1a3a5f/00a2ff?text=Developerzy" alt="Grafika 3">
+                    <p>Developerzy</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/300x180/1a3a5f/00a2ff?text=Roblox+Polska" alt="Grafika 4">
+                    <p>Roblox Polska</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/300x180/1a3a5f/00a2ff?text=Gry+Straż" alt="Grafika 5">
+                    <p>Gry Straż</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://via.placeholder.com/300x180/1a3a5f/00a2ff?text=Projekty" alt="Grafika 6">
+                    <p>Projekty</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sklep" class="tab-content">
+            <h2>Sklep Społeczności</h2>
+            <p style="text-align: center; margin-bottom: 1.5rem;">Zakup przedmioty stworzone przez naszą społeczność.</p>
+            
+            <div class="shop-items">
+                <div class="shop-item">
+                    <img src="https://via.placeholder.com/300x200/1a3a5f/00a2ff?text=Pakiet+Strażnika" alt="Pakiet Strażnika">
+                    <div class="shop-item-content">
+                        <h3>Pakiet Strażnika</h3>
+                        <p>Oficjalny pakiet uprawnień strażnika na naszych serwerach.</p>
+                        <div class="price">150 Robux</div>
+                        <a href="#" class="btn">Kup Teraz</a>
+                    </div>
+                </div>
+                
+                <div class="shop-item">
+                    <img src="https://via.placeholder.com/300x200/1a3a5f/00a2ff?text=Kostium+Elitarny" alt="Kostium Elitarny">
+                    <div class="shop-item-content">
+                        <h3>Kostium Elitarny</h3>
+                        <p>Ekskluzywny kostium dla członków elitarnej jednostki.</p>
+                        <div class="price">250 Robux</div>
+                        <a href="#" class="btn">Kup Teraz</a>
+                    </div>
+                </div>
+                
+                <div class="shop-item">
+                    <img src="https://via.placeholder.com/300x200/1a3a5f/00a2ff?text=Pojazd+Straży" alt="Pojazd Straży">
+                    <div class="shop-item-content">
+                        <h3>Pojazd Straży</h3>
+                        <p>Specjalny pojazd operacyjny dla jednostek straży.</p>
+                        <div class="price">500 Robux</div>
+                        <a href="#" class="btn">Kup Teraz</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="donate" class="tab-content">
+            <h2>Wesprzyj Naszą Społeczność</h2>
+            <p style="text-align: center; margin-bottom: 1.5rem;">Twoje wsparcie pomaga rozwijać naszą społeczność i tworzyć lepsze projekty.</p>
+            
+            <div class="donate-options">
+                <div class="donate-option">
+                    <h3>Podstawowe Wsparcie</h3>
+                    <p>Dziękujemy za każde wsparcie! Otrzymasz rangę Wspierającego na naszym discordzie.</p>
+                    <div class="donate-amount">10 PLN</div>
+                    <a href="#" class="btn">Wesprzyj</a>
+                </div>
+                
+                <div class="donate-option">
+                    <h3>Aktywne Wsparcie</h3>
+                    <p>Większe wsparcie oznacza większe możliwości rozwoju. Otrzymasz ekskluzywną odznakę.</p>
+                    <div class="donate-amount">25 PLN</div>
+                    <a href="#" class="btn">Wesprzyj</a>
+                </div>
+                
+                <div class="donate-option">
+                    <h3>Złote Wsparcie</h3>
+                    <p>Dzięki Twojemu wsparciu możemy realizować ambitniejsze projekty. Otrzymasz specjalne podziękowania.</p>
+                    <div class="donate-amount">50 PLN</div>
+                    <a href="#" class="btn">Wesprzyj</a>
+                </div>
+            </div>
+            
+            <div style="margin-top: 3rem; text-align: center;">
+                <h3>Inne metody wsparcia</h3>
+                <p style="margin-top: 1rem;">Możesz nas również wesprzeć poprzez udział w naszych eventach, udostępnianie projektów lub dołączenie do naszej społeczności developerskiej.</p>
+                <a href="#" class="btn" style="margin-top: 1rem;">Dołącz do Społeczności</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="logo">
+                    <div class="logo-icon">RS</div>
+                    <h1>Roblox Straż</h1>
+                </div>
+                <p>Polska Społeczność Developerów Roblox</p>
+                
+                <div class="social-links">
+                    <a href="#" class="social-link">D</a>
+                    <a href="#" class="social-link">Y</a>
+                    <a href="#" class="social-link">T</a>
+                    <a href="#" class="social-link">R</a>
+                </div>
+                
+                <p class="copyright">© 2023 Roblox Straż - Polska Społeczność Developerów. Wszelkie prawa zastrzeżone.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabLinks = document.querySelectorAll('.tab-link');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Usuń klasę active ze wszystkich zakładek
+                    tabLinks.forEach(tab => tab.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Dodaj klasę active do klikniętej zakładki
+                    this.classList.add('active');
+                    
+                    // Pokaż odpowiednią zawartość
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
 

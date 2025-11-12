@@ -13,13 +13,13 @@
         }
         
         body {
-            background-color: rgb(255, 216, 216);
-            color: #ffffff;
+            background-color: #ffe6e6;
+            color: #333333;
             line-height: 1.6;
         }
         
         header {
-            background: linear-gradient(135deg, #5f1a1a, #e25b5b);
+            background: linear-gradient(135deg, #8b0000, #ff3333);
             padding: 1rem 0;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             position: sticky;
@@ -47,8 +47,8 @@
         .logo h1 {
             font-size: 1.8rem;
             margin-left: 10px;
-            color: #00a2ff;
-            text-shadow: 0 0 10px rgba(0, 162, 255, 0.5);
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
         
         .logo-icon {
@@ -60,7 +60,8 @@
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+            color: #8b0000;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
         
         nav ul {
@@ -83,13 +84,13 @@
         }
         
         nav a:hover {
-            background-color: rgba(0, 162, 255, 0.2);
-            color: #ff0000;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ffcccc;
         }
         
         nav a.active {
-            background-color: #ff0000;
-            color: #0e1a2b;
+            background-color: #ffffff;
+            color: #8b0000;
             font-weight: bold;
         }
         
@@ -109,7 +110,7 @@
         }
         
         h2 {
-            color: #ff0000;
+            color: #8b0000;
             margin-bottom: 1.5rem;
             font-size: 2rem;
             text-align: center;
@@ -123,16 +124,17 @@
         }
         
         .gallery-item {
-            background-color: #1a3a5f;
+            background-color: #ffffff;
             border-radius: 8px;
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(139, 0, 0, 0.2);
+            border: 1px solid #ffcccc;
         }
         
         .gallery-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 16px rgba(139, 0, 0, 0.3);
         }
         
         .gallery-item img {
@@ -145,6 +147,8 @@
         .gallery-item p {
             padding: 1rem;
             text-align: center;
+            color: #8b0000;
+            font-weight: 500;
         }
         
         .shop-items {
@@ -155,15 +159,18 @@
         }
         
         .shop-item {
-            background-color: #1a3a5f;
+            background-color: #ffffff;
             border-radius: 8px;
             overflow: hidden;
             transition: transform 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(139, 0, 0, 0.2);
+            border: 1px solid #ffcccc;
+            cursor: pointer;
         }
         
         .shop-item:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(139, 0, 0, 0.3);
         }
         
         .shop-item img {
@@ -177,25 +184,25 @@
         }
         
         .shop-item h3 {
-            color: #ff0000;
+            color: #8b0000;
             margin-bottom: 0.5rem;
         }
         
         .shop-item p {
             margin-bottom: 1rem;
-            color: #cccccc;
+            color: #666666;
         }
         
         .price {
             font-size: 1.2rem;
             font-weight: bold;
-            color: #4CAF50;
+            color: #8b0000;
             margin-bottom: 1rem;
         }
         
         .btn {
             display: inline-block;
-            background-color: #00a2ff;
+            background-color: #8b0000;
             color: white;
             padding: 0.7rem 1.5rem;
             border: none;
@@ -207,7 +214,7 @@
         }
         
         .btn:hover {
-            background-color: #0088cc;
+            background-color: #660000;
         }
         
         .donate-options {
@@ -218,40 +225,43 @@
         }
         
         .donate-option {
-            background-color: #1a3a5f;
+            background-color: #ffffff;
             border-radius: 8px;
             padding: 2rem;
             text-align: center;
             transition: transform 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(139, 0, 0, 0.2);
+            border: 1px solid #ffcccc;
         }
         
         .donate-option:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(139, 0, 0, 0.3);
         }
         
         .donate-option h3 {
-            color: #00a2ff;
+            color: #8b0000;
             margin-bottom: 1rem;
         }
         
         .donate-option p {
             margin-bottom: 1.5rem;
-            color: #cccccc;
+            color: #666666;
         }
         
         .donate-amount {
             font-size: 1.5rem;
             font-weight: bold;
-            color: #4CAF50;
+            color: #8b0000;
             margin-bottom: 1.5rem;
         }
         
         footer {
-            background-color: #0a1424;
+            background-color: #8b0000;
             padding: 2rem 0;
             margin-top: 3rem;
             text-align: center;
+            color: #ffffff;
         }
         
         .footer-content {
@@ -270,23 +280,117 @@
             display: inline-block;
             width: 40px;
             height: 40px;
-            background-color: #1a3a5f;
+            background-color: #ffffff;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: #8b0000;
             text-decoration: none;
             transition: background-color 0.3s ease;
         }
         
         .social-link:hover {
-            background-color: #00a2ff;
+            background-color: #ffcccc;
         }
         
         .copyright {
-            color: #888;
+            color: #ffcccc;
             margin-top: 1rem;
+        }
+        
+        /* Modal dla produktów */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: #ffffff;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #8b0000;
+        }
+        
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        @media (min-width: 768px) {
+            .product-details {
+                flex-direction: row;
+            }
+        }
+        
+        .product-images {
+            flex: 1;
+        }
+        
+        .product-images img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        
+        .product-info {
+            flex: 1;
+        }
+        
+        .product-info h3 {
+            color: #8b0000;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .product-info .price {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .product-info p {
+            margin-bottom: 1rem;
+            color: #666666;
+        }
+        
+        .thumbnail-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .thumbnail {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .thumbnail.active {
+            border-color: #8b0000;
         }
         
         /* Responsywność */
@@ -338,34 +442,77 @@
             
             <div class="gallery">
                 <div class="gallery-item">
-                    <img src="https://via.placeholder.com/300x180/1a3a5f/00a2ff?text=Roblox+Straż" alt="Grafika 1">
+                    <img src="https://via.placeholder.com/300x180/ffffff/8b0000?text=Roblox+Straż" alt="Grafika 1">
                     <p>Logo Roblox Straż</p>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://via.placeholder.com/300x180/1a3a5f/00a2ff?text=Polska+Społeczność" alt="Grafika 2">
+                    <img src="https://via.placeholder.com/300x180/ffffff/8b0000?text=Polska+Społeczność" alt="Grafika 2">
                     <p>Polska Społeczność</p>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://via.placeholder.com/300x180/1a3a5f/00a2ff?text=Developerzy" alt="Grafika 3">
+                    <img src="https://via.placeholder.com/300x180/ffffff/8b0000?text=Developerzy" alt="Grafika 3">
                     <p>Developerzy</p>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://via.placeholder.com/300x180/1a3a5f/00a2ff?text=Roblox+Polska" alt="Grafika 4">
+                    <img src="https://via.placeholder.com/300x180/ffffff/8b0000?text=Roblox+Polska" alt="Grafika 4">
                     <p>Roblox Polska</p>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://via.placeholder.com/300x180/1a3a5f/00a2ff?text=Gry+Straż" alt="Grafika 5">
+                    <img src="https://via.placeholder.com/300x180/ffffff/8b0000?text=Gry+Straż" alt="Grafika 5">
                     <p>Gry Straż</p>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://via.placeholder.com/300x180/1a3a5f/00a2ff?text=Projekty" alt="Grafika 6">
+                    <img src="https://via.placeholder.com/300x180/ffffff/8b0000?text=Projekty" alt="Grafika 6">
                     <p>Projekty</p>
                 </div>
             </div>
         </section>
 
         <section id="sklep" class="tab-content">
-            <iframe src="http://https://store126619780.sellastik.store/" width="100%" height="800" frameborder="0"></iframe>
+            <h2>Sklep Roblox Straż</h2>
+            <p style="text-align: center; margin-bottom: 1.5rem;">Odkryj nasze ekskluzywne produkty dla społeczności Roblox.</p>
+            
+            <div class="shop-items">
+                <div class="shop-item" data-product="1">
+                    <img src="https://via.placeholder.com/300x200/ffffff/8b0000?text=Koszulka+Roblox+Straż" alt="Koszulka Roblox Straż">
+                    <div class="shop-item-content">
+                        <h3>Koszulka Roblox Straż</h3>
+                        <p>Ekskluzywna koszulka z logo naszej społeczności.</p>
+                        <div class="price">49,99 PLN</div>
+                        <a href="#" class="btn">Kup teraz</a>
+                    </div>
+                </div>
+                
+                <div class="shop-item" data-product="2">
+                    <img src="https://via.placeholder.com/300x200/ffffff/8b0000?text=Czapka+Roblox+Straż" alt="Czapka Roblox Straż">
+                    <div class="shop-item-content">
+                        <h3>Czapka Roblox Straż</h3>
+                        <p>Stylowa czapka z naszym logo.</p>
+                        <div class="price">39,99 PLN</div>
+                        <a href="#" class="btn">Kup teraz</a>
+                    </div>
+                </div>
+                
+                <div class="shop-item" data-product="3">
+                    <img src="https://via.placeholder.com/300x200/ffffff/8b0000?text=Kubek+Roblox+Straż" alt="Kubek Roblox Straż">
+                    <div class="shop-item-content">
+                        <h3>Kubek Roblox Straż</h3>
+                        <p>Porcelanowy kubek z nadrukiem naszej społeczności.</p>
+                        <div class="price">29,99 PLN</div>
+                        <a href="#" class="btn">Kup teraz</a>
+                    </div>
+                </div>
+                
+                <div class="shop-item" data-product="4">
+                    <img src="https://via.placeholder.com/300x200/ffffff/8b0000?text=Naklejki+Roblox+Straż" alt="Naklejki Roblox Straż">
+                    <div class="shop-item-content">
+                        <h3>Naklejki Roblox Straż</h3>
+                        <p>Zestaw naklejek z różnymi wzorami naszej społeczności.</p>
+                        <div class="price">14,99 PLN</div>
+                        <a href="#" class="btn">Kup teraz</a>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="donate" class="tab-content">
@@ -403,6 +550,27 @@
         </section>
     </main>
 
+    <!-- Modal dla produktów -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="product-details">
+                <div class="product-images">
+                    <img id="mainProductImage" src="" alt="Zdjęcie produktu">
+                    <div class="thumbnail-container">
+                        <!-- Thumbnails będą dodawane dynamicznie -->
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h3 id="productTitle"></h3>
+                    <div class="price" id="productPrice"></div>
+                    <p id="productDescription"></p>
+                    <a href="#" class="btn">Kup teraz</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -428,7 +596,61 @@
         document.addEventListener('DOMContentLoaded', function() {
             const tabLinks = document.querySelectorAll('.tab-link');
             const tabContents = document.querySelectorAll('.tab-content');
+            const shopItems = document.querySelectorAll('.shop-item');
+            const modal = document.getElementById('productModal');
+            const closeModal = document.querySelector('.close-modal');
+            const mainProductImage = document.getElementById('mainProductImage');
+            const productTitle = document.getElementById('productTitle');
+            const productPrice = document.getElementById('productPrice');
+            const productDescription = document.getElementById('productDescription');
+            const thumbnailContainer = document.querySelector('.thumbnail-container');
             
+            // Dane produktów
+            const products = {
+                1: {
+                    title: "Koszulka Roblox Straż",
+                    price: "49,99 PLN",
+                    description: "Ekskluzywna koszulka z logo naszej społeczności. Wykonana z wysokiej jakości bawełny, dostępna w różnych rozmiarach.",
+                    images: [
+                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Koszulka+Przód",
+                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Koszulka+Tył",
+                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Koszulka+Detal"
+                    ]
+                },
+                2: {
+                    title: "Czapka Roblox Straż",
+                    price: "39,99 PLN",
+                    description: "Stylowa czapka z naszym logo. Idealna na każdą pogodę, dostępna w różnych kolorach.",
+                    images: [
+                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Czapka+Przód",
+                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Czapka+Bok",
+                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Czapka+Tył"
+                    ]
+                },
+                3: {
+                    title: "Kubek Roblox Straż",
+                    price: "29,99 PLN",
+                    description: "Porcelanowy kubek z nadrukiem naszej społeczności. Pojemność 350ml, idealny do kawy lub herbaty.",
+                    images: [
+                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Kubek+Przód",
+                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Kubek+Bok",
+                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Kubek+Uchwyt"
+                    ]
+                },
+                4: {
+                    title: "Naklejki Roblox Straż",
+                    price: "14,99 PLN",
+                    description: "Zestaw naklejek z różnymi wzorami naszej społeczności. Idealne do laptopów, telefonów i innych powierzchni.",
+                    images: [
+                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Naklejki+Zestaw",
+                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Naklejka+1",
+                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Naklejka+2",
+                        "https://via.placeholder.com/600x400/ffffff/8b0000?text=Naklejka+3"
+                    ]
+                }
+            };
+            
+            // Obsługa zakładek
             tabLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -445,9 +667,67 @@
                     document.getElementById(tabId).classList.add('active');
                 });
             });
+            
+            // Obsługa kliknięcia na produkt
+            shopItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-product');
+                    const product = products[productId];
+                    
+                    if (product) {
+                        // Ustaw dane produktu w modal
+                        productTitle.textContent = product.title;
+                        productPrice.textContent = product.price;
+                        productDescription.textContent = product.description;
+                        
+                        // Wyczyść thumbnails
+                        thumbnailContainer.innerHTML = '';
+                        
+                        // Ustaw główne zdjęcie i dodaj thumbnails
+                        if (product.images.length > 0) {
+                            mainProductImage.src = product.images[0];
+                            
+                            product.images.forEach((image, index) => {
+                                const thumbnail = document.createElement('img');
+                                thumbnail.src = image;
+                                thumbnail.alt = `Miniatura ${index + 1}`;
+                                thumbnail.className = 'thumbnail' + (index === 0 ? ' active' : '');
+                                
+                                thumbnail.addEventListener('click', function() {
+                                    // Zmień główne zdjęcie
+                                    mainProductImage.src = image;
+                                    
+                                    // Usuń klasę active ze wszystkich miniaturek
+                                    document.querySelectorAll('.thumbnail').forEach(thumb => {
+                                        thumb.classList.remove('active');
+                                    });
+                                    
+                                    // Dodaj klasę active do klikniętej miniaturki
+                                    this.classList.add('active');
+                                });
+                                
+                                thumbnailContainer.appendChild(thumbnail);
+                            });
+                        }
+                        
+                        // Pokaż modal
+                        modal.style.display = 'flex';
+                    }
+                });
+            });
+            
+            // Zamknij modal
+            closeModal.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            // Zamknij modal po kliknięciu poza nim
+            window.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
         });
     </script>
 </body>
 </html>
-
-

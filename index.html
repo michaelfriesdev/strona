@@ -13,738 +13,278 @@
     <title>strazroblox.pl - Polska Społeczność Developerów Roleplay</title>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #ffe6e6;
-            color: #333333;
-            line-height: 1.6;
-        }
-        
-        header {
-            background: linear-gradient(135deg, #8b0000, #ff3333);
-            padding: 1rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo h1 {
-            font-size: 1.8rem;
-            margin-left: 10px;
-            color: #ffffff;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-        
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background-color: #ffffff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #8b0000;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
-        }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-        
-        nav li {
-            margin-left: 1.5rem;
-        }
-        
-        nav a {
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        nav a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            color: #ffcccc;
-        }
-        
-        nav a.active {
-            background-color: #ffffff;
-            color: #8b0000;
-            font-weight: bold;
-        }
-        
-        .tab-content {
-            display: none;
-            padding: 2rem 0;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        h2 {
-            color: #8b0000;
-            margin-bottom: 1.5rem;
-            font-size: 2rem;
-            text-align: center;
-        }
+        /* --- OGÓLNE STYLE --- */
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color:#ffe6e6; color:#333; line-height:1.6; }
+        header { background: linear-gradient(135deg, #8b0000, #ff3333); padding:1rem 0; box-shadow:0 4px 12px rgba(0,0,0,.3); position:sticky; top:0; z-index:100; }
+        .container { width:90%; max-width:1200px; margin:0 auto; }
+        .header-content { display:flex; justify-content:space-between; align-items:center; }
+        .logo h1 { font-size:1.8rem; margin-left:10px; color:#fff; text-shadow:0 0 10px rgba(255,255,255,.5); }
+        nav ul { display:flex; list-style:none; }
+        nav li { margin-left:1.5rem; }
+        nav a { color:#fff; text-decoration:none; font-weight:500; padding:.5rem 1rem; border-radius:4px; transition:.3s; position:relative; }
+        nav a:hover { background-color: rgba(255,255,255,.2); color:#ffcccc; }
+        nav a.active { background-color:#fff; color:#8b0000; font-weight:bold; }
 
-        /* Layout grafiki – reklama + treść */
-        .grafiki-wrapper {
-            display: flex;
-            gap: 20px;
-        }
+        .tab-content { display:none; padding:2rem 0; animation:fadeIn .5s ease; }
+        .tab-content.active { display:block; }
+        @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
 
-        .ads-left {
-            width: 220px;
-            min-width: 220px;
-        }
+        h2 { color:#8b0000; margin-bottom:1.5rem; font-size:2rem; text-align:center; }
 
-        .ads-left ins {
-            width: 100% !important;
-            display: block !important;
-        }
+        /* STRONY SPOŁECZNOŚCI */
+        .pages-container { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:2rem; margin-top:1.5rem; }
+        .page-item { background-color:#fff; border-radius:8px; overflow:hidden; transition:transform .3s, box-shadow .3s; box-shadow:0 4px 8px rgba(139,0,0,.2); border:1px solid #ffcccc; height:100%; display:flex; flex-direction:column; }
+        .page-item:hover { transform:translateY(-5px); box-shadow:0 8px 16px rgba(139,0,0,.3); }
+        .page-preview { height:200px; overflow:hidden; position:relative; }
+        .page-preview img { width:100%; height:100%; object-fit:cover; transition:.3s; }
+        .page-item:hover .page-preview img { transform:scale(1.05); }
+        .page-content { padding:1.5rem; flex-grow:1; display:flex; flex-direction:column; }
+        .page-item h3 { color:#8b0000; margin-bottom:.5rem; font-size:1.3rem; }
+        .page-item p { margin-bottom:1rem; color:#666; flex-grow:1; }
+        .btn { display:inline-block; background-color:#8b0000; color:white; padding:.7rem 1.5rem; border:none; border-radius:4px; cursor:pointer; font-weight:bold; transition:.3s; text-decoration:none; text-align:center; }
+        .btn:hover { background-color:#660000; }
 
-        @media (max-width: 900px) {
-            .grafiki-wrapper {
-                flex-direction: column;
-            }
-            .ads-left {
-                width: 100%;
-                min-width: unset;
-            }
-        }
-        
-        .pages-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 1.5rem;
-        }
-        
-        .page-item {
-            background-color: #ffffff;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 8px rgba(139, 0, 0, 0.2);
-            border: 1px solid #ffcccc;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .page-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(139, 0, 0, 0.3);
-        }
-        
-        .page-preview {
-            height: 200px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .page-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-        
-        .page-item:hover .page-preview img {
-            transform: scale(1.05);
-        }
-        
-        .page-content {
-            padding: 1.5rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .page-item h3 {
-            color: #8b0000;
-            margin-bottom: 0.5rem;
-            font-size: 1.3rem;
-        }
-        
-        .page-item p {
-            margin-bottom: 1rem;
-            color: #666666;
-            flex-grow: 1;
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: #8b0000;
-            color: white;
-            padding: 0.7rem 1.5rem;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-            text-decoration: none;
-            text-align: center;
-        }
-        
-        .btn:hover {
-            background-color: #660000;
-        }
-        
-        .shop-items {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 1.5rem;
-        }
-        
-        .shop-item {
-            background-color: #ffffff;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-            box-shadow: 0 4px 8px rgba(139, 0, 0, 0.2);
-            border: 1px solid #ffcccc;
-            cursor: pointer;
-            max-width: 350px;
-        }
-        
-        .shop-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(139, 0, 0, 0.3);
-        }
-        
-        .shop-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        
-        .shop-item-content {
-            padding: 1.5rem;
-        }
-        
-        .shop-item h3 {
-            color: #8b0000;
-            margin-bottom: 0.5rem;
-        }
-        
-        .shop-item p {
-            margin-bottom: 1rem;
-            color: #666666;
-        }
-        
-        .price {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #8b0000;
-            margin-bottom: 1rem;
-        }
-        
-        .donate-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 1.5rem;
-        }
-        
-        .donate-option {
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 2rem;
-            text-align: center;
-            transition: transform 0.3s ease;
-            box-shadow: 0 4px 8px rgba(139, 0, 0, 0.2);
-            border: 1px solid #ffcccc;
-        }
-        
-        .donate-option:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(139, 0, 0, 0.3);
-        }
-        
-        .donate-option h3 {
-            color: #8b0000;
-            margin-bottom: 1rem;
-        }
-        
-        .donate-option p {
-            margin-bottom: 1.5rem;
-            color: #666666;
-        }
-        
-        .donate-amount {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #8b0000;
-            margin-bottom: 1.5rem;
-        }
-        
-        footer {
-            background-color: #8b0000;
-            padding: 2rem 0;
-            margin-top: 3rem;
-            text-align: center;
-            color: #ffffff;
-        }
-        
-        .footer-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-        
-        .social-link {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            background-color: #ffffff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #8b0000;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-        
-        .social-link:hover {
-            background-color: #ffcccc;
-        }
-        
-        .copyright {
-            color: #ffcccc;
-            margin-top: 1rem;
-        }
-        
-        /* Modal dla produktów */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-content {
-            background-color: #ffffff;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 800px;
-            padding: 2rem;
-            position: relative;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #8b0000;
-        }
-        
-        .product-details {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-        
-        @media (min-width: 768px) {
-            .product-details {
-                flex-direction: row;
-            }
-        }
-        
-        .product-images {
-            flex: 1;
-        }
-        
-        .product-images img {
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-        }
-        
-        .product-info {
-            flex: 1;
-        }
-        
-        .product-info h3 {
-            color: #8b0000;
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-        }
-        
-        .product-info .price {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .product-info p {
-            margin-bottom: 1rem;
-            color: #666666;
-        }
-        
-        .contact-info {
-            background-color: #fff5f5;
-            padding: 1rem;
-            border-radius: 8px;
-            border-left: 4px solid #8b0000;
-            margin: 1.5rem 0;
-            margin-left: 2rem;
-        }
-        
-        .contact-info h4 {
-            color: #8b0000;
-            margin-bottom: 0.5rem;
-        }
-        
-        .thumbnail-container {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-        
-        .thumbnail {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 4px;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-        
-        .thumbnail.active {
-            border-color: #8b0000;
-        }
-        
-        /* Responsywność */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            nav ul {
-                margin-top: 1rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            nav li {
-                margin: 0.5rem;
-            }
-            
-            h2 {
-                font-size: 1.5rem;
-            }
-            
-            .ads-left-fixed {
-                position: fixed;
-                left: 10px;
-                top: 150px;
-                width: 200px;
-                z-index: 999;
-            }
+        /* SKLEP */
+        .shop-items { display:flex; flex-wrap:wrap; justify-content:center; gap:2rem; margin-top:1.5rem; }
+        .shop-item { background:#fff; border-radius:8px; overflow:hidden; transition:.3s; box-shadow:0 4px 8px rgba(139,0,0,.2); border:1px solid #ffcccc; cursor:pointer; max-width:350px; }
+        .shop-item:hover { transform:translateY(-5px); box-shadow:0 8px 16px rgba(139,0,0,.3); }
+        .shop-item img { width:100%; height:200px; object-fit:cover; }
+        .shop-item-content { padding:1.5rem; }
+        .shop-item h3 { color:#8b0000; margin-bottom:.5rem; }
+        .shop-item p { margin-bottom:1rem; color:#666; }
+        .price { font-size:1.2rem; font-weight:bold; color:#8b0000; margin-bottom:1rem; }
 
-            .ads-left-fixed ins {
-                width: 100% !important;
-                display: block !important;
-            }
+        /* MODAL */
+        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,.7); z-index:1000; justify-content:center; align-items:center; }
+        .modal-content { background:#fff; border-radius:8px; width:90%; max-width:800px; padding:2rem; position:relative; display:flex; flex-direction:column; gap:1rem; }
+        .close-modal { position:absolute; top:15px; right:15px; font-size:1.5rem; cursor:pointer; color:#8b0000; }
+        .product-details { display:flex; flex-direction:column; gap:1.5rem; }
+        @media(min-width:768px) { .product-details { flex-direction:row; } }
+        .product-images { flex:1; }
+        .product-images img { width:100%; border-radius:8px; margin-bottom:1rem; }
+        .thumbnail-container { display:flex; gap:.5rem; margin-top:1rem; flex-wrap:wrap; }
+        .thumbnail { width:60px; height:60px; object-fit:cover; border-radius:4px; cursor:pointer; border:2px solid transparent; }
+        .thumbnail.active { border-color:#8b0000; }
+        .product-info { flex:1; }
+        .product-info h3 { color:#8b0000; margin-bottom:1rem; font-size:1.5rem; }
+        .product-info .price { font-size:1.5rem; margin-bottom:1rem; }
+        .product-info p { margin-bottom:1rem; color:#666; }
 
-            @media (max-width: 1100px) {
-               .ads-left-fixed {
-                    display: none; /* Ukrywa reklamę na telefonach, żeby nie zasłaniała treści */
-            }
-}
-
-        }
+        footer { background:#8b0000; padding:2rem 0; margin-top:3rem; text-align:center; color:#fff; }
+        .footer-content { display:flex; flex-direction:column; align-items:center; }
+        .logo-icon { width:40px; height:40px; background:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold; color:#8b0000; box-shadow:0 0 10px rgba(255,255,255,.7); }
+        .social-links { display:flex; gap:1rem; margin:1rem 0; }
+        .social-link { display:inline-flex; width:40px; height:40px; background:#fff; border-radius:50%; align-items:center; justify-content:center; color:#8b0000; text-decoration:none; transition:.3s; }
+        .social-link:hover { background:#ffcccc; }
+        .copyright { color:#ffcccc; margin-top:1rem; }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <h1>strazroblox.pl</h1>
+
+<header>
+    <div class="container">
+        <div class="header-content">
+            <div class="logo">
+                <h1>strazroblox.pl</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="tab-link active" data-tab="grafiki">Strony</a></li>
+                    <li><a href="#" class="tab-link" data-tab="sklep">Sklep</a></li>
+                    <li><a href="#" class="tab-link" data-tab="donate">Donate</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- STRONY SPOŁECZNOŚCI -->
+    <section id="grafiki" class="tab-content active">
+        <h2>Strony Społeczności</h2>
+        <p style="text-align:center; margin-bottom:1.5rem;">Oto kolekcja stron która może ci się przydać.</p>
+
+        <div class="pages-container">
+            <div class="page-item">
+                <div class="page-preview">
+                    <img src="i/oznaczenia.png" alt="#">
                 </div>
-                <nav>
-                    <ul>
-                        <li><a href="#" class="tab-link active" data-tab="grafiki">Strony</a></li>
-                        <li><a href="#" class="tab-link" data-tab="sklep">Sklep</a></li>
-                        <li><a href="#" class="tab-link" data-tab="donate">Donate</a></li>
-                    </ul>
-                </nav>
+                <div class="page-content">
+                    <h3>Generator Numerów Operacyjnych</h3>
+                    <p>Przydatne dla grafików.</p>
+                    <a href="oznaczenia" class="btn">Zobacz stronę</a>
+                </div>
             </div>
         </div>
-    </header>
+    </section>
 
-    <main class="container">
-        <section id="grafiki" class="tab-content active">
-            <h2>Strony Społeczności</h2>
-            <p style="text-align: center; margin-bottom: 1.5rem;">Oto kolekcja stron która moze ci sie przydać.</p>
+    <!-- SKLEP -->
+    <section id="sklep" class="tab-content">
+        <h2>Sklep</h2>
+        <p style="text-align:center; margin-bottom:1.5rem;">Zakupisz tu min. budynki, auta oraz modele! Czasami pojawią się też darmowe modele.</p>
+        <div class="shop-items">
+            <!-- Produkty z Firebase będą tutaj -->
+        </div>
+    </section>
 
-            <div class="grafiki-wrapper">
-            <div class="ads-left-fixed">
-                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1770784983473236"
-                    crossorigin="anonymous"></script>
-    
-                <!-- normal -->
-                <ins class="adsbygoogle"
-                    style="display:block"
-                    data-ad-client="ca-pub-1770784983473236"
-                    data-ad-slot="2131924065"
-                    data-ad-format="auto"
-                    data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-</div>
-
-    </script>
-</div>
-
-
-                <!-- TREŚĆ GRAFIK -->
-                <div class="pages-container">
-                    <div class="page-item">
-                        <div class="page-preview">
-                            <img src="i/oznaczenia.png" alt="#">
-                        </div>
-                        <div class="page-content">
-                            <h3>Generator Numerów Operacyjnych</h3>
-                            <p>Przydatne dla grafików.</p>
-                            <a href="oznaczenia" class="btn">Zobacz stronę</a>
-                        </div>
-                    </div>
-                </div>
-            </div> <!-- grafiki-wrapper -->
-        </section>
-
-        <section id="sklep" class="tab-content">
-            <h2>Sklep</h2>
-            <p style="text-align: center; margin-bottom: 1.5rem;">Zakupisz tu min. budynki, auta oraz modele! Czasami sie pojawią też darmowe modele</p>
-            
-            <div class="shop-items">
-                <div class="shop-item" data-product="1">
-                    <img src="i/trafik1.png" alt="renotrafic">
-                    <div class="shop-item-content">
-                        <h3>Renault Trafic w zabudowie policyjnej.</h3>
-                        <p>Specjalistyczny pojazd typu Renault Trafic w zabudowie policyjnej. Auto wyposażone jest w profesjonalne oznakowanie, A-chassis i ELS.</p>
-                        <div class="price">20,00 PLN</div>
-                        <a href="#" class="btn">Kup teraz</a>
-                    </div>
-                </div>
+    <!-- DONATE -->
+    <section id="donate" class="tab-content">
+        <h2>Wesprzyj Naszą Społeczność</h2>
+        <p style="text-align:center; margin-bottom:1.5rem;">Twoje wsparcie pomaga rozwijać naszą społeczność i tworzyć lepsze projekty.</p>
+        <div class="donate-options">
+            <div class="donate-option">
+                <h3>Mały Donate</h3>
+                <p>Dziękujemy za każde wsparcie!</p>
+                <div class="donate-amount">10 PLN</div>
+                <a href="#" class="btn">Wesprzyj</a>
             </div>
-        </section>
-
-        <section id="donate" class="tab-content">
-            <h2>Wesprzyj Naszą Społeczność</h2>
-            <p style="text-align: center; margin-bottom: 1.5rem;">Twoje wsparcie pomaga rozwijać naszą społeczność i tworzyć lepsze projekty.</p>
-            
-            <div class="donate-options">
-                <div class="donate-option">
-                    <h3>Mały Donate</h3>
-                    <p>Dziękujemy za każde wsparcie!</p>
-                    <div class="donate-amount">10 PLN</div>
-                    <a href="#" class="btn">Wesprzyj</a>
-                </div>
-                
-                <div class="donate-option">
-                    <h3>Aktywne Wsparcie</h3>
-                    <p>Ciekawostka: Właśnie opłaciłeś strone na miesiąc!</p>
-                    <div class="donate-amount">25 PLN</div>
-                    <a href="#" class="btn">Wesprzyj</a>
-                </div>
-                
-                <div class="donate-option">
-                    <h3>Złoty Donate</h3>
-                    <p>Dzięki Twojemu wsparciu możemy rozwijać strone. Otrzymasz specjalne darmowe modele (zgłoś sie do mnie na discordzie: frytus122).</p>
-                    <div class="donate-amount">50 PLN</div>
-                    <a href="#" class="btn">Wesprzyj</a>
-                </div>
+            <div class="donate-option">
+                <h3>Aktywne Wsparcie</h3>
+                <p>Ciekawostka: Właśnie opłaciłeś stronę na miesiąc!</p>
+                <div class="donate-amount">25 PLN</div>
+                <a href="#" class="btn">Wesprzyj</a>
             </div>
-            
-            <div style="margin-top: 3rem; text-align: center;">
-                <h3>Cel na grudzień: 45 zł (utrzymanie strony + certyfikat HTTPS)</h3>
-                <p style="margin-top: 1rem;">Nasza strona jest cały czas rozwijana, a jej utrzymanie kosztuje około 25 zł miesięcznie, dlatego każde wsparcie jest mile widziane.</p>
+            <div class="donate-option">
+                <h3>Złoty Donate</h3>
+                <p>Dzięki Twojemu wsparciu możemy rozwijać stronę. Otrzymasz specjalne darmowe modele (zgłoś się do mnie na Discordzie: frytus122).</p>
+                <div class="donate-amount">50 PLN</div>
+                <a href="#" class="btn">Wesprzyj</a>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
-    <!-- Modal -->
-    <div class="modal" id="productModal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="product-details">
-                <div class="product-images">
-                    <img id="mainProductImage" src="" alt="Zdjęcie produktu">
-                    <div class="thumbnail-container"></div>
-                </div>
-                <div class="product-info">
-                    <h3 id="productTitle"></h3>
-                    <div class="price" id="productPrice"></div>
-                    <p id="productDescription"></p>
-                    
-                    <div class="contact-info">
-                        <h4>Jak dokonać zakupu?</h4>
-                        <p>Skontaktuj się z <strong id="sellerName">MistrzemStraży#1234</strong> na Discordzie, aby dokonać zakupu tego produktu.</p>
-                    </div>
+</main>
+
+<!-- MODAL PRODUKTU -->
+<div class="modal" id="productModal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div class="product-details">
+            <div class="product-images">
+                <img id="mainProductImage" src="" alt="Produkt">
+                <div class="thumbnail-container"></div>
+            </div>
+            <div class="product-info">
+                <h3 id="productTitle"></h3>
+                <div class="price" id="productPrice"></div>
+                <p id="productDescription"></p>
+                <div class="contact-info">
+                    <h4>Jak dokonać zakupu?</h4>
+                    <p>Skontaktuj się z <strong id="sellerName"></strong> na Discordzie, aby dokonać zakupu tego produktu.</p>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="logo">
-                    <div class="logo-icon">sr.pl</div>
-                    <h1>strazroblox.pl</h1>
-                </div>
-                <p>Polska Społeczność Developerów Roleplay na roblox.</p>
-                
-                <div class="social-links">
-                <!--   <a href="#" class="social-link"></a> -->
-                </div>
-                
-                <p class="copyright">© 2026 strazroblox.pl - Społeczność Developerów Roleplay. Wszelkie prawa zastrzeżone.</p>
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="logo">
+                <div class="logo-icon">sr.pl</div>
+                <h1>strazroblox.pl</h1>
             </div>
+            <p>Polska Społeczność Developerów Roleplay na Roblox.</p>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const tabLinks = document.querySelectorAll('.tab-link');
-            const tabContents = document.querySelectorAll('.tab-content');
-            const shopItems = document.querySelectorAll('.shop-item');
-            const modal = document.getElementById('productModal');
-            const closeModal = document.querySelector('.close-modal');
+<!-- SKRYPTY -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "TWOJE_API_KEY",
+    authDomain: "TWOJE_PROJECT_ID.firebaseapp.com",
+    projectId: "TWOJE_PROJECT_ID",
+    storageBucket: "TWOJE_PROJECT_ID.appspot.com",
+    messagingSenderId: "TWOJE_SENDER_ID",
+    appId: "TWOJE_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function loadProducts() {
+    const productsCol = collection(db, "produkty");
+    const snapshot = await getDocs(productsCol);
+    const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    const shopItems = document.querySelector('.shop-items');
+    shopItems.innerHTML = "";
+
+    products.forEach(product => {
+        let images = [];
+        try { images = JSON.parse(product.obrazy); } catch(e) { images = [product.obrazy]; }
+
+        const div = document.createElement('div');
+        div.className = 'shop-item';
+        div.dataset.product = product.id;
+        div.innerHTML = `
+            <img src="${images[0]}" alt="${product.Tytul}">
+            <div class="shop-item-content">
+                <h3>${product.Tytul}</h3>
+                <p>${product.Opis}</p>
+                <div class="price">${product.Price} PLN</div>
+                <a href="#" class="btn">Kup teraz</a>
+            </div>`;
+        shopItems.appendChild(div);
+
+        div.addEventListener('click', () => {
             const mainProductImage = document.getElementById('mainProductImage');
-            const productTitle = document.getElementById('productTitle');
-            const productPrice = document.getElementById('productPrice');
-            const productDescription = document.getElementById('productDescription');
-            const sellerName = document.getElementById('sellerName');
             const thumbnailContainer = document.querySelector('.thumbnail-container');
-            
-            const product = {
-                title: "Renault Trafic w zabudowie policyjnej.",
-                price: "20,00 PLN",
-                description: "Model z pełnym oznakowaniem POLICJA, ELS, interiorem oraz A-chassisem.",
-                seller: "baconman895",
-                images: [
-                    "i/trafik1.png",
-                    "i/trafik2.png",
-                    "i/trafik3.png",
-                    "i/trafik4.png"
-                ]
-            };
-            
-            tabLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    tabLinks.forEach(tab => tab.classList.remove('active'));
-                    tabContents.forEach(content => content.classList.remove('active'));
-                    this.classList.add('active');
-                    const tabId = this.getAttribute('data-tab');
-                    document.getElementById(tabId).classList.add('active');
+
+            document.getElementById('productTitle').textContent = product.Tytul;
+            document.getElementById('productPrice').textContent = product.Price + " PLN";
+            document.getElementById('productDescription').textContent = product.Opis;
+            document.getElementById('sellerName').textContent = product.Seller;
+
+            mainProductImage.src = images[0];
+            thumbnailContainer.innerHTML = '';
+            images.forEach((img,i) => {
+                const thumb = document.createElement('img');
+                thumb.src = img;
+                thumb.className = 'thumbnail' + (i===0 ? ' active' : '');
+                thumb.addEventListener('click', () => {
+                    mainProductImage.src = img;
+                    document.querySelectorAll('.thumbnail').forEach(t=>t.classList.remove('active'));
+                    thumb.classList.add('active');
                 });
+                thumbnailContainer.appendChild(thumb);
             });
-            
-            shopItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    productTitle.textContent = product.title;
-                    productPrice.textContent = product.price;
-                    productDescription.textContent = product.description;
-                    sellerName.textContent = product.seller;
-                    
-                    thumbnailContainer.innerHTML = '';
-                    
-                    if (product.images.length > 0) {
-                        mainProductImage.src = product.images[0];
-                        
-                        product.images.forEach((image, index) => {
-                            const thumbnail = document.createElement('img');
-                            thumbnail.src = image;
-                            thumbnail.alt = `Miniatura ${index + 1}`;
-                            thumbnail.className = 'thumbnail' + (index === 0 ? ' active' : '');
-                            
-                            thumbnail.addEventListener('click', function() {
-                                mainProductImage.src = image;
-                                document.querySelectorAll('.thumbnail').forEach(thumb => {
-                                    thumb.classList.remove('active');
-                                });
-                                this.classList.add('active');
-                            });
-                            
-                            thumbnailContainer.appendChild(thumbnail);
-                        });
-                    }
-                    
-                    modal.style.display = 'flex';
-                });
-            });
-            
-            closeModal.addEventListener('click', function() {
-                modal.style.display = 'none';
-            });
-            
-            window.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
+
+            document.getElementById('productModal').style.display = 'flex';
         });
-    </script>
+    });
+}
+
+document.querySelector('.close-modal').addEventListener('click', () => {
+    document.getElementById('productModal').style.display = 'none';
+});
+
+window.addEventListener('click', e => {
+    if(e.target === document.getElementById('productModal')) {
+        document.getElementById('productModal').style.display = 'none';
+    }
+});
+
+// Zmiana zakładek
+const tabLinks = document.querySelectorAll('.tab-link');
+tabLinks.forEach(link => {
+    link.addEventListener('click', e => {
+        e.preventDefault();
+        tabLinks.forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        link.classList.add('active');
+        document.getElementById(link.dataset.tab).classList.add('active');
+    });
+});
+
+loadProducts();
+</script>
+
 </body>
 </html>

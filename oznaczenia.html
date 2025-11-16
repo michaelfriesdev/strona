@@ -1,11 +1,290 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=https://michaelfriesdev.github.io">
-  <title>Przekierowanie...</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Numerów Operacyjnych</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #ff6b6b, #b30000);
+            padding: 20px;
+        }
+
+        /* PRZYCISK WYJŚCIA */
+        .exit-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: #ff3333;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            box-shadow: 0 0 10px rgba(0,0,0,0.4);
+            transition: 0.3s;
+            z-index: 10000;
+        }
+        .exit-btn:hover {
+            background: #cc0000;
+            transform: scale(1.05);
+        }
+
+        .container {
+            background: rgba(255,255,255,0.15);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            color: white;
+        }
+
+        canvas {
+            border: 2px dashed rgba(255,255,255,0.4);
+            margin: 20px 0;
+            background: rgba(0,0,0,0.25);
+            max-width: 100%;
+            height: auto;
+        }
+
+        input {
+            padding: 12px;
+            font-size: 16px;
+            width: 220px;
+            margin: 12px;
+            text-align: center;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            background: #ff3333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 8px;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #cc0000;
+            transform: scale(1.05);
+        }
+
+        a {
+            margin-top: 15px;
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .slider-container {
+            margin: 15px 0;
+            color: white;
+            width: 100%;
+        }
+
+        .slider {
+            width: 90%;
+            height: 10px;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.3);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ff3333;
+            cursor: pointer;
+        }
+
+        .slider-value {
+            display: inline-block;
+            width: 50px;
+            text-align: center;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+
+        input[type="color"] {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            border: 2px solid #7a0000;
+            cursor: pointer;
+        }
+
+        h1 {
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            margin-top: 0;
+        }
+
+        footer {
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: #ffd6d6;
+        }
+
+    </style>
 </head>
 <body>
-  <p>Trwa przekierowywanie... Jeśli nic się nie dzieje, <a href="https://michaelfriesdev.github.io">kliknij tutaj</a>.</p>
+
+    <!-- PRZYCISK WYJŚCIA -->
+    <button class="exit-btn" onclick="history.back()">⟵ Wyjdź</button>
+
+    <div class="container">
+        <h1>Generator Numerów Operacyjnych</h1>
+
+        <div class="controls">
+            <input type="text" id="customInput" placeholder="np. 423pX5" maxlength="6">
+            <button id="generateCustom">Zastosuj</button>
+        </div>
+
+        <div class="slider-container">
+            <label for="fontSizeSlider">Wielkość czcionki: <span id="fontSizeValue" class="slider-value">100</span>px</label>
+            <input type="range" id="fontSizeSlider" class="slider" min="50" max="200" value="100" step="5">
+        </div>
+
+        <div class="slider-container">
+            <label for="resolutionSlider">Rozdzielczość obrazu: <span id="resolutionValue" class="slider-value">400x150</span></label>
+            <input type="range" id="resolutionSlider" class="slider" min="200" max="600" value="400" step="50">
+        </div>
+
+        <div class="color-container">
+            <label for="fontColorPicker">Kolor czcionki:</label>
+            <input type="color" id="fontColorPicker" value="#ffffff">
+        </div>
+
+        <canvas id="outputCanvas" width="400" height="150"></canvas>
+
+        <div class="controls">
+            <button id="generateRandom">Generuj Losowe</button>
+            <a id="downloadLink" href="#" download="numer_operacyjny.png">Pobierz Obraz</a>
+            <br>
+            <a href="Oznaczenia.ttf" download style="margin-top:10px; display:block;">📥 Pobierz czcionkę</a>
+        </div>
+
+        <footer>
+            Zrobione przez <a href="https://guns.lol/michaelfries" target="_blank">Michael Fries</a>
+        </footer>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const canvas = document.getElementById('outputCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const generateRandomBtn = document.getElementById('generateRandom');
+    const generateCustomBtn = document.getElementById('generateCustom');
+    const customInput = document.getElementById('customInput');
+    const downloadLink = document.getElementById('downloadLink');
+    const resolutionSlider = document.getElementById('resolutionSlider');
+    const fontSizeSlider = document.getElementById('fontSizeSlider');
+    const resolutionValue = document.getElementById('resolutionValue');
+    const fontSizeValue = document.getElementById('fontSizeValue');
+    const fontColorPicker = document.getElementById('fontColorPicker');
+
+    let currentText = '';
+    let currentFontSize = 100;
+    let currentFontColor = '#ffffff';
+
+    const font = new FontFace('Oznaczenia', 'url(Oznaczenia.ttf)');
+
+    font.load().then(function(loadedFont) {
+        document.fonts.add(loadedFont);
+        generateRandom();
+    }).catch(function(error) {
+        console.error('Błąd ładowania czcionki:', error);
+        generateRandom();
+    });
+
+    generateRandomBtn.addEventListener('click', generateRandom);
+
+    generateCustomBtn.addEventListener('click', function() {
+        const text = customInput.value.trim();
+        if (text) {
+            currentText = text;
+            drawText(text);
+        } else {
+            alert("Wpisz poprawne oznaczenie!");
+        }
+    });
+
+    resolutionSlider.addEventListener('input', function() {
+        const width = parseInt(this.value);
+        const height = Math.round(width * 0.375);
+        canvas.width = width;
+        canvas.height = height;
+        resolutionValue.textContent = `${width}x${height}`;
+        if (currentText) drawText(currentText);
+    });
+
+    fontSizeSlider.addEventListener('input', function() {
+        currentFontSize = parseInt(this.value);
+        fontSizeValue.textContent = currentFontSize;
+        if (currentText) drawText(currentText);
+    });
+
+    fontColorPicker.addEventListener('input', function() {
+        currentFontColor = this.value;
+        if (currentText) drawText(currentText);
+    });
+
+    function generateRandom() {
+        const num1 = Math.floor(Math.random() * 101) + 400;
+        const middleLetter = String.fromCharCode(Math.floor(Math.random() * 16) + 97);
+        const useLetterInNum2 = Math.random() > 0.5;
+        let num2;
+
+        if(useLetterInNum2) {
+            const letter = String.fromCharCode(Math.floor(Math.random() * 26) + 65);
+            const number = Math.floor(Math.random() * 10);
+            num2 = `${letter}${number}`;
+        } else {
+            num2 = '21';
+        }
+
+        const text = `${num1}${middleLetter}${num2}`;
+        currentText = text;
+        customInput.value = text;
+        drawText(text);
+    }
+
+    function drawText(text) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = currentFontColor;
+        ctx.font = `${currentFontSize}px "Oznaczenia"`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+        downloadLink.href = canvas.toDataURL('image/png');
+    }
+});
+</script>
+
 </body>
 </html>

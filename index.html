@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- AdSense meta -->
+    <meta name="google-adsense-account" content="ca-pub-1770784983473236">
+
+    <!-- AdSense script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1770784983473236" crossorigin="anonymous"></script>
+
     <title>strazroblox.pl - Polska Społeczność Developerów Roleplay</title>
+
     <style>
         * {
             margin: 0;
@@ -114,6 +122,32 @@
             margin-bottom: 1.5rem;
             font-size: 2rem;
             text-align: center;
+        }
+
+        /* Layout grafiki – reklama + treść */
+        .grafiki-wrapper {
+            display: flex;
+            gap: 20px;
+        }
+
+        .ads-left {
+            width: 220px;
+            min-width: 220px;
+        }
+
+        .ads-left ins {
+            width: 100% !important;
+            display: block !important;
+        }
+
+        @media (max-width: 900px) {
+            .grafiki-wrapper {
+                flex-direction: column;
+            }
+            .ads-left {
+                width: 100%;
+                min-width: unset;
+            }
         }
         
         .pages-container {
@@ -478,52 +512,70 @@
         <section id="grafiki" class="tab-content active">
             <h2>Strony z Grafikami Społeczności</h2>
             <p style="text-align: center; margin-bottom: 1.5rem;">Oto kolekcja stron która moze ci sie przydać.</p>
-            
-            <div class="pages-container">
-                <div class="page-item">
-                    <div class="page-preview">
-                        <img src="i/oznaczenia.png" alt="#">
+
+            <div class="grafiki-wrapper">
+
+                <!-- LEWA REKLAMA ADSENSE -->
+                <div class="ads-left">
+                    <ins class="adsbygoogle"
+                        style="display:block"
+                        data-ad-client="ca-pub-1770784983473236"
+                        data-ad-slot="1234567890"
+                        data-ad-format="auto"
+                        data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+
+                <!-- TREŚĆ GRAFIK -->
+                <div class="pages-container">
+                    <div class="page-item">
+                        <div class="page-preview">
+                            <img src="i/oznaczenia.png" alt="#">
+                        </div>
+                        <div class="page-content">
+                            <h3>Generator Numerów Operacyjnych</h3>
+                            <p>Przydatne dla grafików.</p>
+                            <a href="oznaczenia" class="btn">Zobacz stronę</a>
+                        </div>
                     </div>
-                    <div class="page-content">
-                        <h3>Generator Numerów Operacyjnych</h3>
-                        <p>Przydatne dla grafików.</p>
-                        <a href="oznaczenia" class="btn">Zobacz stronę</a>
+                    
+                    <div class="page-item">
+                        <div class="page-preview">
+                            <img src="strona2.jpg" alt="Podgląd strony z grafikami 2">
+                        </div>
+                        <div class="page-content">
+                            <h3>Grafiki Polskiej Społeczności</h3>
+                            <p>Strona z grafikami przedstawiającymi naszą polską społeczność. Zawiera banery, awatary i inne grafiki związane z polską grupą Roblox Straż.</p>
+                            <a href="strona2.html" class="btn">Zobacz stronę</a>
+                        </div>
+                    </div>
+                    
+                    <div class="page-item">
+                        <div class="page-preview">
+                            <img src="strona3.jpg" alt="Podgląd strony z grafikami 3">
+                        </div>
+                        <div class="page-content">
+                            <h3>Projekty Developerów</h3>
+                            <p>Strona prezentująca prace naszych developerów. Znajdziesz tu koncepty, projekty interfejsów oraz inne grafiki związane z tworzeniem gier w Roblox.</p>
+                            <a href="strona3.html" class="btn">Zobacz stronę</a>
+                        </div>
+                    </div>
+                    
+                    <div class="page-item">
+                        <div class="page-preview">
+                            <img src="strona4.jpg" alt="Podgląd strony z grafikami 4">
+                        </div>
+                        <div class="page-content">
+                            <h3>Grafiki Roblox Polska</h3>
+                            <p>Strona z grafikami związanymi z polską społecznością Roblox. Zawiera materiały promocyjne, banery eventowe i inne grafiki związane z naszymi aktywnościami.</p>
+                            <a href="strona4.html" class="btn">Zobacz stronę</a>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="page-item">
-                    <div class="page-preview">
-                        <img src="strona2.jpg" alt="Podgląd strony z grafikami 2">
-                    </div>
-                    <div class="page-content">
-                        <h3>Grafiki Polskiej Społeczności</h3>
-                        <p>Strona z grafikami przedstawiającymi naszą polską społeczność. Zawiera banery, awatary i inne grafiki związane z polską grupą Roblox Straż.</p>
-                        <a href="strona2.html" class="btn">Zobacz stronę</a>
-                    </div>
-                </div>
-                
-                <div class="page-item">
-                    <div class="page-preview">
-                        <img src="strona3.jpg" alt="Podgląd strony z grafikami 3">
-                    </div>
-                    <div class="page-content">
-                        <h3>Projekty Developerów</h3>
-                        <p>Strona prezentująca prace naszych developerów. Znajdziesz tu koncepty, projekty interfejsów oraz inne grafiki związane z tworzeniem gier w Roblox.</p>
-                        <a href="strona3.html" class="btn">Zobacz stronę</a>
-                    </div>
-                </div>
-                
-                <div class="page-item">
-                    <div class="page-preview">
-                        <img src="strona4.jpg" alt="Podgląd strony z grafikami 4">
-                    </div>
-                    <div class="page-content">
-                        <h3>Grafiki Roblox Polska</h3>
-                        <p>Strona z grafikami związanymi z polską społecznością Roblox. Zawiera materiały promocyjne, banery eventowe i inne grafiki związane z naszymi aktywnościami.</p>
-                        <a href="strona4.html" class="btn">Zobacz stronę</a>
-                    </div>
-                </div>
-            </div>
+
+            </div> <!-- grafiki-wrapper -->
         </section>
 
         <section id="sklep" class="tab-content">
@@ -578,16 +630,14 @@
         </section>
     </main>
 
-    <!-- Modal dla produktów -->
+    <!-- Modal -->
     <div class="modal" id="productModal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
             <div class="product-details">
                 <div class="product-images">
                     <img id="mainProductImage" src="" alt="Zdjęcie produktu">
-                    <div class="thumbnail-container">
-                        <!-- Thumbnails będą dodawane dynamicznie -->
-                    </div>
+                    <div class="thumbnail-container"></div>
                 </div>
                 <div class="product-info">
                     <h3 id="productTitle"></h3>
@@ -640,7 +690,6 @@
             const sellerName = document.getElementById('sellerName');
             const thumbnailContainer = document.querySelector('.thumbnail-container');
             
-            // Dane produktu
             const product = {
                 title: "Koszulka Roblox Straż",
                 price: "49,99 PLN",
@@ -654,37 +703,26 @@
                 ]
             };
             
-            // Obsługa zakładek
             tabLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
-                    
-                    // Usuń klasę active ze wszystkich zakładek
                     tabLinks.forEach(tab => tab.classList.remove('active'));
                     tabContents.forEach(content => content.classList.remove('active'));
-                    
-                    // Dodaj klasę active do klikniętej zakładki
                     this.classList.add('active');
-                    
-                    // Pokaż odpowiednią zawartość
                     const tabId = this.getAttribute('data-tab');
                     document.getElementById(tabId).classList.add('active');
                 });
             });
             
-            // Obsługa kliknięcia na produkt
             shopItems.forEach(item => {
                 item.addEventListener('click', function() {
-                    // Ustaw dane produktu w modal
                     productTitle.textContent = product.title;
                     productPrice.textContent = product.price;
                     productDescription.textContent = product.description;
                     sellerName.textContent = product.seller;
                     
-                    // Wyczyść thumbnails
                     thumbnailContainer.innerHTML = '';
                     
-                    // Ustaw główne zdjęcie i dodaj thumbnails
                     if (product.images.length > 0) {
                         mainProductImage.src = product.images[0];
                         
@@ -695,15 +733,10 @@
                             thumbnail.className = 'thumbnail' + (index === 0 ? ' active' : '');
                             
                             thumbnail.addEventListener('click', function() {
-                                // Zmień główne zdjęcie
                                 mainProductImage.src = image;
-                                
-                                // Usuń klasę active ze wszystkich miniaturek
                                 document.querySelectorAll('.thumbnail').forEach(thumb => {
                                     thumb.classList.remove('active');
                                 });
-                                
-                                // Dodaj klasę active do klikniętej miniaturki
                                 this.classList.add('active');
                             });
                             
@@ -711,17 +744,14 @@
                         });
                     }
                     
-                    // Pokaż modal
                     modal.style.display = 'flex';
                 });
             });
             
-            // Zamknij modal
             closeModal.addEventListener('click', function() {
                 modal.style.display = 'none';
             });
             
-            // Zamknij modal po kliknięciu poza nim
             window.addEventListener('click', function(e) {
                 if (e.target === modal) {
                     modal.style.display = 'none';

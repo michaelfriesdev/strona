@@ -487,6 +487,26 @@
             h2 {
                 font-size: 1.5rem;
             }
+            
+            .ads-left-fixed {
+                position: fixed;
+                left: 10px;
+                top: 150px;
+                width: 200px;
+                z-index: 999;
+            }
+
+            .ads-left-fixed ins {
+                width: 100% !important;
+                display: block !important;
+            }
+
+            @media (max-width: 1100px) {
+               .ads-left-fixed {
+                    display: none; /* Ukrywa reklamę na telefonach, żeby nie zasłaniała treści */
+            }
+}
+
         }
     </style>
 </head>
@@ -516,17 +536,19 @@
             <div class="grafiki-wrapper">
 
                 <!-- LEWA REKLAMA ADSENSE -->
-                <div class="ads-left">
+                <!-- Reklama po lewej stronie (nie przesuwa grafik) -->
+                <div class="ads-left-fixed">
                     <ins class="adsbygoogle"
-                        style="display:block"
-                        data-ad-client="ca-pub-1770784983473236"
-                        data-ad-slot="1234567890"
-                        data-ad-format="auto"
-                        data-full-width-responsive="true"></ins>
+                    style="display:block"
+                    data-ad-client="ca-pub-1770784983473236"
+                    data-ad-slot="1234567890"
+                    data-ad-format="auto"
+                    data-full-width-responsive="true"></ins>
                     <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</div>
+
 
                 <!-- TREŚĆ GRAFIK -->
                 <div class="pages-container">

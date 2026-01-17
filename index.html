@@ -3,742 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- AdSense meta -->
-    <meta name="google-adsense-account" content="ca-pub-1770784983473236">
-
-    <!-- AdSense script -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1770784983473236" crossorigin="anonymous"></script>
-
-    <title>strazroblox.pl - Polska Społeczność Developerów Roleplay</title>
-
+    <title>Strona Główna | Projekt</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- OGÓLNE STYLE --- */
-        :root {
-            --primary-color: #8b0000;
-            --primary-light: #ff3333;
-            --secondary-color: #ffcccc;
-            --background-color: #ffe6e6;
-            --text-color: #333333;
-            --light-text: #666666;
-            --white: #ffffff;
-            --shadow: 0 4px 8px rgba(139, 0, 0, 0.2);
-            --shadow-hover: 0 8px 16px rgba(139, 0, 0, 0.3);
+        /* Reset i ustawienia globalne */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
-        * { 
-            margin:0; 
-            padding:0; 
-            box-sizing:border-box; 
-            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-        }
-        
-        body { 
-            background-color: var(--background-color); 
-            color: var(--text-color); 
-            line-height:1.6; 
-        }
-        
-        header { 
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-light)); 
-            padding:1rem 0; 
-            box-shadow:0 4px 12px rgba(0,0,0,.3); 
-            position:sticky; 
-            top:0; 
-            z-index:100; 
-        }
-        
-        .container { 
-            width:90%; 
-            max-width:1200px; 
-            margin:0 auto; 
-        }
-        
-        .header-content { 
-            display:flex; 
-            justify-content:space-between; 
-            align-items:center; 
-        }
-        
-        .logo {
+
+        body {
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
             display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Nagłówek i nawigacja */
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-        }
-        
-        .logo h1 { 
-            font-size:1.8rem; 
-            margin-left:10px; 
-            color:var(--white); 
-            text-shadow:0 0 10px rgba(255,255,255,.5); 
-        }
-        
-        .logo-icon { 
-            width:40px; 
-            height:40px; 
-            background:var(--white); 
-            border-radius:50%; 
-            display:flex; 
-            align-items:center; 
-            justify-content:center; 
-            font-weight:bold; 
-            color:var(--primary-color); 
-            box-shadow:0 0 10px rgba(255,255,255,.7); 
-        }
-        
-        nav ul { 
-            display:flex; 
-            list-style:none; 
-        }
-        
-        nav li { 
-            margin-left:1.5rem; 
-        }
-        
-        nav a { 
-            color:var(--white); 
-            text-decoration:none; 
-            font-weight:500; 
-            padding:.5rem 1rem; 
-            border-radius:4px; 
-            transition:.3s; 
-            position:relative; 
-        }
-        
-        nav a:hover { 
-            background-color: rgba(255,255,255,.2); 
-            color:var(--secondary-color); 
-        }
-        
-        nav a.active { 
-            background-color:var(--white); 
-            color:var(--primary-color); 
-            font-weight:bold; 
+            padding: 20px 0;
         }
 
-        .tab-content { 
-            display:none; 
-            padding:2rem 0; 
-            animation:fadeIn .5s ease; 
-        }
-        
-        .tab-content.active { 
-            display:block; 
-        }
-        
-        @keyframes fadeIn { 
-            from{opacity:0;} 
-            to{opacity:1;} 
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #c00000;
+            text-decoration: none;
         }
 
-        h2 { 
-            color:var(--primary-color); 
-            margin-bottom:1.5rem; 
-            font-size:2rem; 
-            text-align:center; 
+        .logo span {
+            color: #333;
         }
 
-        /* STRONY SPOŁECZNOŚCI */
-        .pages-container { 
-            display:grid; 
-            grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); 
-            gap:2rem; 
-            margin-top:1.5rem; 
-        }
-        
-        .page-item { 
-            background-color:var(--white); 
-            border-radius:8px; 
-            overflow:hidden; 
-            transition:transform .3s, box-shadow .3s; 
-            box-shadow:var(--shadow); 
-            border:1px solid var(--secondary-color); 
-            height:100%; 
-            display:flex; 
-            flex-direction:column; 
-        }
-        
-        .page-item:hover { 
-            transform:translateY(-5px); 
-            box-shadow:var(--shadow-hover); 
-        }
-        
-        .page-preview { 
-            height:200px; 
-            overflow:hidden; 
-            position:relative; 
-        }
-        
-        .page-preview img { 
-            width:100%; 
-            height:100%; 
-            object-fit:cover; 
-            transition:.3s; 
-        }
-        
-        .page-item:hover .page-preview img { 
-            transform:scale(1.05); 
-        }
-        
-        .page-content { 
-            padding:1.5rem; 
-            flex-grow:1; 
-            display:flex; 
-            flex-direction:column; 
-        }
-        
-        .page-item h3 { 
-            color:var(--primary-color); 
-            margin-bottom:.5rem; 
-            font-size:1.3rem; 
-        }
-        
-        .page-item p { 
-            margin-bottom:1rem; 
-            color:var(--light-text); 
-            flex-grow:1; 
-        }
-        
-        .btn { 
-            display:inline-block; 
-            background-color:var(--primary-color); 
-            color:var(--white); 
-            padding:.7rem 1.5rem; 
-            border:none; 
-            border-radius:4px; 
-            cursor:pointer; 
-            font-weight:bold; 
-            transition:.3s; 
-            text-decoration:none; 
-            text-align:center; 
-        }
-        
-        .btn:hover { 
-            background-color:#660000; 
-        }
-
-        /* SKLEP */
-        .shop-items { 
-            display:grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap:2rem; 
-            margin-top:1.5rem; 
-        }
-        
-        .shop-item { 
-            background:var(--white); 
-            border-radius:8px; 
-            overflow:hidden; 
-            transition:.3s; 
-            box-shadow:var(--shadow); 
-            border:1px solid var(--secondary-color); 
-            cursor:pointer; 
+        .nav-links {
             display: flex;
-            flex-direction: column;
-        }
-        
-        .shop-item:hover { 
-            transform:translateY(-5px); 
-            box-shadow:var(--shadow-hover); 
-        }
-        
-        .shop-item img { 
-            width:100%; 
-            height:200px; 
-            object-fit:cover; 
-        }
-        
-        .shop-item-content { 
-            padding:1.5rem; 
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .shop-item h3 { 
-            color:var(--primary-color); 
-            margin-bottom:.5rem; 
-        }
-        
-        .shop-item p { 
-            margin-bottom:1rem; 
-            color:var(--light-text); 
-            flex-grow: 1;
-        }
-        
-        .price { 
-            font-size:1.2rem; 
-            font-weight:bold; 
-            color:var(--primary-color); 
-            margin-bottom:1rem; 
+            list-style: none;
         }
 
-        /* DONATE */
-        .donate-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 1.5rem;
+        .nav-links li {
+            margin-left: 30px;
         }
-        
-        .donate-option {
-            background-color: var(--white);
-            border-radius: 8px;
-            padding: 2rem;
-            text-align: center;
-            transition: transform 0.3s ease;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--secondary-color);
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            padding: 5px 0;
+            position: relative;
         }
-        
-        .donate-option:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
+
+        .nav-links a:hover {
+            color: #c00000;
         }
-        
-        .donate-option h3 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
+
+        .nav-links a.active {
+            color: #c00000;
         }
-        
-        .donate-option p {
-            margin-bottom: 1.5rem;
-            color: var(--light-text);
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background-color: #c00000;
+            bottom: -8px;
+            left: 0;
         }
-        
-        .donate-amount {
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
             font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
+            color: #c00000;
+            cursor: pointer;
         }
 
-        /* MODAL */
-        .modal { 
-            display:none; 
-            position:fixed; 
-            top:0; 
-            left:0; 
-            width:100%; 
-            height:100%; 
-            background:rgba(0,0,0,.7); 
-            z-index:1000; 
-            justify-content:center; 
-            align-items:center; 
-        }
-        
-        .modal-content { 
-            background:var(--white); 
-            border-radius:8px; 
-            width:90%; 
-            max-width:800px; 
-            padding:2rem; 
-            position:relative; 
-            display:flex; 
-            flex-direction:column; 
-            gap:1rem; 
-        }
-        
-        .close-modal { 
-            position:absolute; 
-            top:15px; 
-            right:15px; 
-            font-size:1.5rem; 
-            cursor:pointer; 
-            color:var(--primary-color); 
-        }
-        
-        .product-details { 
-            display:flex; 
-            flex-direction:column; 
-            gap:1.5rem; 
-        }
-        
-        @media(min-width:768px) { 
-            .product-details { 
-                flex-direction:row; 
-            } 
-        }
-        
-        .product-images { 
-            flex:1; 
-        }
-        
-        .product-images img { 
-            width:100%; 
-            border-radius:8px; 
-            margin-bottom:1rem; 
-        }
-        
-        .thumbnail-container { 
-            display:flex; 
-            gap:.5rem; 
-            margin-top:1rem; 
-            flex-wrap:wrap; 
-        }
-        
-        .thumbnail { 
-            width:60px; 
-            height:60px; 
-            object-fit:cover; 
-            border-radius:4px; 
-            cursor:pointer; 
-            border:2px solid transparent; 
-        }
-        
-        .thumbnail.active { 
-            border-color:var(--primary-color); 
-        }
-        
-        .product-info { 
-            flex:1; 
-        }
-        
-        .product-info h3 { 
-            color:var(--primary-color); 
-            margin-bottom:1rem; 
-            font-size:1.5rem; 
-        }
-        
-        .product-info .price { 
-            font-size:1.5rem; 
-            margin-bottom:1rem; 
-        }
-        
-        .product-info p { 
-            margin-bottom:1rem; 
-            color:var(--light-text); 
+        /* Sekcja główna */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            flex-grow: 1;
         }
 
-        .contact-info {
-            background-color: #fff5f5;
-            padding: 1rem;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary-color);
-            margin: 1.5rem 0;
-        }
-        
-        .contact-info h4 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #333;
         }
 
-        footer { 
-            background:var(--primary-color); 
-            padding:2rem 0; 
-            margin-top:3rem; 
-            text-align:center; 
-            color:var(--white); 
-        }
-        
-        .footer-content { 
-            display:flex; 
-            flex-direction:column; 
-            align-items:center; 
-        }
-        
-        .social-links { 
-            display:flex; 
-            gap:1rem; 
-            margin:1rem 0; 
-        }
-        
-        .social-link { 
-            display:inline-flex; 
-            width:40px; 
-            height:40px; 
-            background:var(--white); 
-            border-radius:50%; 
-            align-items:center; 
-            justify-content:center; 
-            color:var(--primary-color); 
-            text-decoration:none; 
-            transition:.3s; 
-        }
-        
-        .social-link:hover { 
-            background:var(--secondary-color); 
-        }
-        
-        .copyright { 
-            color:var(--secondary-color); 
-            margin-top:1rem; 
+        .hero h1 span {
+            color: #c00000;
         }
 
-        /* REKLAMY */
-        .ads-left-fixed {
-            position: fixed;
-            left: 10px;
-            top: 150px;
-            width: 200px;
-            z-index: 999;
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            color: #666;
         }
 
-        .ads-left-fixed ins {
-            width: 100% !important;
-            display: block !important;
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
-        /* RESPONSYWNOŚĆ */
-        @media (max-width: 1100px) {
-            .ads-left-fixed {
-                display: none;
-            }
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background-color: #c00000;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: 2px solid #c00000;
         }
 
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            nav ul {
-                margin-top: 1rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            nav li {
-                margin: 0.5rem;
-            }
-            
-            h2 {
-                font-size: 1.5rem;
-            }
+        .btn:hover {
+            background-color: #a00000;
+            border-color: #a00000;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(192, 0, 0, 0.2);
         }
-    </style>
-</head>
-<body>
 
-<header>
-    <div class="container">
-        <div class="header-content">
-            <div class="logo">
-                <div class="logo-icon">sr.pl</div>
-                <h1>strazroblox.pl</h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#" class="tab-link active" data-tab="grafiki">Strony</a></li>
-                    <li><a href="#" class="tab-link" data-tab="sklep">Sklep</a></li>
-                    <li><a href="#" class="tab-link" data-tab="donate">Donate</a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-</header>
+        .btn-outline {
+            background-color: transparent;
+            color: #c00000;
+        }
 
-<main class="container">
+        .btn-outline:hover {
+            background-color: #c00000;
+            color: white;
+        }
 
-    <!-- STRONY SPOŁECZNOŚCI -->
-    <section id="grafiki" class="tab-content active">
-        <h2>Strony Społeczności</h2>
-        <p style="text-align:center; margin-bottom:1.5rem;">Oto kolekcja stron która może ci się przydać.</p>
+        /* Stopka */
+        footer {
+            background-color: #f8f8f8;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
 
-        <!-- Reklama boczna -->
-        <div class="ads-left-fixed">
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1770784983473236"
-                crossorigin="anonymous"></script>
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
 
-            <!-- normal -->
-            <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="ca-pub-1770784983473236"
-                data-ad-slot="2131924065"
-                data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
 
-        <div class="pages-container">
-            <div class="page-item">
-                <div class="page-preview">
-                    <img src="i/oznaczenia.png" alt="Generator Numerów Operacyjnych">
-                </div>
-                <div class="page-content">
-                    <h3>Generator Numerów Operacyjnych</h3>
-                    <p>Przydatne dla grafików.</p>
-                    <a href="oznaczenia" class="btn">Zobacz stronę</a>
-                </div>
-            </div>
-        </div>
-    </section>
+        .footer-section h3 {
+            color: #c00000;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
 
-    <!-- SKLEP -->
-    <section id="sklep" class="tab-content">
-        <h2>Sklep</h2>
-        <p style="text-align:center; margin-bottom:1.5rem;">Zakupisz tu min. budynki, auta oraz modele! Czasami pojawią się też darmowe modele.</p>
-        <div class="shop-items">
-            <!-- Produkty z Firebase będą tutaj -->
-        </div>
-    </section>
+        .footer-links {
+            list-style: none;
+        }
 
-    <!-- DONATE -->
-    <section id="donate" class="tab-content">
-        <h2>Wesprzyj Naszą Społeczność</h2>
-        <p style="text-align:center; margin-bottom:1.5rem;">Twoje wsparcie pomaga rozwijać naszą społeczność i tworzyć lepsze projekty.</p>
-        <div class="donate-options">
-            <div class="donate-option">
-                <h3>Mały Donate</h3>
-                <p>Dziękujemy za każde wsparcie!</p>
-                <div class="donate-amount">10 PLN</div>
-                <a href="#" class="btn">Wesprzyj</a>
-            </div>
-            <div class="donate-option">
-                <h3>Aktywne Wsparcie</h3>
-                <p>Ciekawostka: Właśnie opłaciłeś stronę na miesiąc!</p>
-                <div class="donate-amount">25 PLN</div>
-                <a href="#" class="btn">Wesprzyj</a>
-            </div>
-            <div class="donate-option">
-                <h3>Złoty Donate</h3>
-                <p>Dzięki Twojemu wsparciu możemy rozwijać stronę. Otrzymasz specjalne darmowe modele (zgłoś się do mnie na Discordzie: frytus122).</p>
-                <div class="donate-amount">50 PLN</div>
-                <a href="#" class="btn">Wesprzyj</a>
-            </div>
-        </div>
-        
-        <div style="margin-top: 3rem; text-align: center;">
-            <h3>Cel na grudzień: 45 zł (utrzymanie strony + certyfikat HTTPS)</h3>
-            <p style="margin-top: 1rem;">Nasza strona jest cały czas rozwijana, a jej utrzymanie kosztuje około 25 zł miesięcznie, dlatego każde wsparcie jest mile widziane.</p>
-        </div>
-    </section>
+        .footer-links li {
+            margin-bottom: 10px;
+        }
 
-</main>
-
-<!-- MODAL PRODUKTU -->
-<div class="modal" id="productModal">
-    <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <div class="product-details">
-            <div class="product-images">
-                <img id="mainProductImage" src="" alt="Produkt">
-                <div class="thumbnail-container"></div>
-            </div>
-            <div class="product-info">
-                <h3 id="productTitle"></h3>
-                <div class="price" id="productPrice"></div>
-                <p id="productDescription"></p>
-                <div class="contact-info">
-                    <h4>Jak dokonać zakupu?</h4>
-                    <p>Skontaktuj się z <strong id="sellerName"></strong> na Discordzie, aby dokonać zakupu tego produktu.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<footer>
-    <div class="container">
-        <div class="footer-content">
-            <div class="logo">
-                <div class="logo-icon">sr.pl</div>
-                <h1>strazroblox.pl</h1>
-            </div>
-            <p>Polska Społeczność Developerów Roleplay na Roblox.</p>
-            <div class="social-links">
-                <!-- Linki społecznościowe można dodać tutaj -->
-            </div>
-            <p class="copyright">© 2026 strazroblox.pl - Społeczność Developerów Roleplay. Wszelkie prawa zastrzeżone.</p>
-        </div>
-    </div>
-</footer>
-
-<!-- SKRYPTY -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.3.0/firebase-firestore.js";
-
-const firebaseConfig = {
-    apiKey: "TWOJE_API_KEY",
-    authDomain: "TWOJE_PROJECT_ID.firebaseapp.com",
-    projectId: "TWOJE_PROJECT_ID",
-    storageBucket: "TWOJE_PROJECT_ID.appspot.com",
-    messagingSenderId: "TWOJE_SENDER_ID",
-    appId: "TWOJE_APP_ID"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-async function loadProducts() {
-    const productsCol = collection(db, "produkty");
-    const snapshot = await getDocs(productsCol);
-    const products = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-    const shopItems = document.querySelector('.shop-items');
-    shopItems.innerHTML = "";
-
-    products.forEach(product => {
-        let images = [];
-        try { images = JSON.parse(product.obrazy); } catch(e) { images = [product.obrazy]; }
-
-        const div = document.createElement('div');
-        div.className = 'shop-item';
-        div.dataset.product = product.id;
-        div.innerHTML = `
-            <img src="${images[0]}" alt="${product.Tytul}">
-            <div class="shop-item-content">
-                <h3>${product.Tytul}</h3>
-                <p>${product.Opis}</p>
-                <div class="price">${product.Price} PLN</div>
-                <a href="#" class="btn">Kup teraz</a>
-            </div>`;
-        shopItems.appendChild(div);
-
-        div.addEventListener('click', () => {
-            const mainProductImage = document.getElementById('mainProductImage');
-            const thumbnailContainer = document.querySelector('.thumbnail-container');
-
-            document.getElementById('productTitle').textContent = product.Tytul;
-            document.getElementById('productPrice').textContent = product.Price + " PLN";
-            document.getElementById('productDescription').textContent = product.Opis;
-            document.getElementById('sellerName').textContent = product.Seller;
-
-            mainProductImage.src = images[0];
-            thumbnailContainer.innerHTML = '';
-            images.forEach((img,i) => {
-                const thumb = document.createElement('img');
-                thumb.src = img;
-                thumb.className = 'thumbnail' + (i===0 ? ' active' : '');
-                thumb.addEventListener('click', () => {
-                    mainProductImage.src = img;
-                    document.querySelectorAll('.thumbnail').forEach(t=>t.classList.remove('active'));
-                    thumb.classList.add('active');
-                });
-                thumbnailContainer.appendChild(thumb);
-            });
-
-            document.getElementById('productModal').style.display = 'flex';
-        });
-    });
-}
-
-document.querySelector('.close-modal').addEventListener('click', () => {
-    document.getElementById('productModal').style.display = 'none';
-});
-
-window.addEventListener('click', e => {
-    if(e.target === document.getElementById('productModal')) {
-        document.getElementById('productModal').style.display = 'none';
-    }
-});
-
-// Zmiana zakładek
-const tabLinks = document.querySelectorAll('.tab-link');
-tabLinks.forEach(link => {
-    link.addEventListener('click', e => {
-        e.preventDefault();
-        tabLinks.forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        link.classList.add('active');
-        document.getElementById(link.dataset.tab).classList.add('active');
-    });
-});
-
-loadProducts();
-</script>
-
-</body>
-</html>
+       

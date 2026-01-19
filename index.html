@@ -30,17 +30,6 @@ button:hover { background:#ff2222;}
 const API_KEY = "SECRET_KEY_123";
 const BACKEND_URL = "https://backrobloxserver.fly.dev";
 
-// funkcja pobierająca prawidłowy avatar z Thumbnails API
-async function getAvatar(userId) {
-  try {
-    const res = await fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userId}&size=420x420&format=Png&isCircular=false`);
-    const json = await res.json();
-    if(json.data && json.data[0] && json.data[0].imageUrl) return json.data[0].imageUrl;
-  } catch(e){ console.error("Avatar error:", e);}
-  // fallback na zwykły link
-  return `https://www.roblox.com/headshot-thumbnail/image?userId=${userId}&width=420&height=420&format=png`;
-}
-
 async function loadServers() {
   try {
     const res = await fetch(BACKEND_URL+"/servers");
@@ -62,22 +51,12 @@ async function loadServers() {
       div.appendChild(instance);
 
       const ul = document.createElement("ul");
-
-      // sortujemy graczy po czasie gry
       server.players.sort((a,b)=>b.playtime - a.playtime);
 
-      // pobieramy avatary równolegle
-      const avatarPromises = server.players.map(async p => {
-        const imgUrl = await getAvatar(p.userId);
-        return {...p, avatarUrl: imgUrl};
-      });
-
-      const playersWithAvatars = await Promise.all(avatarPromises);
-
-      for(const p of playersWithAvatars){
+      for(const p of server.players){
         const li = document.createElement("li");
         const img = document.createElement("img");
-        img.src = p.avatarUrl;
+        img.src = p.avatar; // już gotowy URL z backendu
         li.appendChild(img);
 
         li.appendChild(document.createTextNode(p.name));
@@ -111,7 +90,7 @@ async function loadServers() {
   } catch(e){ console.error(e);}
 }
 
-// ładowanie serwerów i odświeżanie co 5 sekund
+// ładowanie serwerów co 5 sekund
 loadServers();
 setInterval(loadServers,5000);
 </script>

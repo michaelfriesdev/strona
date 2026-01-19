@@ -5,20 +5,20 @@
 <title>Panel Serwerów Roblox</title>
 <style>
 body { font-family: 'Segoe UI', sans-serif; background: #0f1115; color: #f0f0f0; margin:0; padding:0; }
-h1 { text-align: center; padding: 20px; color: #00ffea; text-shadow:0 0 10px #00ffea; }
-#servers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 20px; }
-@media (max-width: 1000px) { #servers { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 600px) { #servers { grid-template-columns: 1fr; } }
+h1 { text-align:center; padding:20px; color:#00ffea; text-shadow:0 0 10px #00ffea; }
+#servers { display:grid; grid-template-columns: repeat(3, 1fr); gap:20px; padding:20px; }
+@media (max-width:1000px){#servers{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:600px){#servers{grid-template-columns:1fr;}}
 .server { background:#1a1c22; border-radius:12px; padding:15px; box-shadow:0 0 15px rgba(0,255,234,0.2); transition: transform 0.2s, box-shadow 0.2s; }
-.server:hover { transform: translateY(-5px); box-shadow:0 0 20px rgba(0,255,234,0.5); }
-.server h3, .instance { margin:0 0 10px 0; color:#00ffea; }
-.instance { font-size:0.9em; color:#aaa; }
-.server ul { list-style:none; padding:0; margin:0; }
-.server li { display:flex; align-items:center; padding:5px 0; border-bottom:1px solid #333; }
-.server li img { border-radius:50%; margin-right:10px; width:50px; height:50px; object-fit:cover; }
-.playtime { margin-left:auto; color:#aaa; font-size:0.9em; }
-button { margin-top:10px; padding:5px 10px; border:none; border-radius:5px; background:#ff5555; color:white; cursor:pointer; transition:0.2s; }
-button:hover { background:#ff2222; }
+.server:hover { transform: translateY(-5px); box-shadow:0 0 20px rgba(0,255,234,0.5);}
+.server h3, .instance { margin:0 0 10px 0; color:#00ffea;}
+.instance { font-size:0.9em; color:#aaa;}
+.server ul { list-style:none; padding:0; margin:0;}
+.server li { display:flex; align-items:center; padding:5px 0; border-bottom:1px solid #333;}
+.server li img { border-radius:50%; margin-right:10px; width:50px; height:50px; object-fit:cover;}
+.playtime { margin-left:auto; color:#aaa; font-size:0.9em;}
+button { margin-top:10px; padding:5px 10px; border:none; border-radius:5px; background:#ff5555; color:white; cursor:pointer; transition:0.2s;}
+button:hover { background:#ff2222;}
 </style>
 </head>
 <body>
@@ -27,8 +27,18 @@ button:hover { background:#ff2222; }
 <div id="servers"></div>
 
 <script>
-const API_KEY = "SECRET_KEY_123"; // Twój backend API_KEY
+const API_KEY = "SECRET_KEY_123";
 const BACKEND_URL = "https://backrobloxserver.fly.dev";
+
+async function getAvatar(userId) {
+  try {
+    const res = await fetch(`https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=${userId}&size=420x420&format=Png&isCircular=false`);
+    const json = await res.json();
+    if(json.data && json.data[0] && json.data[0].imageUrl) return json.data[0].imageUrl;
+  } catch(e){ console.error("Avatar error:", e);}
+  // fallback
+  return `https://www.roblox.com/headshot-thumbnail/image?userId=${userId}&width=420&height=420&format=png`;
+}
 
 async function loadServers() {
   try {
@@ -37,7 +47,7 @@ async function loadServers() {
     const container = document.getElementById("servers");
     container.innerHTML = "";
 
-    servers.forEach(server => {
+    for(const server of servers){
       const div = document.createElement("div");
       div.className = "server";
 
@@ -51,19 +61,25 @@ async function loadServers() {
       div.appendChild(instance);
 
       const ul = document.createElement("ul");
-      server.players.sort((a,b)=>b.playtime-a.playtime);
-      server.players.forEach(p=>{
+      // sortujemy graczy po czasie gry
+      server.players.sort((a,b)=>b.playtime - a.playtime);
+
+      for(const p of server.players){
         const li = document.createElement("li");
         const img = document.createElement("img");
-        img.src = p.avatar;
+        img.src = await getAvatar(p.userId); // pobieramy z Thumbnails API
         li.appendChild(img);
+
         li.appendChild(document.createTextNode(p.name));
+
         const time = document.createElement("span");
         time.className = "playtime";
         time.textContent = `${Math.floor(p.playtime/60)} min`;
         li.appendChild(time);
+
         ul.appendChild(li);
-      });
+      }
+
       div.appendChild(ul);
 
       const btn = document.createElement("button");
@@ -80,8 +96,9 @@ async function loadServers() {
       div.appendChild(btn);
 
       container.appendChild(div);
-    });
-  } catch(e){ console.error(e); }
+    }
+
+  } catch(e){ console.error(e);}
 }
 
 loadServers();

@@ -19,9 +19,19 @@
   }
   #servers {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(3, 1fr); /* 3 serwery na wiersz */
+    gap: 20px;
     padding: 20px;
+  }
+  @media (max-width: 1000px) {
+    #servers {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 600px) {
+    #servers {
+      grid-template-columns: 1fr;
+    }
   }
   .server {
     background: #1a1c22;
@@ -34,9 +44,13 @@
     transform: translateY(-5px);
     box-shadow: 0 0 20px rgba(0,255,234,0.5);
   }
-  .server h3 {
+  .server h3, .server .instance {
     margin: 0 0 10px 0;
     color: #00ffea;
+  }
+  .instance {
+    font-size: 0.9em;
+    color: #aaa;
   }
   .server ul {
     list-style: none;
@@ -54,6 +68,7 @@
     margin-right: 10px;
     width: 40px;
     height: 40px;
+    object-fit: cover;
   }
   .playtime {
     margin-left: auto;
@@ -83,16 +98,20 @@ async function loadServers() {
       title.textContent = `Graczy: ${server.playerCount}`;
       serverDiv.appendChild(title);
 
+      const instance = document.createElement("div");
+      instance.className = "instance";
+      instance.textContent = `ID: ${server.instanceId}`;
+      serverDiv.appendChild(instance);
+
       const ul = document.createElement("ul");
 
-      // Sortujemy graczy po czasie online malejąco
       server.players.sort((a,b) => b.playtime - a.playtime);
 
       server.players.forEach(p => {
         const li = document.createElement("li");
 
         const img = document.createElement("img");
-        img.src = p.avatar;
+        img.src = p.avatar || "https://www.roblox.com/headshot-thumbnail/image?userId=1&width=48&height=48&format=png"; // fallback
         li.appendChild(img);
 
         const name = document.createTextNode(p.name);

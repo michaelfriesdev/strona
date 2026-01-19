@@ -19,7 +19,7 @@
   }
   #servers {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 serwery na wiersz */
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     padding: 20px;
   }
@@ -66,8 +66,8 @@
   .server li img {
     border-radius: 50%;
     margin-right: 10px;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     object-fit: cover;
   }
   .playtime {
@@ -111,7 +111,7 @@ async function loadServers() {
         const li = document.createElement("li");
 
         const img = document.createElement("img");
-        img.src = p.avatar || "https://www.roblox.com/headshot-thumbnail/image?userId=1&width=48&height=48&format=png"; // fallback
+        img.src = p.avatar;
         li.appendChild(img);
 
         const name = document.createTextNode(p.name);

@@ -15,7 +15,7 @@ body { font-family: Arial; background:#111; color:white; }
 
 <script>
 async function load() {
-  const res = await fetch("https://TWOJ_BACKEND.onrender.com/servers");
+  const res = await fetch("https://backrobloxserver-production.up.railway.app/servers");
   const data = await res.json();
 
   const div = document.getElementById("servers");
@@ -39,3 +39,4 @@ setInterval(load, 5000);
 
 </body>
 </html>
+

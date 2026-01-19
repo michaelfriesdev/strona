@@ -2,10 +2,64 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>Panel Serwerów</title>
+<title>Panel Serwerów Roblox</title>
 <style>
-body { font-family: Arial; background:#111; color:white; }
-.server { background:#222; padding:15px; margin:10px; border-radius:8px; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0f1115;
+    color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+  }
+  h1 {
+    text-align: center;
+    padding: 20px;
+    color: #00ffea;
+    text-shadow: 0 0 10px #00ffea;
+  }
+  #servers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+    padding: 20px;
+  }
+  .server {
+    background: #1a1c22;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 0 15px rgba(0,255,234,0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .server:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(0,255,234,0.5);
+  }
+  .server h3 {
+    margin: 0 0 10px 0;
+    color: #00ffea;
+  }
+  .server ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .server li {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid #333;
+  }
+  .server li img {
+    border-radius: 50%;
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+  }
+  .playtime {
+    margin-left: auto;
+    color: #aaa;
+    font-size: 0.9em;
+  }
 </style>
 </head>
 <body>
@@ -14,33 +68,55 @@ body { font-family: Arial; background:#111; color:white; }
 <div id="servers"></div>
 
 <script>
-async function load() {
-  const res = await fetch("https://backrobloxserver.fly.dev/servers");
-  const data = await res.json();
+async function loadServers() {
+  try {
+    const res = await fetch("https://backrobloxserver.fly.dev/servers");
+    const servers = await res.json();
+    const container = document.getElementById("servers");
+    container.innerHTML = "";
 
-  const div = document.getElementById("servers");
-  div.innerHTML = "";
+    servers.forEach(server => {
+      const serverDiv = document.createElement("div");
+      serverDiv.classList.add("server");
 
-  data.forEach(s => {
-    div.innerHTML += `
-      <div class="server">
-        <h3>Graczy: ${s.playerCount}</h3>
-        <ul>
-          ${s.players.map(p => `<li>${p.name}</li>`).join("")}
-        </ul>
-      </div>
-    `;
-  });
+      const title = document.createElement("h3");
+      title.textContent = `Graczy: ${server.playerCount}`;
+      serverDiv.appendChild(title);
+
+      const ul = document.createElement("ul");
+
+      // Sortujemy graczy po czasie online malejąco
+      server.players.sort((a,b) => b.playtime - a.playtime);
+
+      server.players.forEach(p => {
+        const li = document.createElement("li");
+
+        const img = document.createElement("img");
+        img.src = p.avatar;
+        li.appendChild(img);
+
+        const name = document.createTextNode(p.name);
+        li.appendChild(name);
+
+        const time = document.createElement("span");
+        time.className = "playtime";
+        time.textContent = `${Math.floor(p.playtime / 60)} min`;
+        li.appendChild(time);
+
+        ul.appendChild(li);
+      });
+
+      serverDiv.appendChild(ul);
+      container.appendChild(serverDiv);
+    });
+  } catch(err) {
+    console.error("Błąd ładowania serwerów:", err);
+  }
 }
 
-load();
-setInterval(load, 5000);
+loadServers();
+setInterval(loadServers, 5000);
 </script>
 
 </body>
 </html>
-
-
-
-
-

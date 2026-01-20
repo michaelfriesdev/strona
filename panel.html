@@ -816,6 +816,7 @@ body {
 
 <!-- Modale -->
 <div id="kickModal" class="modal">
+    <option value="all">Wszystkie serwery</option>
     <div class="modal-content">
         <div class="modal-header">
             <h3 class="modal-title"><i class="fas fa-user-slash"></i> Wykop gracza</h3>
@@ -1221,6 +1222,8 @@ async function loadLogs() {
 
 async function confirmKick() {
     const reason = document.getElementById('kickReason').value.trim();
+    const serverId = document.getElementById('kickServer').value;
+    
     if (!reason) {
         showToast('Podaj powód wykopania', 'warning');
         document.getElementById('kickReason').focus();
@@ -1237,12 +1240,13 @@ async function confirmKick() {
             body: JSON.stringify({
                 playerId: currentKickPlayer.playerId,
                 playerName: currentKickPlayer.playerName,
-                reason: reason
+                reason: reason,
+                serverId: serverId === "all" ? null : serverId
             })
         });
         
         if (response.ok) {
-            showToast(`Gracz ${currentKickPlayer.playerName} został wykopany`, 'success');
+            showToast(`Gracz ${currentKickPlayer.playerName} został wykopany ${serverId === "all" ? 'ze wszystkich serwerów' : 'z serwera ' + serverId}`, 'success');
             closeModal('kickModal');
         } else {
             showToast('Błąd podczas wykopania gracza', 'error');

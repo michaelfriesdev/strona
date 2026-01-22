@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jak dołączyć do Straży PRS | To PRS Poradniki</title>
+  <style>
+    :root {
+      --black: #0b0b0b;
+      --white: #ffffff;
+      --red: #e10600;
+      --gray: #1a1a1a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Inter", system-ui, sans-serif;
+    }
+
+    body {
+      background-color: var(--black);
+      color: var(--white);
+      line-height: 1.7;
+    }
+
+    header {
+      padding: 2.5rem 2rem;
+      border-bottom: 2px solid var(--red);
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+    }
+
+    header span {
+      color: var(--red);
+    }
+
+    nav {
+      margin-top: 1.2rem;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 4px;
+    }
+
+    nav a:hover {
+      color: var(--red);
+      border-color: var(--red);
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    .hero {
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+      margin-bottom: 2rem;
+    }
+
+    .meta {
+      opacity: 0.6;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+
+    h2 {
+      font-size: 2.4rem;
+      margin-bottom: 0.8rem;
+    }
+
+    h3 {
+      margin: 2.5rem 0 1rem;
+      color: var(--red);
+      font-size: 1.3rem;
+    }
+
+    p {
+      margin-bottom: 1.4rem;
+      opacity: 0.9;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 2rem;
+      color: var(--red);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.9rem;
+      opacity: 0.6;
+      border-top: 1px solid #222;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>To <span>PRS</span> Poradniki</h1>
+    <nav>
+      <a href="index.html">Start</a>
+      <a href="blog.html">Blog</a>
+    </nav>
+  </header>
+
+  <main>
+    <img class="hero" src="i/mixer.png" alt="Straż pożarna" />
+
+    <h2>Informacje o modzi</h2>
+    <div class="meta">Aktualizacja informacji • PRS</div>
+
+    <p>Poniżej przedstawiono zbiór najczęściej pojawiających się pytań oraz oficjalnych informacji dotyczących projektu moda straży do gry BeamNG.drive.</p>
+
+    <h3>Czy zostanie wydany mod straży?</h3>
+    <p>Mod straży zostanie wydany wyłącznie w momencie, gdy będzie w pełni ukończony. Projekt nie jest tworzony w standardowy sposób – jego głównym celem jest jak najlepsza prezencja wizualna na zdjęciach oraz klipach z gry BeamNG.drive. Prace realizowane są w wolnym czasie, poprzez bezpośrednie dodawanie modeli z Blendera do pojazdu MAN. Ostateczny odbiór projektu zostanie zweryfikowany przez społeczność po publikacji.</p>
+
+    <h3>Co z innymi projektami (BMW F30, GBA-Rt)?</h3>
+    <p>Pozostałe projekty nie są już rozwijane. Model BMW F30 był tworzony spontanicznie i nie spełnił oczekiwań jakościowych. Pierwszy większy projekt – MAN GBA-Rt – uległ uszkodzeniu po jednej z aktualizacji BeamNG.drive. Po tym etapie rozpoczęto pracę nad nowym, bardziej zaawansowanym projektem GCBA-Rt, widocznym na aktualnych materiałach.</p>
+
+    <h3>Kiedy planowane jest wydanie moda?</h3>
+    <p>Na ten moment nie istnieje żadna planowana ani przewidywana data wydania. Termin publikacji zależy wyłącznie od postępów prac oraz czasu potrzebnego na dopracowanie wszystkich elementów projektu.</p>
+
+    <h3>Czy mod będzie posiadał otwierane drzwi?</h3>
+    <p>W oryginalnej kabinie z moda MAN TGS możliwe jest otwieranie drzwi dzięki zastosowaniu odpowiedniego kodu. Niestety tylne drzwi kabiny zostały wykonane jako osobny model przy użyciu autorskiej metody, co uniemożliwia ich rzeczywiste otwieranie. Trwają jednak próby znalezienia alternatywnego rozwiązania.</p>
+
+    <h3>Czy możliwe będzie otwieranie rolet?</h3>
+    <p>Nie ma technicznej możliwości napisania kodu pozwalającego na dynamiczne otwieranie rolet oraz dolnych klap. Istnieje jednak alternatywny sposób wizualnego odwzorowania ich stanu, opisany poniżej.</p>
+
+    <h3>Czy mod będzie posiadał interior zabudowy?</h3>
+    <p>Tak, interior zabudowy zostanie dodany. Planowane jest jak najwierniejsze odwzorowanie wyposażenia pojazdu, zgodnie z rzeczywistością. Elementy wyposażenia będą osobnymi modelami przypisanymi do konfiguracji zabudowy, co umożliwi ich modyfikację lub usuwanie – np. na potrzeby zdjęć z akcji.</p>
+
+    <h3>Jak będą działały rolety w przypadku interioru?</h3>
+    <p>Rolety będą obsługiwane poprzez konfigurację pojazdu. W zakładce dotyczącej zabudowy będzie możliwość ustawienia każdej rolety jako otwartej lub zamkniętej. Każda roleta będzie posiadała osobną konfigurację, co zapewni pełną kontrolę nad wyglądem pojazdu.</p>
+
+    <a class="back" href="index.html">← Wróć do strony głównej</a>
+  </main>
+
+  <footer>
+    © 2026 PRS Poradniki | Straż | Roblox
+  </footer>
+
+</body>
+</html>

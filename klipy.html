@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Pobieranie pliku</title>
+</head>
+<body>
+
+<h2>Pobieranie pliku...</h2>
+
+<script>
+    window.onload = function() {
+        const link = document.createElement('a');
+        link.href = 'i/klip.mp4';
+        link.download = 'klip.mp4';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+</script>
+
+</body>
+</html>

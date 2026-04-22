@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Best Sens Calculator</title>
+<title>Best Sens Calculator Pro</title>
 <style>
 body{font-family:Arial,sans-serif;background:#0f172a;color:#fff;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0}
 .card{background:#1e293b;padding:30px;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,.3);width:380px}
@@ -20,14 +20,14 @@ small{color:#94a3b8}
 <div class="row"><label>Playstyle</label><select id="style"><option value="0.9">Precision / Rifler</option><option value="1">Balanced</option><option value="1.15">Fast / Entry</option></select></div>
 <button onclick="calc()">Calculate Best Sens</button>
 <div class="result" id="out">Enter values and calculate.</div>
-<small>Based on common pro ranges (30-45 cm/360).</small>
+<button onclick="startTracking()">REAL Tracking Mode</button><div class="result" id="ai">AI coach waiting...</div><small>Based on common pro ranges (30-45 cm/360).</small>
 <div class="row"><label>Mouse Weight (grams)</label><input id="weight" type="number" value="65"></div>
 <div class="row"><label>Mousepad Height (cm)</label><input id="padh" type="number" value="40"></div>
 <button onclick="reactionTest()">Aim Trainer Test Mode</button>
 <div class="result" id="trainer">Click test to measure reaction speed.</div>
 </div>
 <script>
-let startTime=0;
+let startTime=0; let hits=0; let misses=0; let round=0;
 function reactionTest(){
  const box=document.getElementById('trainer');
  box.innerHTML='Wait for green...';
@@ -44,6 +44,9 @@ function reactionTest(){
    }
  },Math.random()*3000+1000);
 }
+function startTracking(){hits=0;misses=0;round=0;spawnTarget();}
+function spawnTarget(){if(round>=10){aiCoach();return;} round++; let t=document.createElement('div'); t.className='target'; t.style.cssText='width:40px;height:40px;border-radius:50%;background:#22c55e;position:absolute;cursor:pointer;box-shadow:0 0 20px #22c55e;left:'+Math.random()*(window.innerWidth-60)+'px;top:'+Math.random()*(window.innerHeight-60)+'px'; document.body.appendChild(t); t.onclick=function(){hits++; t.remove(); setTimeout(spawnTarget,250)}; setTimeout(()=>{if(document.body.contains(t)){misses++; t.remove(); spawnTarget();}},1200);} 
+function aiCoach(){let acc=(hits/(hits+misses))*100; let msg=acc>85?'High precision → lower sens slightly':acc>65?'Balanced → keep current sens':'Need faster turns → raise sens'; document.getElementById('ai').innerHTML='Hits: '+hits+' Misses: '+misses+' Accuracy: '+acc.toFixed(0)+'%<br>'+msg;}
 function calc(){
  let game=document.getElementById('game').value;
  let dpi=parseFloat(document.getElementById('dpi').value)||800;
@@ -58,7 +61,7 @@ function calc(){
  let area=pad*padh;
  let control=(area/(weight)).toFixed(2);
  document.getElementById('out').innerHTML=
- '<b>'+game+' Recommended Sens:</b> '+sens.toFixed(2)+ '<br><b>eDPI:</b> '+(sens*dpi).toFixed(0)+ '<br><b>cm/360:</b> '+target360.toFixed(1)+ '<br><b>Pad Area:</b> '+area+' cm²<br><b>Mouse Control Ratio:</b> '+control;
+ '<b>'+game+' Recommended Sens:</b> '+sens.toFixed(2)+ '<br><b>eDPI:</b> '+(sens*dpi).toFixed(0)+ '<br><b>cm/360:</b> '+target360.toFixed(1)+ '<br><b>Pad Area:</b> '+area+' cm²<br><b>Mouse Control Ratio:</b> '+control+'<br><b>Pro Compare:</b> s1mple ~3.09@400 | ZywOo ~2.0@400 | TenZ 0.408@800 VAL';
 }
 </script>
 </body>

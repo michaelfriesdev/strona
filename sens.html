@@ -20,7 +20,7 @@ small{color:#94a3b8}
 <div class="row"><label>Playstyle</label><select id="style"><option value="0.9">Precision / Rifler</option><option value="1">Balanced</option><option value="1.15">Fast / Entry</option></select></div>
 <button onclick="calc()">Calculate Best Sens</button>
 <div class="result" id="out">Enter values and calculate.</div>
-<button onclick="startTracking()">REAL Tracking Mode</button><div class="result" id="ai">AI coach waiting...</div><small>Based on common pro ranges (30-45 cm/360).</small>
+<button onclick="startTracking()">REAL Tracking Mode</button><div class="result" id="ai">AI coach waiting...</div><button onclick="startPadScan()">Mousepad Auto Scan</button><div class="result" id="scan">Move your mouse from left edge to right edge of the mousepad.</div><small>Based on common pro ranges (30-45 cm/360).</small>
 <div class="row"><label>Mouse Weight (grams)</label><input id="weight" type="number" value="65"></div>
 <div class="row"><label>Mousepad Height (cm)</label><input id="padh" type="number" value="40"></div>
 <button onclick="reactionTest()">Aim Trainer Test Mode</button>
@@ -44,6 +44,9 @@ function reactionTest(){
    }
  },Math.random()*3000+1000);
 }
+let scanActive=false; let minX=99999; let maxX=0; let minY=99999; let maxY=0;
+function startPadScan(){scanActive=true;minX=99999;maxX=0;minY=99999;maxY=0;document.getElementById('scan').innerHTML='Scanning... Move across full mousepad for 5 seconds';setTimeout(()=>{scanActive=false;let w=maxX-minX;let h=maxY-minY;document.getElementById('pad').value=Math.max(20,(w/10).toFixed(1));document.getElementById('padh').value=Math.max(15,(h/10).toFixed(1));document.getElementById('scan').innerHTML='Detected approx size: '+(w/10).toFixed(1)+' cm x '+(h/10).toFixed(1)+' cm';calc();},5000);} 
+document.addEventListener('mousemove',e=>{if(scanActive){if(e.clientX<minX)minX=e.clientX;if(e.clientX>maxX)maxX=e.clientX;if(e.clientY<minY)minY=e.clientY;if(e.clientY>maxY)maxY=e.clientY;}});
 function startTracking(){hits=0;misses=0;round=0;spawnTarget();}
 function spawnTarget(){if(round>=10){aiCoach();return;} round++; let t=document.createElement('div'); t.className='target'; t.style.cssText='width:40px;height:40px;border-radius:50%;background:#22c55e;position:absolute;cursor:pointer;box-shadow:0 0 20px #22c55e;left:'+Math.random()*(window.innerWidth-60)+'px;top:'+Math.random()*(window.innerHeight-60)+'px'; document.body.appendChild(t); t.onclick=function(){hits++; t.remove(); setTimeout(spawnTarget,250)}; setTimeout(()=>{if(document.body.contains(t)){misses++; t.remove(); spawnTarget();}},1200);} 
 function aiCoach(){let acc=(hits/(hits+misses))*100; let msg=acc>85?'High precision → lower sens slightly':acc>65?'Balanced → keep current sens':'Need faster turns → raise sens'; document.getElementById('ai').innerHTML='Hits: '+hits+' Misses: '+misses+' Accuracy: '+acc.toFixed(0)+'%<br>'+msg;}

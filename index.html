@@ -1,148 +1,399 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PRS Poradniki | Roblox | Straż</title>
-  <style>
-    :root {
-      --black: #0b0b0b;
-      --white: #ffffff;
-      --red: #e10600;
-      --gray: #1a1a1a;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-
-    body {
-      background-color: var(--black);
-      color: var(--white);
-      line-height: 1.6;
-    }
-
-    header {
-      padding: 3rem 2rem;
-      border-bottom: 2px solid var(--red);
-    }
-
-    header h1 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      letter-spacing: -1px;
-    }
-
-    header span {
-      color: var(--red);
-    }
-
-    nav {
-      margin-top: 1.5rem;
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    nav a {
-      color: var(--white);
-      text-decoration: none;
-      font-weight: 600;
-      padding-bottom: 4px;
-      border-bottom: 2px solid transparent;
-      transition: all 0.2s ease;
-    }
-
-    nav a:hover {
-      border-color: var(--red);
-      color: var(--red);
-    }
-
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 3rem 2rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-    }
-
-    article {
-      background-color: var(--gray);
-      padding: 2rem;
-      border-left: 4px solid var(--red);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    article:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    }
-
-    article h2 {
-      margin-bottom: 1rem;
-      font-size: 1.4rem;
-    }
-
-    article p {
-      opacity: 0.85;
-      margin-bottom: 1.2rem;
-    }
-
-    article a {
-      color: var(--red);
-      text-decoration: none;
-      font-weight: 700;
-    }
-
-    footer {
-      border-top: 1px solid #222;
-      padding: 2rem;
-      text-align: center;
-      opacity: 0.7;
-      font-size: 0.9rem;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>michael.fries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050806;
+  --panel:rgba(10,18,12,0.55);
+  --line:#123320;
+  --green:#39ff6a;
+  --green-dim:#1c7a3c;
+  --green-faint:#0d3b1f;
+  --cyan:#3df2ff;
+  --white:#f4fff6;
+  --text-dim:#5a8a6b;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+::selection{background:var(--green);color:#000;}
+html,body{height:100%;}
+body{
+  background:var(--bg);
+  color:var(--text-dim);
+  font-family:'JetBrains Mono',monospace;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+#matrix-canvas{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  opacity:0.18;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(57,255,106,0.035),
+    rgba(57,255,106,0.035) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events:none;
+  z-index:2;
+  mix-blend-mode:overlay;
+}
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.65) 140%);
+  pointer-events:none;
+  z-index:3;
+}
+.card{
+  position:relative;
+  z-index:5;
+  width:380px;
+  max-width:90vw;
+  background:var(--panel);
+  backdrop-filter:blur(18px);
+  border:1px solid var(--green-faint);
+  border-radius:14px;
+  padding:36px 30px 28px;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.3),
+    0 25px 80px rgba(0,0,0,0.6),
+    0 0 60px rgba(57,255,106,0.08);
+  text-align:center;
+  animation:rise .7s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes rise{
+  from{opacity:0;transform:translateY(24px) scale(.98);}
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
+.card::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:14px;
+  padding:1px;
+  background:linear-gradient(135deg,var(--green),transparent 30%,transparent 70%,var(--cyan));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  opacity:0.35;
+  pointer-events:none;
+}
+.views{
+  position:absolute;
+  top:14px;
+  right:16px;
+  font-size:10.5px;
+  color:var(--text-dim);
+  letter-spacing:0.5px;
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+.views .dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 6px var(--green);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
+.avatar-wrap{
+  position:relative;
+  width:96px;height:96px;
+  margin:0 auto 18px;
+}
+.avatar-ring{
+  position:absolute;
+  inset:-6px;
+  border-radius:50%;
+  border:1px solid var(--green-dim);
+  animation:spin 8s linear infinite;
+}
+.avatar-ring::before{
+  content:"";
+  position:absolute;
+  top:-2px;left:50%;
+  width:6px;height:6px;
+  background:var(--green);
+  border-radius:50%;
+  box-shadow:0 0 10px var(--green),0 0 20px var(--green);
+  transform:translateX(-50%);
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.avatar{
+  width:96px;height:96px;
+  border-radius:50%;
+  background:linear-gradient(160deg,#0d1a10,#050806);
+  border:1px solid var(--green-faint);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:34px;
+  font-weight:800;
+  color:var(--green);
+  text-shadow:0 0 14px rgba(57,255,106,0.6);
+  overflow:hidden;
+}
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:saturate(1.05) contrast(1.05);
+}
+.badge{
+  position:absolute;
+  bottom:2px;right:2px;
+  width:20px;height:20px;
+  background:var(--bg);
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid var(--green-faint);
+}
+.badge svg{width:11px;height:11px;fill:var(--green);}
+.username{
+  font-size:22px;
+  font-weight:800;
+  color:var(--white);
+  letter-spacing:0.5px;
+  position:relative;
+  display:inline-block;
+}
+.username .cursor{
+  display:inline-block;
+  width:2px;
+  height:18px;
+  background:var(--green);
+  margin-left:3px;
+  vertical-align:middle;
+  animation:blink 1s step-end infinite;
+  box-shadow:0 0 6px var(--green);
+}
+@keyframes blink{50%{opacity:0;}}
+.pronouns{
+  font-size:11px;
+  color:var(--text-dim);
+  margin-top:4px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+.bio{
+  margin-top:16px;
+  font-size:12.5px;
+  line-height:1.7;
+  color:var(--text-dim);
+  font-family:'Space Mono',monospace;
+}
+.bio .accent{color:var(--green);}
+.tags{
+  margin-top:16px;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.tag{
+  font-size:10px;
+  letter-spacing:0.5px;
+  padding:4px 10px;
+  border:1px solid var(--green-faint);
+  border-radius:20px;
+  color:var(--cyan);
+}
+.socials{
+  margin-top:24px;
+  display:flex;
+  justify-content:center;
+  gap:14px;
+}
+.social{
+  width:38px;height:38px;
+  border-radius:9px;
+  border:1px solid var(--green-faint);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--text-dim);
+  text-decoration:none;
+  transition:all .2s;
+  position:relative;
+}
+.social svg{width:16px;height:16px;fill:currentColor;}
+.social:hover{
+  color:var(--bg);
+  background:var(--green);
+  border-color:var(--green);
+  box-shadow:0 0 18px rgba(57,255,106,0.5);
+  transform:translateY(-3px);
+}
+.divider{
+  margin:24px 0 16px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--green-faint),transparent);
+}
+.footer-line{
+  font-size:10px;
+  color:var(--text-dim);
+  letter-spacing:0.5px;
+}
+.footer-line span{color:var(--green-dim);}
+.audio-toggle{
+  position:absolute;
+  top:14px;left:16px;
+  width:26px;height:26px;
+  border-radius:6px;
+  border:1px solid var(--green-faint);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  color:var(--text-dim);
+  transition:all .2s;
+}
+.audio-toggle:hover{color:var(--green);border-color:var(--green-dim);}
+.audio-toggle svg{width:12px;height:12px;fill:currentColor;}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important;}
+}
+a:focus-visible, .audio-toggle:focus-visible{
+  outline:2px solid var(--cyan);
+  outline-offset:2px;
+}
+</style>
 </head>
 <body>
+<canvas id="matrix-canvas"></canvas>
 
-  <header>
-    <h1><span>PRS</span> Poradniki | Roblox | Straż</h1>
-    <nav>
-      <a href="#">Strony</a>
-      <a href="dnt">Wsparcie</a>
-    </nav>
-  </header>
+<div class="card">
+  <div class="audio-toggle" id="audio-toggle" tabindex="0" role="button" aria-label="toggle sound">
+    <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/></svg>
+  </div>
+  <div class="views"><span class="dot"></span><span id="view-count">···</span> views</div>
 
-  <main id="blog">
-    <article>
-      <img src="i/oznaczenia.png" alt="PRS Straż" style="width:100%; height:180px; object-fit:cover; margin-bottom:1rem;" />
-      <h2>Generator oznaczeń operacyjnych straży</h2>
-      <p>Przydatne :)</p>
-      <a href="oznaczenia">Przejdz do strony →</a>
-    </article>
+  <div class="avatar-wrap">
+    <div class="avatar-ring"></div>
+    <div class="avatar"><img src="https://i.pinimg.com/564x/37/17/d6/3717d6a414d8dc80186aa48cbd089804.jpg" alt="michael.fries avatar"></div>
+    <div class="badge">
+      <svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
+    </div>
+  </div>
 
-    <article>
-      <img src="i/tablica.jpg" alt="tablice" style="width:100%; height:180px; object-fit:cover; margin-bottom:1rem;" />
-      <h2>Zbiór i generator znaków drogowych</h2>
-      <p>Wkrótce...</p>
-      <a href="#">Przejdz do strony →</a>
-    </article>
+  <div class="username">michael.fries<span class="cursor"></span></div>
+  <div class="pronouns">root / admin</div>
 
-    <article>
-      <img src="i/mixer.png" alt="Mixer" style="width:100%; height:180px; object-fit:cover; margin-bottom:1rem;" />
-      <h2>MAN TGM GCBA-Rt  / JRG Czarnków - BeamNG</h2>
-      <p>Autor: Mixer</p>
-      <a href="mixer">Przejdz do strony →</a>
-    </article>
-  </main>
+  <div class="bio">
+    <span class="accent">&gt;</span> software engineer breaking things on purpose<br>
+    building systems, exploiting assumptions, shipping clean code.
+  </div>
 
-  <footer>
-    © 2026 PRS. Wszelkie prawa zastrzeżone.
-  </footer>
+  <div class="tags">
+    <span class="tag">python</span>
+    <span class="tag">infra</span>
+    <span class="tag">security</span>
+  </div>
 
+  <div class="socials">
+    <a class="social" href="#" aria-label="Discord">
+      <svg viewBox="0 0 24 24"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.6 3l-.3.6a14.2 14.2 0 0 1 4 1.6 15.3 15.3 0 0 0-13.6 0A14.2 14.2 0 0 1 9.7 3l-.3-.6a19.8 19.8 0 0 0-4.7 1.5C1.7 8.5 1 12.5 1.3 16.4a19.9 19.9 0 0 0 6 3l1-1.6a13 13 0 0 1-1.9-.9l.5-.4a14.3 14.3 0 0 0 12.2 0l.5.4a13 13 0 0 1-1.9.9l1 1.6a19.9 19.9 0 0 0 6-3c.4-4.5-.7-8.5-3-12ZM8.9 14.3c-.9 0-1.6-.8-1.6-1.8s.7-1.8 1.6-1.8 1.6.8 1.6 1.8-.7 1.8-1.6 1.8Zm6.2 0c-.9 0-1.6-.8-1.6-1.8s.7-1.8 1.6-1.8 1.6.8 1.6 1.8-.7 1.8-1.6 1.8Z"/></svg>
+    </a>
+    <a class="social" href="#" aria-label="GitHub">
+      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1-1.5-1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7 3.6 3.6 0 0 1 .1-2.7s.9-.3 2.9 1a10 10 0 0 1 5.2 0c2-1.3 2.9-1 2.9-1a3.6 3.6 0 0 1 .1 2.7 3.9 3.9 0 0 1 1 2.7c0 3.9-2.4 4.7-4.6 5 .3.3.6 1 .6 2v2.9c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"/></svg>
+    </a>
+    <a class="social" href="#" aria-label="X / Twitter">
+      <svg viewBox="0 0 24 24"><path d="M18.9 3H22l-7.6 8.7L23 21h-6.9l-5.4-6.6L4.3 21H1.2l8.1-9.3L1 3h7l4.9 6ZM17.6 19h1.9L7.5 5H5.4Z"/></svg>
+    </a>
+    <a class="social" href="#" aria-label="Telegram">
+      <svg viewBox="0 0 24 24"><path d="m21.9 4.2-3.1 15c-.2.9-.8 1.1-1.6.7l-4.4-3.2-2.1 2c-.2.2-.4.4-.9.4l.3-4.4L18 7.4c.4-.3-.1-.5-.6-.2L7.5 13.1l-4.3-1.3c-.9-.3-.9-.9.2-1.3l17-6.5c.8-.3 1.5.2 1.2 1.2Z"/></svg>
+    </a>
+  </div>
+
+  <div class="divider"></div>
+  <div class="footer-line"><span>[</span> michael.fries.tech <span>]</span> &middot; est. 2019</div>
+</div>
+
+<script>
+(function(){
+  var canvas=document.getElementById('matrix-canvas');
+  var ctx=canvas.getContext('2d');
+  var w,h,cols,drops;
+  var chars='アイウエオカキクケコサシスセソ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  function resize(){
+    w=canvas.width=window.innerWidth;
+    h=canvas.height=window.innerHeight;
+    cols=Math.floor(w/16);
+    drops=new Array(cols).fill(0).map(function(){return Math.random()*-50;});
+  }
+  window.addEventListener('resize',resize);
+  resize();
+  function draw(){
+    ctx.fillStyle='rgba(5,8,6,0.08)';
+    ctx.fillRect(0,0,w,h);
+    ctx.fillStyle='#39ff6a';
+    ctx.font='14px monospace';
+    for(var i=0;i<cols;i++){
+      var text=chars.charAt(Math.floor(Math.random()*chars.length));
+      ctx.fillText(text,i*16,drops[i]*16);
+      if(drops[i]*16>h && Math.random()>0.975){
+        drops[i]=0;
+      }
+      drops[i]++;
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  var viewEl=document.getElementById('view-count');
+  var namespace='michaelfries-tech';
+  var counter='profile-views';
+  var alreadyCounted=sessionStorage.getItem('mf_counted');
+  var endpoint=alreadyCounted
+    ? 'https://api.counterapi.dev/v1/'+namespace+'/'+counter
+    : 'https://api.counterapi.dev/v1/'+namespace+'/'+counter+'/up';
+  fetch(endpoint)
+    .then(function(res){return res.json();})
+    .then(function(data){
+      var value=data && typeof data.value!=='undefined' ? data.value : null;
+      if(value!==null){
+        viewEl.textContent=Number(value).toLocaleString('en-US');
+        sessionStorage.setItem('mf_counted','1');
+      }else{
+        viewEl.textContent='n/a';
+      }
+    })
+    .catch(function(){
+      viewEl.textContent='n/a';
+    });
+
+  var toggle=document.getElementById('audio-toggle');
+  var muted=true;
+  function flip(){
+    muted=!muted;
+    toggle.innerHTML=muted
+      ? '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/></svg>'
+      : '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>';
+  }
+  toggle.addEventListener('click',flip);
+  toggle.addEventListener('keydown',function(e){
+    if(e.key==='Enter'||e.key===' '){e.preventDefault();flip();}
+  });
+})();
+</script>
 </body>
 </html>

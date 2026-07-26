@@ -6,6 +6,7 @@
 <title>michael.fries</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Space+Mono&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{
   --bg:#050806;
@@ -81,19 +82,6 @@ body::after{
   from{opacity:0;transform:translateY(24px) scale(.98);}
   to{opacity:1;transform:translateY(0) scale(1);}
 }
-.card::before{
-  content:"";
-  position:absolute;
-  inset:-1px;
-  border-radius:14px;
-  padding:1px;
-  background:linear-gradient(135deg,var(--green),transparent 30%,transparent 70%,var(--cyan));
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor;
-  mask-composite:exclude;
-  opacity:0.35;
-  pointer-events:none;
-}
 .views{
   position:absolute;
   top:14px;
@@ -125,17 +113,31 @@ body::after{
   border:1px solid var(--green-dim);
   animation:spin 8s linear infinite;
 }
-.avatar-ring::before{
-  content:"";
-  position:absolute;
-  top:-2px;left:50%;
-  width:6px;height:6px;
-  background:var(--green);
-  border-radius:50%;
-  box-shadow:0 0 10px var(--green),0 0 20px var(--green);
-  transform:translateX(-50%);
-}
 @keyframes spin{to{transform:rotate(360deg);}}
+
+.card-ring{
+  position:absolute;
+  inset:-1px;
+  width:calc(100% + 2px);
+  height:calc(100% + 2px);
+  pointer-events:none;
+  z-index:6;
+  overflow:visible;
+}
+.card-ring rect{
+  fill:none;
+  stroke:var(--green);
+  stroke-width:1;
+  stroke-linecap:round;
+  stroke-dasharray:16 384;
+  filter:drop-shadow(0 0 6px rgba(57,255,106,0.5));
+  animation:ring-move 3.6s linear infinite;
+  color: linear-gradient(0deg, var(--green), var(--green-dim));
+  vector-effect:non-scaling-stroke;
+}
+@keyframes ring-move{
+  to{ stroke-dashoffset:-400; }
+}
 .avatar{
   width:96px;height:96px;
   border-radius:50%;
@@ -156,18 +158,6 @@ body::after{
   object-fit:cover;
   filter:saturate(1.05) contrast(1.05);
 }
-.badge{
-  position:absolute;
-  bottom:2px;right:2px;
-  width:20px;height:20px;
-  background:var(--bg);
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border:1px solid var(--green-faint);
-}
-.badge svg{width:11px;height:11px;fill:var(--green);}
 .username{
   font-size:22px;
   font-weight:800;
@@ -282,31 +272,28 @@ a:focus-visible, .audio-toggle:focus-visible{
 <canvas id="matrix-canvas"></canvas>
 
 <div class="card">
-  <div class="audio-toggle" id="audio-toggle" tabindex="0" role="button" aria-label="toggle sound">
-    <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/></svg>
-  </div>
+  <svg class="card-ring" aria-hidden="true">
+    <rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)" rx="15" ry="15" pathLength="400"></rect>
+  </svg>
   <div class="views"><span class="dot"></span><span id="view-count">···</span> views</div>
 
   <div class="avatar-wrap">
     <div class="avatar-ring"></div>
     <div class="avatar"><img src="https://i.pinimg.com/564x/37/17/d6/3717d6a414d8dc80186aa48cbd089804.jpg" alt="michael.fries avatar"></div>
-    <div class="badge">
-      <svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-    </div>
   </div>
 
-  <div class="username">michael.fries<span class="cursor"></span></div>
-  <div class="pronouns">root / admin</div>
+  <div class="username">Michael Fries<span class="cursor"></span></div>
+  <div class="pronouns">CERTIFIED LARP</div>
 
   <div class="bio">
-    <span class="accent">&gt;</span> software engineer breaking things on purpose<br>
-    building systems, exploiting assumptions, shipping clean code.
+    <span class="accent">&gt;</span> software engineer<br>
+    Discord bots, C++ apps and anything about computers.
   </div>
 
   <div class="tags">
-    <span class="tag">python</span>
-    <span class="tag">infra</span>
-    <span class="tag">security</span>
+    <span class="tag">Python</span>
+    <span class="tag">C++</span>
+    <span class="tag">JavaScript</span>
   </div>
 
   <div class="socials">
@@ -316,16 +303,13 @@ a:focus-visible, .audio-toggle:focus-visible{
     <a class="social" href="#" aria-label="GitHub">
       <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1-1.5-1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7 3.6 3.6 0 0 1 .1-2.7s.9-.3 2.9 1a10 10 0 0 1 5.2 0c2-1.3 2.9-1 2.9-1a3.6 3.6 0 0 1 .1 2.7 3.9 3.9 0 0 1 1 2.7c0 3.9-2.4 4.7-4.6 5 .3.3.6 1 .6 2v2.9c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"/></svg>
     </a>
-    <a class="social" href="#" aria-label="X / Twitter">
-      <svg viewBox="0 0 24 24"><path d="M18.9 3H22l-7.6 8.7L23 21h-6.9l-5.4-6.6L4.3 21H1.2l8.1-9.3L1 3h7l4.9 6ZM17.6 19h1.9L7.5 5H5.4Z"/></svg>
-    </a>
-    <a class="social" href="#" aria-label="Telegram">
-      <svg viewBox="0 0 24 24"><path d="m21.9 4.2-3.1 15c-.2.9-.8 1.1-1.6.7l-4.4-3.2-2.1 2c-.2.2-.4.4-.9.4l.3-4.4L18 7.4c.4-.3-.1-.5-.6-.2L7.5 13.1l-4.3-1.3c-.9-.3-.9-.9.2-1.3l17-6.5c.8-.3 1.5.2 1.2 1.2Z"/></svg>
+    <a class="social" href="#" aria-label="Youtube">
+      <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8ZM9.75 15.5v-7l6 3.5-6 3.5Z"/></svg>
     </a>
   </div>
 
   <div class="divider"></div>
-  <div class="footer-line"><span>[</span> michael.fries.tech <span>]</span> &middot; est. 2019</div>
+  <div class="footer-line"><span>[</span> michaelfries.tech <span>]</span></div>
 </div>
 
 <script>
@@ -359,27 +343,51 @@ a:focus-visible, .audio-toggle:focus-visible{
   }
   draw();
 
+
+  var SUPABASE_URL = "https://yrttmrpkfpsvneywsxtt.supabase.co";
+  var SUPABASE_KEY = "sb_publishable_eIkTHJV9M6Ou98tQI8R03g_DKul07sy";
   var viewEl=document.getElementById('view-count');
-  var namespace='michaelfries-tech';
-  var counter='profile-views';
-  var alreadyCounted=sessionStorage.getItem('mf_counted');
-  var endpoint=alreadyCounted
-    ? 'https://api.counterapi.dev/v1/'+namespace+'/'+counter
-    : 'https://api.counterapi.dev/v1/'+namespace+'/'+counter+'/up';
-  fetch(endpoint)
-    .then(function(res){return res.json();})
-    .then(function(data){
-      var value=data && typeof data.value!=='undefined' ? data.value : null;
-      if(value!==null){
-        viewEl.textContent=Number(value).toLocaleString('en-US');
-        sessionStorage.setItem('mf_counted','1');
-      }else{
-        viewEl.textContent='n/a';
-      }
-    })
-    .catch(function(){
+  var COUNTED_KEY="mf_counted_v2";
+
+  function countedWithin24h(){
+    try{
+      var t=localStorage.getItem(COUNTED_KEY);
+      return t && (Date.now()-Number(t))<86400000;
+    }catch(e){ return false; }
+  }
+  function markCounted(){
+    try{ localStorage.setItem(COUNTED_KEY, Date.now()); }catch(e){}
+  }
+
+  async function updateViews(){
+    viewEl.textContent='···';
+
+    if(!SUPABASE_URL || !SUPABASE_KEY){
       viewEl.textContent='n/a';
-    });
+      console.warn('Uzupełnij SUPABASE_URL i SUPABASE_KEY, żeby licznik działał.');
+      return;
+    }
+    try{
+      var supabase=window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+      if(!countedWithin24h()){
+        var bump=await supabase.rpc('increment_views', { row_key: 'profile-views' });
+        if(bump.error) throw bump.error;
+        markCounted();
+        viewEl.textContent=Number(bump.data).toLocaleString("en-US");
+        return;
+      }
+
+      var read=await supabase.from("stats").select("value").eq("key","profile-views").single();
+      if(read.error) throw read.error;
+      viewEl.textContent=Number(read.data.value).toLocaleString("en-US");
+    }catch(e){
+      console.error('Blad licznika wyswietlen:', e);
+      viewEl.textContent='n/a';
+    }
+  }
+  updateViews();
+
 
   var toggle=document.getElementById('audio-toggle');
   var muted=true;

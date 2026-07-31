@@ -1,149 +1,397 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generator Numerów Operacyjnych</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #666, #333);
-            flex-direction: column;
-            padding: 20px;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generator Numerów Operacyjnych</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+    :root {
+        --bg-1: #0f1220;
+        --bg-2: #1c2138;
+        --card: rgba(255,255,255,0.06);
+        --card-border: rgba(255,255,255,0.12);
+        --accent: #7c5cff;
+        --accent-2: #34e0a1;
+        --text: #f2f2f7;
+        --text-dim: rgba(242,242,247,0.6);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        font-family: 'Poppins', Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background: radial-gradient(circle at 20% 20%, #232849 0%, var(--bg-1) 45%, #06070d 100%);
+        padding: 24px;
+        color: var(--text);
+    }
+
+    .container {
+        background: var(--card);
+        backdrop-filter: blur(18px);
+        border: 1px solid var(--card-border);
+        padding: 32px;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.05);
+        text-align: center;
+        max-width: 560px;
+        width: 100%;
+    }
+
+    h1 {
+        margin: 0 0 4px;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        background: linear-gradient(90deg, var(--accent-2), var(--accent));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .subtitle {
+        color: var(--text-dim);
+        font-size: 13px;
+        margin-bottom: 22px;
+    }
+
+    canvas#outputCanvas {
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        margin: 8px 0 20px;
+        background: rgba(0,0,0,0.35);
+        max-width: 100%;
+        height: auto;
+        box-shadow: inset 0 0 30px rgba(0,0,0,0.4);
+    }
+
+    .row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 14px 0;
+    }
+
+    input[type="text"] {
+        padding: 12px 14px;
+        font-size: 15px;
+        width: 200px;
+        text-align: center;
+        background: rgba(255,255,255,0.9);
+        border: none;
+        border-radius: 10px;
+        color: #14172a;
+        font-family: 'Poppins', sans-serif;
+        outline: none;
+        transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    input[type="text"]:focus {
+        box-shadow: 0 0 0 3px rgba(124,92,255,0.5);
+        transform: translateY(-1px);
+    }
+
+    /* ---- Buttons + ripple/press animation ---- */
+    button {
+        position: relative;
+        overflow: hidden;
+        padding: 12px 22px;
+        font-size: 14px;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, var(--accent), #5a3fd6);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        letter-spacing: 0.2px;
+        transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease, filter 0.2s ease;
+        box-shadow: 0 6px 16px rgba(124,92,255,0.35);
+        will-change: transform;
+    }
+
+    button.secondary {
+        background: linear-gradient(135deg, #2b3050, #1c2036);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+        border: 1px solid var(--card-border);
+    }
+
+    button:hover {
+        transform: translateY(-3px) scale(1.03);
+        filter: brightness(1.08);
+        box-shadow: 0 10px 22px rgba(124,92,255,0.45);
+    }
+
+    button.secondary:hover {
+        box-shadow: 0 10px 22px rgba(0,0,0,0.45);
+    }
+
+    button:active {
+        transform: translateY(0px) scale(0.96);
+        transition: transform 0.08s ease;
+    }
+
+    button .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.55);
+        transform: scale(0);
+        pointer-events: none;
+        animation: rippleAnim 550ms ease-out forwards;
+    }
+
+    @keyframes rippleAnim {
+        to {
+            transform: scale(3.2);
+            opacity: 0;
         }
-        .container {
-            background: rgba(255,255,255,0.2);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.3);
-            text-align: center;
-            max-width: 600px;
-            width: 90%;
-        }
-        canvas {
-            border: 2px dashed rgba(255,255,255,0.3);
-            margin: 20px 0;
-            background: rgba(0,0,0,0.2);
-            max-width: 100%;
-            height: auto;
-        }
-        input {
-            padding: 12px;
-            font-size: 16px;
-            width: 220px;
-            margin: 12px;
-            text-align: center;
-            background: rgba(255,255,255,0.8);
-            border: none;
-            border-radius: 5px;
-        }
-        button {
-            padding: 12px 25px;
-            font-size: 16px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 8px;
-            transition: all 0.3s;
-        }
-        button:hover {
-            background: #45a049;
-            transform: scale(1.05);
-        }
-        a {
-            margin-top: 15px;
-            display: inline-block;
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .controls {
-            margin: 15px 0;
-        }
-        h1 {
-            color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            margin-top: 0;
-        }
-        footer {
-            color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-            margin-top: 20px;
-            font-size: 14px;
-        }
-        footer a {
-            color: #4CAF50;
-            text-decoration: underline;
-        }
-        .slider-container {
-            margin: 15px 0;
-            color: white;
-            width: 100%;
-        }
-        .slider-container label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 14px;
-        }
-        .slider {
-            width: 90%;
-            height: 10px;
-            border-radius: 5px;
-            background: rgba(255,255,255,0.2);
-            outline: none;
-            -webkit-appearance: none;
-        }
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #4CAF50;
-            outline: 4px;
-            outline-color: black;
-            cursor: pointer;
-        }
-        .slider-value {
-            display: inline-block;
-            width: 50px;
-            text-align: center;
-            margin-left: 10px;
-            font-size: 14px;
-        }
-    </style>
+    }
+
+    a#downloadLink {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 22px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 10px;
+        color: #0f1220;
+        background: linear-gradient(135deg, var(--accent-2), #17c98a);
+        text-decoration: none;
+        box-shadow: 0 6px 16px rgba(52,224,161,0.35);
+        transition: transform 0.18s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease, filter 0.2s ease;
+    }
+    a#downloadLink:hover {
+        transform: translateY(-3px) scale(1.03);
+        filter: brightness(1.05);
+        box-shadow: 0 10px 22px rgba(52,224,161,0.45);
+    }
+    a#downloadLink:active {
+        transform: translateY(0px) scale(0.96);
+    }
+
+    /* ---- Sliders ---- */
+    .slider-block {
+        margin: 16px 0;
+        text-align: left;
+    }
+    .slider-block label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        color: var(--text-dim);
+        margin-bottom: 8px;
+    }
+    .slider-block label span.val {
+        color: var(--text);
+        font-weight: 600;
+    }
+    .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 6px;
+        border-radius: 4px;
+        background: rgba(255,255,255,0.12);
+        outline: none;
+    }
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: var(--accent-2);
+        border: 3px solid #0f1220;
+        cursor: pointer;
+        transition: transform 0.15s ease;
+    }
+    .slider::-webkit-slider-thumb:hover {
+        transform: scale(1.2);
+    }
+
+    /* ---- Custom color picker ---- */
+    .color-field {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .color-field .cf-label {
+        font-size: 13px;
+        color: var(--text-dim);
+    }
+    .swatch-btn {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        border: 2px solid var(--card-border);
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+        transition: transform 0.18s cubic-bezier(.34,1.56,.64,1);
+        padding: 0;
+    }
+    .swatch-btn:hover {
+        transform: translateY(-2px) scale(1.06);
+    }
+    .swatch-btn:active {
+        transform: scale(0.94);
+    }
+
+    .color-panel {
+        position: absolute;
+        top: 54px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-8px) scale(0.96);
+        width: 232px;
+        background: #181c30;
+        border: 1px solid var(--card-border);
+        border-radius: 14px;
+        padding: 16px;
+        box-shadow: 0 20px 45px rgba(0,0,0,0.55);
+        z-index: 20;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.18s ease, transform 0.18s ease;
+    }
+    .color-panel.open {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(-50%) translateY(0) scale(1);
+    }
+
+    #svCanvas {
+        border-radius: 8px;
+        cursor: crosshair;
+        display: block;
+        width: 100%;
+        height: 130px;
+    }
+    #hueCanvas {
+        border-radius: 8px;
+        cursor: pointer;
+        display: block;
+        width: 100%;
+        height: 14px;
+        margin-top: 10px;
+    }
+    .sv-marker, .hue-marker {
+        position: absolute;
+        pointer-events: none;
+    }
+    .sv-marker {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 0 0 1px rgba(0,0,0,0.4);
+        transform: translate(-6px, -6px);
+    }
+    .hue-marker {
+        width: 4px;
+        height: 18px;
+        border-radius: 2px;
+        background: white;
+        border: 1px solid rgba(0,0,0,0.4);
+        transform: translate(-2px, -2px);
+    }
+
+    .swatch-presets {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 12px;
+    }
+    .preset {
+        width: 20px;
+        height: 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        border: 1px solid rgba(255,255,255,0.25);
+        transition: transform 0.15s ease;
+    }
+    .preset:hover {
+        transform: scale(1.2);
+    }
+
+    #hexInput {
+        margin-top: 12px;
+        width: 100%;
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 1px solid var(--card-border);
+        background: rgba(255,255,255,0.9);
+        color: #14172a;
+        font-family: 'Poppins', monospace;
+        font-size: 13px;
+        text-align: center;
+        outline: none;
+    }
+
+    footer {
+        color: var(--text-dim);
+        margin-top: 22px;
+        font-size: 12px;
+    }
+    footer a {
+        color: var(--accent-2);
+        text-decoration: none;
+        font-weight: 600;
+    }
+    footer a:hover {
+        text-decoration: underline;
+    }
+</style>
 </head>
 <body>
     <div class="container">
         <h1>Generator Numerów Operacyjnych</h1>
-        
-        <div class="controls">
+        <div class="subtitle">Twórz i pobieraj własne oznaczenia</div>
+
+        <div class="row">
             <input type="text" id="customInput" placeholder="np. 423pX5" maxlength="6">
             <button id="generateCustom">Zastosuj</button>
         </div>
-        
-        <div class="slider-container">
-            <label for="resolutionSlider">Rozdzielczość obrazu: <span id="resolutionValue" class="slider-value">400x150</span></label>
+
+        <div class="row">
+            <div class="color-field">
+                <span class="cf-label">Kolor czcionki:</span>
+                <button id="swatchBtn" class="swatch-btn" style="background:#ffffff;"></button>
+
+                <div id="colorPanel" class="color-panel">
+                    <canvas id="svCanvas" width="200" height="130"></canvas>
+                    <canvas id="hueCanvas" width="200" height="14"></canvas>
+                    <div id="svMarker" class="sv-marker" style="left:0;top:0;"></div>
+                    <div id="hueMarker" class="hue-marker" style="left:0;top:0;"></div>
+                    <div class="swatch-presets" id="presets"></div>
+                    <input type="text" id="hexInput" value="#FFFFFF" maxlength="7">
+                </div>
+            </div>
+        </div>
+
+        <div class="slider-block">
+            <label for="resolutionSlider">Rozdzielczość obrazu <span class="val" id="resolutionValue">400x150</span></label>
             <input type="range" id="resolutionSlider" class="slider" min="200" max="600" value="400" step="50">
         </div>
-        
-        <div class="slider-container">
-            <label for="fontSizeSlider">Wielkość czcionki: <span id="fontSizeValue" class="slider-value">100</span>px</label>
+
+        <div class="slider-block">
+            <label for="fontSizeSlider">Wielkość czcionki <span class="val" id="fontSizeValue">100px</span></label>
             <input type="range" id="fontSizeSlider" class="slider" min="50" max="200" value="100" step="5">
         </div>
-        
+
         <canvas id="outputCanvas" width="400" height="150"></canvas>
-        
-        <div class="controls">
+
+        <div class="row">
             <button id="generateRandom">Generuj Losowe</button>
             <a id="downloadLink" href="#" download="numer_operacyjny.png">Pobierz Obraz</a>
         </div>
+
         <footer>Zrobione przez <a href="https://guns.lol/michaelfries" target="_blank">Michael Fries</a></footer>
     </div>
 
@@ -159,12 +407,12 @@
             const fontSizeSlider = document.getElementById('fontSizeSlider');
             const resolutionValue = document.getElementById('resolutionValue');
             const fontSizeValue = document.getElementById('fontSizeValue');
-            
+
             let currentText = '';
             let currentFontSize = 100;
-            
+            let currentColor = '#ffffff';
+
             const font = new FontFace('Oznaczenia', 'url(Oznaczenia.ttf)');
-            
             font.load().then(function(loadedFont) {
                 document.fonts.add(loadedFont);
                 generateRandom();
@@ -173,8 +421,23 @@
                 generateRandom();
             });
 
+            // ---------- Button ripple animation (generic, applied to all buttons) ----------
+            document.querySelectorAll('button').forEach(function(btn) {
+                btn.addEventListener('pointerdown', function(e) {
+                    const rect = btn.getBoundingClientRect();
+                    const ripple = document.createElement('span');
+                    const size = Math.max(rect.width, rect.height);
+                    ripple.className = 'ripple';
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+                    ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+                    btn.appendChild(ripple);
+                    setTimeout(function() { ripple.remove(); }, 550);
+                });
+            });
+
             generateRandomBtn.addEventListener('click', generateRandom);
-            
+
             generateCustomBtn.addEventListener('click', function() {
                 const text = customInput.value.trim();
                 if (text) {
@@ -187,38 +450,31 @@
 
             resolutionSlider.addEventListener('input', function() {
                 const width = parseInt(this.value);
-                const height = Math.round(width * 0.375); // Zachowaj proporcje 400x150 (150/400=0.375)
+                const height = Math.round(width * 0.375);
                 canvas.width = width;
                 canvas.height = height;
                 resolutionValue.textContent = `${width}x${height}`;
-                if (currentText) {
-                    drawText(currentText);
-                }
+                if (currentText) drawText(currentText);
             });
 
             fontSizeSlider.addEventListener('input', function() {
                 currentFontSize = parseInt(this.value);
-                fontSizeValue.textContent = currentFontSize;
-                if (currentText) {
-                    drawText(currentText);
-                }
+                fontSizeValue.textContent = currentFontSize + 'px';
+                if (currentText) drawText(currentText);
             });
 
             function generateRandom() {
                 const num1 = Math.floor(Math.random() * 101) + 400;
                 const middleLetter = String.fromCharCode(Math.floor(Math.random() * 16) + 97);
-                
                 const useLetterInNum2 = Math.random() > 0.5;
                 let num2;
-                
-                if(useLetterInNum2) {
+                if (useLetterInNum2) {
                     const letter = String.fromCharCode(Math.floor(Math.random() * 26) + 65);
                     const number = Math.floor(Math.random() * 10);
                     num2 = `${letter}${number}`;
                 } else {
                     num2 = '21';
                 }
-                
                 const text = `${num1}${middleLetter}${num2}`;
                 currentText = text;
                 customInput.value = text;
@@ -227,16 +483,207 @@
 
             function drawText(text) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                ctx.fillStyle = 'white';
+                ctx.fillStyle = currentColor;
                 ctx.font = `${currentFontSize}px "Oznaczenia"`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                
                 ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-                
                 downloadLink.href = canvas.toDataURL('image/png');
             }
+
+            // =====================================================
+            // Custom color picker (HSV square + hue strip + presets)
+            // =====================================================
+            const swatchBtn = document.getElementById('swatchBtn');
+            const colorPanel = document.getElementById('colorPanel');
+            const svCanvas = document.getElementById('svCanvas');
+            const svCtx = svCanvas.getContext('2d');
+            const hueCanvas = document.getElementById('hueCanvas');
+            const hueCtx = hueCanvas.getContext('2d');
+            const svMarker = document.getElementById('svMarker');
+            const hueMarker = document.getElementById('hueMarker');
+            const hexInput = document.getElementById('hexInput');
+            const presetsEl = document.getElementById('presets');
+
+            let hue = 0;      // 0-360
+            let sat = 0;      // 0-1
+            let val = 1;      // 0-1
+
+            const presetColors = ['#ffffff','#000000','#ff4d4d','#ffb84d','#ffe14d','#7CFC7C','#4de1ff','#4d7bff','#b24dff','#ff4dc4','#8c8c8c','#34e0a1'];
+            presetColors.forEach(function(c) {
+                const p = document.createElement('div');
+                p.className = 'preset';
+                p.style.background = c;
+                p.addEventListener('click', function() {
+                    setColorFromHex(c);
+                });
+                presetsEl.appendChild(p);
+            });
+
+            function hsvToRgb(h, s, v) {
+                let c = v * s;
+                let x = c * (1 - Math.abs((h / 60) % 2 - 1));
+                let m = v - c;
+                let r=0, g=0, b=0;
+                if (h < 60) { r=c; g=x; b=0; }
+                else if (h < 120) { r=x; g=c; b=0; }
+                else if (h < 180) { r=0; g=c; b=x; }
+                else if (h < 240) { r=0; g=x; b=c; }
+                else if (h < 300) { r=x; g=0; b=c; }
+                else { r=c; g=0; b=x; }
+                return [Math.round((r+m)*255), Math.round((g+m)*255), Math.round((b+m)*255)];
+            }
+
+            function rgbToHex(r, g, b) {
+                return '#' + [r,g,b].map(v => v.toString(16).padStart(2,'0')).join('');
+            }
+
+            function rgbToHsv(r, g, b) {
+                r/=255; g/=255; b/=255;
+                const max = Math.max(r,g,b), min = Math.min(r,g,b);
+                const d = max - min;
+                let h = 0;
+                if (d !== 0) {
+                    if (max === r) h = ((g-b)/d) % 6;
+                    else if (max === g) h = (b-r)/d + 2;
+                    else h = (r-g)/d + 4;
+                    h *= 60;
+                    if (h < 0) h += 360;
+                }
+                const s = max === 0 ? 0 : d/max;
+                const v = max;
+                return [h, s, v];
+            }
+
+            function drawHueStrip() {
+                const grad = hueCtx.createLinearGradient(0, 0, hueCanvas.width, 0);
+                for (let i = 0; i <= 360; i += 30) {
+                    grad.addColorStop(i/360, `hsl(${i},100%,50%)`);
+                }
+                hueCtx.fillStyle = grad;
+                hueCtx.fillRect(0, 0, hueCanvas.width, hueCanvas.height);
+            }
+
+            function drawSvSquare() {
+                const [r,g,b] = hsvToRgb(hue, 1, 1);
+                svCtx.fillStyle = `rgb(${r},${g},${b})`;
+                svCtx.fillRect(0, 0, svCanvas.width, svCanvas.height);
+
+                const whiteGrad = svCtx.createLinearGradient(0, 0, svCanvas.width, 0);
+                whiteGrad.addColorStop(0, 'rgba(255,255,255,1)');
+                whiteGrad.addColorStop(1, 'rgba(255,255,255,0)');
+                svCtx.fillStyle = whiteGrad;
+                svCtx.fillRect(0, 0, svCanvas.width, svCanvas.height);
+
+                const blackGrad = svCtx.createLinearGradient(0, 0, 0, svCanvas.height);
+                blackGrad.addColorStop(0, 'rgba(0,0,0,0)');
+                blackGrad.addColorStop(1, 'rgba(0,0,0,1)');
+                svCtx.fillStyle = blackGrad;
+                svCtx.fillRect(0, 0, svCanvas.width, svCanvas.height);
+            }
+
+            function updateMarkers() {
+                const svRect = { w: svCanvas.width, h: svCanvas.height };
+                svMarker.style.left = (sat * svRect.w) + 'px';
+                svMarker.style.top = ((1-val) * svRect.h) + 'px';
+
+                const hueRect = { w: hueCanvas.width };
+                hueMarker.style.left = (hue / 360 * hueRect.w) + 'px';
+                hueMarker.style.top = '7px';
+            }
+
+            function positionMarkersAbsolute() {
+                // markers are positioned relative to the panel; offset by canvas offsets
+                svMarker.style.position = 'absolute';
+                hueMarker.style.position = 'absolute';
+                svMarker.style.left = (svCanvas.offsetLeft + sat * svCanvas.clientWidth) + 'px';
+                svMarker.style.top = (svCanvas.offsetTop + (1-val) * svCanvas.clientHeight) + 'px';
+                hueMarker.style.left = (hueCanvas.offsetLeft + (hue/360) * hueCanvas.clientWidth) + 'px';
+                hueMarker.style.top = (hueCanvas.offsetTop + hueCanvas.clientHeight/2) + 'px';
+            }
+
+            function applyColor(updateHex) {
+                const [r,g,b] = hsvToRgb(hue, sat, val);
+                currentColor = rgbToHex(r,g,b);
+                swatchBtn.style.background = currentColor;
+                if (updateHex !== false) hexInput.value = currentColor;
+                drawSvSquare();
+                positionMarkersAbsolute();
+                if (currentText) drawText(currentText);
+            }
+
+            function setColorFromHex(hex) {
+                hex = hex.trim();
+                if (!/^#([0-9a-fA-F]{6})$/.test(hex)) return;
+                const r = parseInt(hex.substr(1,2),16);
+                const g = parseInt(hex.substr(3,2),16);
+                const b = parseInt(hex.substr(5,2),16);
+                const [h,s,v] = rgbToHsv(r,g,b);
+                hue = h; sat = s; val = v;
+                applyColor(false);
+                hexInput.value = hex;
+            }
+
+            function svPick(clientX, clientY) {
+                const rect = svCanvas.getBoundingClientRect();
+                let x = Math.min(Math.max(clientX - rect.left, 0), rect.width);
+                let y = Math.min(Math.max(clientY - rect.top, 0), rect.height);
+                sat = x / rect.width;
+                val = 1 - (y / rect.height);
+                applyColor();
+            }
+
+            function huePick(clientX) {
+                const rect = hueCanvas.getBoundingClientRect();
+                let x = Math.min(Math.max(clientX - rect.left, 0), rect.width);
+                hue = (x / rect.width) * 360;
+                applyColor();
+            }
+
+            let draggingSv = false;
+            let draggingHue = false;
+
+            svCanvas.addEventListener('pointerdown', function(e) {
+                draggingSv = true;
+                svPick(e.clientX, e.clientY);
+            });
+            window.addEventListener('pointermove', function(e) {
+                if (draggingSv) svPick(e.clientX, e.clientY);
+                if (draggingHue) huePick(e.clientX);
+            });
+            window.addEventListener('pointerup', function() {
+                draggingSv = false;
+                draggingHue = false;
+            });
+
+            hueCanvas.addEventListener('pointerdown', function(e) {
+                draggingHue = true;
+                huePick(e.clientX);
+            });
+
+            hexInput.addEventListener('change', function() {
+                let hex = hexInput.value.trim();
+                if (hex[0] !== '#') hex = '#' + hex;
+                setColorFromHex(hex);
+            });
+
+            swatchBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                colorPanel.classList.toggle('open');
+                if (colorPanel.classList.contains('open')) {
+                    positionMarkersAbsolute();
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!colorPanel.contains(e.target) && e.target !== swatchBtn) {
+                    colorPanel.classList.remove('open');
+                }
+            });
+
+            drawHueStrip();
+            drawSvSquare();
+            positionMarkersAbsolute();
         });
     </script>
 </body>

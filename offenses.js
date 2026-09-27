@@ -22,14 +22,13 @@ const trafficOffenses = [
     ["Nadmierne użycie klaksonu", 100, 0, 0],
     ["Brak obowiązkowego wyposażenia pojazdu", 150, 0, 0],
     ["Niestosowanie się do znaków drogowych", 350, 0, 5],
-    // --- dodatkowe ---
     ["Jazda pod wpływem środków odurzających", 6000, 12, 15],
     ["Kierowanie pojazdem bez uprawnień", 1500, 3, 0],
     ["Kierowanie pojazdem mimo cofniętych uprawnień", 5000, 6, 0],
     ["Niezatrzymanie się do kontroli drogowej", 3000, 6, 10],
     ["Wyścigi samochodowe na drodze publicznej", 5000, 6, 10],
     ["Jazda „na zderzaku” nieprawidłowy odstęp", 300, 0, 6],
-    ["Blokowanie skrzyżowania („na żółtym")", 300, 0, 4],
+    ["Blokowanie skrzyżowania („na żółtym”)", 300, 0, 4],
     ["Nieprawidłowy przejazd przez przejście dla pieszych", 350, 0, 7],
     ["Niepropuszczenie pieszego na pasach", 350, 0, 6],
     ["Jazda pojazdem niesprawnym technicznie", 300, 0, 3],
@@ -95,7 +94,6 @@ const generalOffenses = [
     ["Próba wyłudzenia odszkodowania", 0, 48, 0],
     ["Handel ludźmi", 100000, 120, 0],
  
-    // --- Przestępstwa przeciwko życiu i zdrowiu ---
     ["Zabójstwo w afekcie", 0, 120, 0],
     ["Zabójstwo pod wpływem silnego wzburzenia", 0, 60, 0],
     ["Dzieciobójstwo", 0, 36, 0],
@@ -109,7 +107,6 @@ const generalOffenses = [
     ["Znęcanie się nad rodziną", 0, 60, 0],
     ["Porzucenie osoby zależnej / bezradnej", 0, 36, 0],
  
-    // --- Przestępstwa przeciwko wolności, czci i godności ---
     ["Groźba karalna", 3000, 24, 0],
     ["Uporczywe nękanie (stalking)", 5000, 36, 0],
     ["Zmuszanie do określonego zachowania", 5000, 36, 0],
@@ -120,7 +117,6 @@ const generalOffenses = [
     ["Naruszenie miru domowego", 3000, 12, 0],
     ["Handel narządami ludzkimi", 0, 180, 0],
  
-    // --- Przestępstwa przeciwko wolności seksualnej ---
     ["Zgwałcenie", 0, 180, 0],
     ["Wykorzystanie bezradności ofiary w celach seksualnych", 0, 180, 0],
     ["Rozpowszechnianie treści pornograficznych z udziałem małoletnich", 0, 180, 0],
@@ -129,13 +125,11 @@ const generalOffenses = [
     ["Zmuszanie do prostytucji", 0, 120, 0],
     ["Czerpanie korzyści ze stręczycielstwa (sutenerstwo)", 0, 60, 0],
  
-    // --- Przestępstwa przeciwko rodzinie i opiece ---
     ["Uchylanie się od obowiązku alimentacyjnego", 3000, 24, 0],
     ["Porzucenie małoletniego", 0, 36, 0],
     ["Znęcanie się nad zwierzętami", 5000, 36, 0],
     ["Uprowadzenie małoletniego spod opieki", 0, 36, 0],
  
-    // --- Przestępstwa przeciwko mieniu ---
     ["Kradzież zwykła", 3000, 36, 0],
     ["Kradzież rozbójnicza", 0, 120, 0],
     ["Rozbój", 0, 144, 0],
@@ -149,7 +143,6 @@ const generalOffenses = [
     ["Zabór pojazdu w celu krótkotrwałego użycia", 5000, 12, 0],
     ["Podpalenie cudzego mienia", 0, 120, 0],
  
-    // --- Przestępstwa przeciwko wiarygodności dokumentów ---
     ["Podrobienie pieniędzy", 0, 180, 0],
     ["Puszczanie w obieg podrobionych pieniędzy", 0, 120, 0],
     ["Podrobienie dokumentu urzędowego", 20000, 24, 0],
@@ -158,14 +151,12 @@ const generalOffenses = [
     ["Podrobienie tablic rejestracyjnych", 5000, 24, 0],
     ["Podrobienie pieczęci urzędowej", 10000, 24, 0],
  
-    // --- Przestępstwa przeciwko obrotowi gospodarczemu i pieniężnemu ---
     ["Pranie brudnych pieniędzy", 0, 96, 0],
     ["Działanie na szkodę spółki", 30000, 60, 0],
     ["Wyłudzenie odszkodowania (oszustwo ubezpieczeniowe)", 15000, 36, 0],
     ["Niegospodarność w obrocie gospodarczym", 20000, 36, 0],
     ["Udaremnienie egzekucji komorniczej", 10000, 36, 0],
- 
-    // --- Przestępstwa przeciwko bezpieczeństwu powszechnemu ---
+
     ["Sprowadzenie pożaru / zdarzenia zagrażającego życiu", 0, 120, 0],
     ["Sprowadzenie katastrofy w komunikacji", 0, 120, 0],
     ["Fałszywy alarm bombowy", 10000, 24, 0],
@@ -173,13 +164,11 @@ const generalOffenses = [
     ["Nielegalne posiadanie materiałów wybuchowych", 0, 96, 0],
     ["Porzucenie broni / niewłaściwe przechowywanie broni", 5000, 6, 0],
  
-    // --- Przestępstwa przeciwko środowisku ---
     ["Zanieczyszczenie środowiska w znacznych rozmiarach", 20000, 24, 0],
     ["Nielegalne składowanie odpadów niebezpiecznych", 15000, 24, 0],
     ["Nielegalny wyrąb lasu / kłusownictwo leśne", 5000, 12, 0],
     ["Kłusownictwo (nielegalne polowanie/łowienie)", 5000, 12, 0],
  
-    // --- Przestępstwa przeciwko działalności instytucji i wymiarowi sprawiedliwości ---
     ["Znieważenie funkcjonariusza publicznego", 5000, 12, 0],
     ["Naruszenie nietykalności cielesnej funkcjonariusza", 5000, 24, 0],
     ["Czynna napaść na funkcjonariusza", 0, 60, 0],
@@ -189,7 +178,6 @@ const generalOffenses = [
     ["Samouwolnienie się osoby zatrzymanej", 0, 24, 0],
     ["Fałszywe oskarżenie o popełnienie przestępstwa", 10000, 24, 0],
  
-    // --- Przestępstwa przeciwko porządkowi publicznemu ---
     ["Udział w zbiegowisku publicznym o charakterze gwałtownym", 5000, 36, 0],
     ["Publiczne nawoływanie do przestępstwa", 10000, 24, 0],
     ["Publiczne propagowanie ustroju totalitarnego", 20000, 24, 0],
@@ -201,7 +189,6 @@ const generalOffenses = [
     ["Nielegalna hodowla / uprawa konopi", 5000, 36, 0],
     ["Prowadzenie nielegalnego kasyna / hazardu", 15000, 24, 0],
  
-    // --- Kodeks wykroczeń — drobne wykroczenia ---
     ["Zakłócanie ciszy nocnej", 500, 0, 0],
     ["Spożywanie alkoholu w miejscu publicznym", 300, 0, 0],
     ["Drobna kradzież (do 800 zł)", 1500, 1, 0],

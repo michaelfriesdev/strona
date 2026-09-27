@@ -28,7 +28,7 @@ const trafficOffenses = [
     ["Kierowanie pojazdem mimo cofniętych uprawnień", 5000, 6, 0],
     ["Niezatrzymanie się do kontroli drogowej", 3000, 6, 10],
     ["Wyścigi samochodowe na drodze publicznej", 5000, 6, 10],
-    ["Jazda „na zderzaku" (nieprawidłowy odstęp)", 300, 0, 6],
+    ["Jazda „na zderzaku” nieprawidłowy odstęp", 300, 0, 6],
     ["Blokowanie skrzyżowania („na żółtym")", 300, 0, 4],
     ["Nieprawidłowy przejazd przez przejście dla pieszych", 350, 0, 7],
     ["Niepropuszczenie pieszego na pasach", 350, 0, 6],

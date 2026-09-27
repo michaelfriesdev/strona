@@ -640,40 +640,69 @@ function openAddVehicleToActionModal(actionId){
     return;
   }
 
-  const listHtml = available.map(v => `
-    <label class="check-row">
-      <input type="checkbox" value="${v.id}">
+const listHtml = available.map(v => {
+  const checkboxId = `vehicle-${v.id}`;
+
+  return `
+    <label class="check-row" for="${checkboxId}">
+      <div class="checkbox-wrapper-42">
+        <input id="${checkboxId}" type="checkbox" value="${esc(v.id)}">
+        <label class="cbx" for="${checkboxId}"></label>
+      </div>
+
       <div>
         <div class="check-row-title">${esc(v.code)}</div>
         <div class="check-row-sub">${esc(unitName(v.unitId))} · ${esc(v.type)}</div>
       </div>
     </label>
-  `).join("");
+  `;
+}).join("");
 
-  openModal({
-    title: `Dodaj pojazd — AKCJA #${action.number}`,
-    wide: true,
-    bodyHTML: `<div class="checklist">${listHtml}</div>`,
-    footButtons: [
-      { label: "ANULUJ", className: "btn-ghost" },
-      { label: "DODAJ ZAZNACZONE", className: "btn-primary", onClick: (modal) => {
-        const checked = [...modal.querySelectorAll('input[type="checkbox"]:checked')].map(c => c.value);
-        if(!checked.length){ toast("Zaznacz co najmniej jeden pojazd.", "danger"); return false; }
+openModal({
+  title: `Dodaj pojazd — AKCJA #${action.number}`,
+  wide: true,
+  bodyHTML: `<div class="checklist">${listHtml}</div>`,
+  footButtons: [
+    {
+      label: "ANULUJ",
+      className: "btn-ghost"
+    },
+    {
+      label: "DODAJ ZAZNACZONE",
+      className: "btn-primary",
+      onClick: (modal) => {
+        const checked = [...modal.querySelectorAll('input[type="checkbox"]:checked')]
+          .map(c => c.value);
+
+        if (!checked.length) {
+          toast("Zaznacz co najmniej jeden pojazd.", "danger");
+          return false;
+        }
+
         checked.forEach(vid => {
           const v = vehicleById(vid);
-          if(!v || action.vehicleIds.includes(vid)) return;
+
+          if (!v || action.vehicleIds.includes(vid)) return;
+
           action.vehicleIds.push(vid);
           v.status = STATUS.ZADYSPONOWANY;
           v.actionId = action.id;
-          logToAction(action, `Dodano ${v.code} do AKCJA #${action.number}`);
+
+          logToAction(
+            action,
+            `Dodano ${v.code} do AKCJA #${action.number}`
+          );
         });
-        saveVehicles(); saveActions();
+
+        saveVehicles();
+        saveActions();
         renderAll();
+
         toast("Pojazdy dodane do akcji.", "ok");
-      }}
-    ]
-  });
-}
+      }
+    }
+  ]
+});
 
 function finishActionFlow(actionId){
   const action = actionById(actionId);
@@ -731,15 +760,33 @@ function deleteActionFlow(actionId){
    ============================================================ */
 function openNewActionModal(){
   const available = DB.vehicles.filter(v => v.status === STATUS.DOSTEPNY);
-  const listHtml = available.length ? available.map(v => `
-    <label class="check-row">
-      <input type="checkbox" value="${v.id}">
-      <div>
-        <div class="check-row-title">${esc(v.code)}</div>
-        <div class="check-row-sub">${esc(unitName(v.unitId))} · ${esc(v.type)}</div>
+
+  const listHtml = available.length ? available.map(v => {
+    const checkboxId = `vehicle-${v.id}`;
+
+    return `
+      <div class="check-row">
+        <div class="checkbox-wrapper-42">
+          <input
+            id="${checkboxId}"
+            type="checkbox"
+            value="${v.id}"
+          >
+          <label class="cbx" for="${checkboxId}"></label>
+        </div>
+
+        <label class="check-row-info" for="${checkboxId}">
+          <div>
+            <div class="check-row-title">${esc(v.code)}</div>
+            <div class="check-row-sub">${esc(unitName(v.unitId))} · ${esc(v.type)}</div>
+          </div>
+        </label>
       </div>
-    </label>
-  `).join("") : `<div class="empty-state">Brak dostępnych pojazdów — akcję można utworzyć, a pojazdy dodać później.</div>`;
+    `;
+  }).join("") : `<div class="empty-state">Brak dostępnych pojazdów — akcję można utworzyć, a pojazdy dodać później.</div>`;
+}
+
+
 
   const bodyHTML = `
     <div class="form-group">

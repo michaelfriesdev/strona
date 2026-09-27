@@ -1,8 +1,6 @@
-
-
 (function(){
 "use strict";
-
+ 
 const LS = {
   UNITS: "sd01_units",
   VEHICLES: "sd01_vehicles",
@@ -14,7 +12,7 @@ const LS = {
   ACTION_COUNTER: "sd01_action_counter",
   SEEDED: "sd01_seeded"
 };
-
+ 
 const STATUS = {
   DOSTEPNY: "DOSTEPNY",
   ZADYSPONOWANY: "ZADYSPONOWANY",
@@ -22,7 +20,7 @@ const STATUS = {
   PRZEDYSPONOWANY: "PRZEDYSPONOWANY",
   NIEDOSTEPNY: "NIEDOSTEPNY"
 };
-
+ 
 const STATUS_LABEL = {
   DOSTEPNY: "Dostępny",
   ZADYSPONOWANY: "Zadysponowany",
@@ -30,9 +28,9 @@ const STATUS_LABEL = {
   PRZEDYSPONOWANY: "Przedysponowany",
   NIEDOSTEPNY: "Niedostępny"
 };
-
+ 
 const ACTIVE_STATUSES = [STATUS.ZADYSPONOWANY, STATUS.W_AKCJI, STATUS.PRZEDYSPONOWANY];
-
+ 
 /* ============================================================
    2. STAN APLIKACJI
    ============================================================ */
@@ -44,14 +42,14 @@ let DB = {
   profiles: [],
   activeProfileId: null
 };
-
+ 
 let UI = {
   view: "dashboard",
   vehicleUnitFilter: "ALL",
   currentActionId: null,
   currentHistoryId: null
 };
-
+ 
 /* ============================================================
    3. STORAGE HELPERS
    ============================================================ */
@@ -75,14 +73,14 @@ function safeSet(key, value){
     return false;
   }
 }
-
+ 
 function saveUnits(){ safeSet(LS.UNITS, DB.units); }
 function saveVehicles(){ safeSet(LS.VEHICLES, DB.vehicles); }
 function saveActions(){ safeSet(LS.ACTIONS, DB.actions); }
 function saveHistory(){ safeSet(LS.HISTORY, DB.history); }
 function saveProfiles(){ safeSet(LS.PROFILES, DB.profiles); }
 function saveActiveProfile(){ safeSet(LS.ACTIVE_PROFILE, DB.activeProfileId); }
-
+ 
 /* ============================================================
    4. UTIL
    ============================================================ */
@@ -118,7 +116,7 @@ function nextActionNumber(){
   safeSet(LS.ACTION_COUNTER, counter);
   return String(counter).padStart(4, "0");
 }
-
+ 
 /* ============================================================
    5. DANE DEMONSTRACYJNE
    ============================================================ */
@@ -128,26 +126,26 @@ function seedDemoData(){
   const u3 = { id: uid("u"), name: "OSP Workowice" };
   const u4 = { id: uid("u"), name: "OSP Rudniki" };
   DB.units = [u1, u2, u3, u4];
-
+ 
   DB.vehicles = [
     { id: uid("v"), code: "GBA 301[G]21", type: "GBA", unitId: u1.id, status: STATUS.DOSTEPNY, info: "", actionId: null },
     { id: uid("v"), code: "GCBA 301[G]25", type: "GCBA", unitId: u1.id, status: STATUS.DOSTEPNY, info: "", actionId: null },
     { id: uid("v"), code: "SLRR 301[G]90", type: "SLRR", unitId: u2.id, status: STATUS.DOSTEPNY, info: "", actionId: null },
     { id: uid("v"), code: "GBA 359[G]12", type: "GBA", unitId: u4.id, status: STATUS.DOSTEPNY, info: "", actionId: null }
   ];
-
+ 
   DB.actions = [];
   DB.history = [];
-
+ 
   const p1 = { id: uid("p"), name: "Dyspozytor JRG 1", desc: "Stanowisko podstawowe", created: todayDisplay() };
   DB.profiles = [p1];
   DB.activeProfileId = p1.id;
-
+ 
   saveUnits(); saveVehicles(); saveActions(); saveHistory(); saveProfiles(); saveActiveProfile();
   safeSet(LS.HISTORY_DAY, todayISO());
   safeSet(LS.SEEDED, true);
 }
-
+ 
 /* ============================================================
    6. INICJALIZACJA / WCZYTYWANIE
    ============================================================ */
@@ -163,7 +161,7 @@ function loadData(){
   DB.history = safeGet(LS.HISTORY, []);
   DB.profiles = safeGet(LS.PROFILES, []);
   DB.activeProfileId = safeGet(LS.ACTIVE_PROFILE, null);
-
+ 
   if(!DB.profiles.length){
     const p = { id: uid("p"), name: "Dyspozytor", desc: "", created: todayDisplay() };
     DB.profiles = [p];
@@ -174,10 +172,10 @@ function loadData(){
     DB.activeProfileId = DB.profiles[0].id;
     saveActiveProfile();
   }
-
+ 
   checkDailyReset();
 }
-
+ 
 function checkDailyReset(){
   const storedDay = safeGet(LS.HISTORY_DAY, null);
   const today = todayISO();
@@ -187,7 +185,7 @@ function checkDailyReset(){
     safeSet(LS.HISTORY_DAY, today);
   }
 }
-
+ 
 /* ============================================================
    7. LOOKUP HELPERS
    ============================================================ */
@@ -196,7 +194,7 @@ function vehicleById(id){ return DB.vehicles.find(v => v.id === id); }
 function actionById(id){ return DB.actions.find(a => a.id === id); }
 function unitName(id){ const u = unitById(id); return u ? u.name : "—"; }
 function profileById(id){ return DB.profiles.find(p => p.id === id); }
-
+ 
 function vehiclesOfAction(action){
   return action.vehicleIds.map(vehicleById).filter(Boolean);
 }
@@ -207,11 +205,11 @@ function unitsOfAction(action){
 function vehiclesOfUnit(unitId){
   return DB.vehicles.filter(v => v.unitId === unitId);
 }
-
+ 
 function logToAction(action, text){
   action.history.push({ time: nowTimeStr(), text: text });
 }
-
+ 
 /* ============================================================
    8. TOASTS
    ============================================================ */
@@ -223,7 +221,7 @@ function toast(msg, kind){
   stack.appendChild(el);
   setTimeout(() => { el.remove(); }, 3600);
 }
-
+ 
 /* ============================================================
    9. MODAL SYSTEM
    ============================================================ */
@@ -246,7 +244,7 @@ function openModal(opts){
   const bodyEl = modal.querySelector(".modal-body");
   if(typeof opts.bodyHTML === "string"){ bodyEl.innerHTML = opts.bodyHTML; }
   else if(opts.bodyHTML instanceof Node){ bodyEl.appendChild(opts.bodyHTML); }
-
+ 
   const footEl = modal.querySelector(".modal-foot");
   (opts.footButtons || []).forEach(btnDef => {
     const b = document.createElement("button");
@@ -259,23 +257,23 @@ function openModal(opts){
     });
     footEl.appendChild(b);
   });
-
+ 
   function closeHandler(e){
     if(e.target === backdrop) closeModal(backdrop);
   }
   backdrop.addEventListener("click", closeHandler);
   modal.querySelector(".modal-close").addEventListener("click", () => closeModal(backdrop));
-
+ 
   root.appendChild(backdrop);
   const firstInput = modal.querySelector("input, select, textarea");
   if(firstInput) setTimeout(() => firstInput.focus(), 30);
-
+ 
   return { backdrop, modal, bodyEl, close: () => closeModal(backdrop) };
 }
 function closeModal(backdrop){
   backdrop.remove();
 }
-
+ 
 function confirmModal(title, message, onConfirm, confirmLabel){
   openModal({
     title: title,
@@ -286,7 +284,48 @@ function confirmModal(title, message, onConfirm, confirmLabel){
     ]
   });
 }
-
+ 
+/* ============================================================
+   9b. STYLED CHECKBOX HELPER
+   ------------------------------------------------------------
+   Every checklist in the app (new-action vehicle picker, add-
+   vehicle-to-action picker, and any future ones) renders through
+   this single helper so the custom checkbox markup/behaviour
+   (checkbox-wrapper-42 + .cbx) stays identical everywhere.
+   ============================================================ */
+function renderCheckRow(opts){
+  // opts: {id, title, sub, value}
+  const checkboxId = `chk-${opts.id}`;
+  return `
+    <label class="check-row" for="${checkboxId}">
+      <div class="checkbox-wrapper-42">
+        <input id="${checkboxId}" type="checkbox" value="${esc(opts.value)}">
+        <label class="cbx" for="${checkboxId}"></label>
+      </div>
+      <div>
+        <div class="check-row-title">${esc(opts.title)}</div>
+        <div class="check-row-sub">${esc(opts.sub || "")}</div>
+      </div>
+    </label>
+  `;
+}
+ 
+function renderVehicleChecklist(vehicles){
+  if(!vehicles.length){
+    return `<div class="empty-state">Brak dostępnych pojazdów.</div>`;
+  }
+  return `<div class="checklist">${vehicles.map(v => renderCheckRow({
+    id: v.id,
+    title: v.code,
+    sub: `${unitName(v.unitId)} · ${v.type}`,
+    value: v.id
+  })).join("")}</div>`;
+}
+ 
+function getCheckedValues(modal){
+  return [...modal.querySelectorAll('input[type="checkbox"]:checked')].map(c => c.value);
+}
+ 
 /* ============================================================
    10. NAWIGACJA
    ============================================================ */
@@ -295,32 +334,32 @@ function switchView(viewName){
   document.querySelectorAll(".view").forEach(v => v.classList.add("hidden"));
   const target = document.getElementById("view-" + viewName);
   if(target) target.classList.remove("hidden");
-
+ 
   document.querySelectorAll(".nav-item").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.view === viewName);
   });
-
+ 
   closeMobileNav();
   renderAll();
 }
-
+ 
 function closeMobileNav(){
   document.getElementById("sidebar").classList.remove("open");
   document.getElementById("navOverlay").classList.remove("show");
 }
-
+ 
 /* ============================================================
    11. RENDER — DASHBOARD
    ============================================================ */
 function statusChip(status){
   return `<span class="status-chip status-${status}">${STATUS_LABEL[status]}</span>`;
 }
-
+ 
 function renderStatRow(){
   const total = DB.vehicles.length;
   const counts = { DOSTEPNY:0, ZADYSPONOWANY:0, W_AKCJI:0, PRZEDYSPONOWANY:0, NIEDOSTEPNY:0 };
   DB.vehicles.forEach(v => { counts[v.status] = (counts[v.status]||0) + 1; });
-
+ 
   const cards = [
     { lbl: "Pojazdy ogółem", val: total, dot: "" },
     { lbl: "Dostępne", val: counts.DOSTEPNY, dot: "dot-ok" },
@@ -335,10 +374,10 @@ function renderStatRow(){
     </div>
   `).join("");
 }
-
+ 
 function renderDashboard(){
   renderStatRow();
-
+ 
   const activeBox = document.getElementById("dashActiveActions");
   if(!DB.actions.length){
     activeBox.innerHTML = `<div class="empty-state">Brak aktywnych akcji. Kliknij „+ NOWY WYJAZD”, aby utworzyć zgłoszenie.</div>`;
@@ -356,7 +395,7 @@ function renderDashboard(){
       row.addEventListener("click", () => openActionDetail(DB.actions.slice(-5).reverse()[i].id));
     });
   }
-
+ 
   const vehBox = document.getElementById("dashVehicles");
   if(!DB.vehicles.length){
     vehBox.innerHTML = `<div class="empty-state">Brak zarejestrowanych pojazdów.</div>`;
@@ -371,7 +410,7 @@ function renderDashboard(){
       </div>
     `).join("");
   }
-
+ 
   const logBox = document.getElementById("dashLog");
   const allLogs = [];
   DB.actions.forEach(a => a.history.forEach(h => allLogs.push({ time: h.time, text: h.text })));
@@ -382,12 +421,12 @@ function renderDashboard(){
       <div class="log-line"><span class="t">${l.time}</span>${esc(l.text)}</div>
     `).join("");
   }
-
+ 
   const badge = document.getElementById("navBadgeActions");
   badge.textContent = DB.actions.length;
   badge.dataset.zero = DB.actions.length === 0 ? "1" : "0";
 }
-
+ 
 /* ============================================================
    12. RENDER — AKCJE (lista)
    ============================================================ */
@@ -418,7 +457,7 @@ function renderActionsList(){
     card.addEventListener("click", () => openActionDetail(card.dataset.actionId));
   });
 }
-
+ 
 /* ============================================================
    13. WIDOK SZCZEGÓŁOWY AKCJI
    ============================================================ */
@@ -426,27 +465,27 @@ function openActionDetail(actionId){
   UI.currentActionId = actionId;
   switchView("action-detail");
 }
-
+ 
 function renderActionDetail(){
   const action = actionById(UI.currentActionId);
   const body = document.getElementById("actionDetailBody");
   const btnBox = document.getElementById("detailActionButtons");
-
+ 
   if(!action){
     body.innerHTML = `<div class="empty-state">Nie znaleziono akcji. Mogła zostać zakończona lub usunięta.</div>`;
     btnBox.innerHTML = "";
     return;
   }
-
+ 
   btnBox.innerHTML = `
     <button class="btn" id="btnAddVehicleToAction">+ DODAJ POJAZD</button>
     <button class="btn btn-primary" id="btnFinishAction">ZAKOŃCZ AKCJĘ</button>
     <button class="btn btn-outline-danger" id="btnDeleteAction">USUŃ AKCJĘ</button>
   `;
-
+ 
   const vehicles = vehiclesOfAction(action);
   const units = unitsOfAction(action);
-
+ 
   body.innerHTML = `
     <div class="detail-hero">
       <div class="detail-hero-top">
@@ -463,18 +502,18 @@ function renderActionDetail(){
         <div class="detail-fact"><div class="k">Jednostki</div><div class="v">${esc(units.join(", ") || "—")}</div></div>
       </div>
     </div>
-
+ 
     <div class="panel">
       <div class="panel-head"><h2>Zadysponowane pojazdy</h2></div>
       <div class="panel-body" id="actionVehiclesList"></div>
     </div>
-
+ 
     <div class="panel">
       <div class="panel-head"><h2>Historia zmian</h2></div>
       <div class="panel-body" id="actionHistoryList"></div>
     </div>
   `;
-
+ 
   const vehList = document.getElementById("actionVehiclesList");
   if(!vehicles.length){
     vehList.innerHTML = `<div class="empty-state">Brak pojazdów przypisanych do tej akcji.</div>`;
@@ -495,7 +534,7 @@ function renderActionDetail(){
       </div>
     `).join("");
   }
-
+ 
   const histList = document.getElementById("actionHistoryList");
   if(!action.history.length){
     histList.innerHTML = `<div class="empty-state">Brak wpisów.</div>`;
@@ -504,20 +543,20 @@ function renderActionDetail(){
       <div class="log-line"><span class="t">${h.time}</span>${esc(h.text)}</div>
     `).join("");
   }
-
+ 
   // bind buttons
   document.getElementById("btnAddVehicleToAction").addEventListener("click", () => openAddVehicleToActionModal(action.id));
   document.getElementById("btnFinishAction").addEventListener("click", () => finishActionFlow(action.id));
   document.getElementById("btnDeleteAction").addEventListener("click", () => deleteActionFlow(action.id));
-
+ 
   vehList.querySelectorAll("[data-onscene]").forEach(b => b.addEventListener("click", () => setVehicleOnScene(action.id, b.dataset.onscene)));
   vehList.querySelectorAll("[data-redispatch]").forEach(b => b.addEventListener("click", () => openRedispatchModal(action.id, b.dataset.redispatch)));
   vehList.querySelectorAll("[data-remove]").forEach(b => b.addEventListener("click", () => removeVehicleFromAction(action.id, b.dataset.remove, false)));
   vehList.querySelectorAll("[data-return]").forEach(b => b.addEventListener("click", () => returnVehicleFlow(action.id, b.dataset.return)));
-
+ 
   document.getElementById("btnBackFromDetail").onclick = () => switchView("actions");
 }
-
+ 
 /* ---- akcje na pojazdach w akcji ---- */
 function setVehicleOnScene(actionId, vehicleId){
   const action = actionById(actionId);
@@ -529,7 +568,7 @@ function setVehicleOnScene(actionId, vehicleId){
   renderAll();
   toast(`${v.code} oznaczony jako W AKCJI`, "ok");
 }
-
+ 
 function removeVehicleFromAction(actionId, vehicleId, silent){
   const action = actionById(actionId);
   const v = vehicleById(vehicleId);
@@ -542,7 +581,7 @@ function removeVehicleFromAction(actionId, vehicleId, silent){
   renderAll();
   if(!silent) toast(`${v.code} usunięty z akcji, status: DOSTĘPNY`, "ok");
 }
-
+ 
 function returnVehicleFlow(actionId, vehicleId){
   const action = actionById(actionId);
   const v = vehicleById(vehicleId);
@@ -563,17 +602,17 @@ function returnVehicleFlow(actionId, vehicleId){
     "POTWIERDŹ POWRÓT"
   );
 }
-
+ 
 function openRedispatchModal(fromActionId, vehicleId){
   const v = vehicleById(vehicleId);
   const fromAction = actionById(fromActionId);
   const options = DB.actions.filter(a => a.id !== fromActionId);
-
+ 
   if(!options.length){
     toast("Brak innych aktywnych akcji do przedysponowania.", "danger");
     return;
   }
-
+ 
   const listHtml = options.map(a => `
     <label class="radio-row">
       <input type="radio" name="redispatchTarget" value="${a.id}">
@@ -583,8 +622,8 @@ function openRedispatchModal(fromActionId, vehicleId){
       </div>
     </label>
   `).join("");
-
-  const m = openModal({
+ 
+  openModal({
     title: `Przedysponuj ${v.code}`,
     bodyHTML: `
       <div class="form-group">
@@ -606,31 +645,31 @@ function openRedispatchModal(fromActionId, vehicleId){
     ]
   });
 }
-
+ 
 function redispatchVehicle(fromActionId, toActionId, vehicleId){
   const fromAction = actionById(fromActionId);
   const toAction = actionById(toActionId);
   const v = vehicleById(vehicleId);
   if(!fromAction || !toAction || !v) return;
-
+ 
   fromAction.vehicleIds = fromAction.vehicleIds.filter(id => id !== vehicleId);
   toAction.vehicleIds.push(vehicleId);
   v.status = STATUS.PRZEDYSPONOWANY;
   v.actionId = toAction.id;
-
+ 
   const t = nowTimeStr();
   logToAction(fromAction, `${v.code} przedysponowany z AKCJA #${fromAction.number} do AKCJA #${toAction.number} (godz. ${t})`);
   logToAction(toAction, `${v.code} przedysponowany z AKCJA #${fromAction.number} do AKCJA #${toAction.number} (godz. ${t})`);
-
+ 
   saveVehicles(); saveActions();
   renderAll();
   toast(`${v.code} przedysponowany do AKCJA #${toAction.number}`, "ok");
 }
-
+ 
 function openAddVehicleToActionModal(actionId){
   const action = actionById(actionId);
   const available = DB.vehicles.filter(v => v.status === STATUS.DOSTEPNY && !action.vehicleIds.includes(v.id));
-
+ 
   if(!available.length){
     openModal({
       title: "Dodaj pojazd do akcji",
@@ -639,71 +678,42 @@ function openAddVehicleToActionModal(actionId){
     });
     return;
   }
-
-const listHtml = available.map(v => {
-  const checkboxId = `vehicle-${v.id}`;
-
-  return `
-    <label class="check-row" for="${checkboxId}">
-      <div class="checkbox-wrapper-42">
-        <input id="${checkboxId}" type="checkbox" value="${esc(v.id)}">
-        <label class="cbx" for="${checkboxId}"></label>
-      </div>
-
-      <div>
-        <div class="check-row-title">${esc(v.code)}</div>
-        <div class="check-row-sub">${esc(unitName(v.unitId))} · ${esc(v.type)}</div>
-      </div>
-    </label>
-  `;
-}).join("");
-
-openModal({
-  title: `Dodaj pojazd — AKCJA #${action.number}`,
-  wide: true,
-  bodyHTML: `<div class="checklist">${listHtml}</div>`,
-  footButtons: [
-    {
-      label: "ANULUJ",
-      className: "btn-ghost"
-    },
-    {
-      label: "DODAJ ZAZNACZONE",
-      className: "btn-primary",
-      onClick: (modal) => {
-        const checked = [...modal.querySelectorAll('input[type="checkbox"]:checked')]
-          .map(c => c.value);
-
-        if (!checked.length) {
+ 
+  openModal({
+    title: `Dodaj pojazd — AKCJA #${action.number}`,
+    wide: true,
+    bodyHTML: renderVehicleChecklist(available),
+    footButtons: [
+      { label: "ANULUJ", className: "btn-ghost" },
+      { label: "DODAJ ZAZNACZONE", className: "btn-primary", onClick: (modal) => {
+        const checked = getCheckedValues(modal);
+ 
+        if(!checked.length){
           toast("Zaznacz co najmniej jeden pojazd.", "danger");
           return false;
         }
-
+ 
         checked.forEach(vid => {
           const v = vehicleById(vid);
-
-          if (!v || action.vehicleIds.includes(vid)) return;
-
+          if(!v || action.vehicleIds.includes(vid)) return;
+ 
           action.vehicleIds.push(vid);
           v.status = STATUS.ZADYSPONOWANY;
           v.actionId = action.id;
-
-          logToAction(
-            action,
-            `Dodano ${v.code} do AKCJA #${action.number}`
-          );
+ 
+          logToAction(action, `Dodano ${v.code} do AKCJA #${action.number}`);
         });
-
+ 
         saveVehicles();
         saveActions();
         renderAll();
-
+ 
         toast("Pojazdy dodane do akcji.", "ok");
-      }
-    }
-  ]
-});
-
+      }}
+    ]
+  });
+}
+ 
 function finishActionFlow(actionId){
   const action = actionById(actionId);
   if(!action) return;
@@ -717,7 +727,7 @@ function finishActionFlow(actionId){
       });
       const t = nowTimeStr();
       logToAction(action, `Zakończono AKCJĘ #${action.number} (godz. ${t})`);
-
+ 
       DB.actions = DB.actions.filter(a => a.id !== actionId);
       DB.history.push({
         ...action,
@@ -726,7 +736,7 @@ function finishActionFlow(actionId){
         dateDisplay: todayDisplay(),
         vehicleSnapshot: vehiclesOfAction(action).map(v => ({ code: v.code, unit: unitName(v.unitId) }))
       });
-
+ 
       saveVehicles(); saveActions(); saveHistory();
       switchView("actions");
       toast(`AKCJA #${action.number} zakończona i przeniesiona do historii.`, "ok");
@@ -734,7 +744,7 @@ function finishActionFlow(actionId){
     "ZAKOŃCZ AKCJĘ"
   );
 }
-
+ 
 function deleteActionFlow(actionId){
   const action = actionById(actionId);
   if(!action) return;
@@ -754,40 +764,14 @@ function deleteActionFlow(actionId){
     "USUŃ AKCJĘ"
   );
 }
-
+ 
 /* ============================================================
    14. NOWY WYJAZD (MODAL)
    ============================================================ */
 function openNewActionModal(){
   const available = DB.vehicles.filter(v => v.status === STATUS.DOSTEPNY);
-
-  const listHtml = available.length ? available.map(v => {
-    const checkboxId = `vehicle-${v.id}`;
-
-    return `
-      <div class="check-row">
-        <div class="checkbox-wrapper-42">
-          <input
-            id="${checkboxId}"
-            type="checkbox"
-            value="${v.id}"
-          >
-          <label class="cbx" for="${checkboxId}"></label>
-        </div>
-
-        <label class="check-row-info" for="${checkboxId}">
-          <div>
-            <div class="check-row-title">${esc(v.code)}</div>
-            <div class="check-row-sub">${esc(unitName(v.unitId))} · ${esc(v.type)}</div>
-          </div>
-        </label>
-      </div>
-    `;
-  }).join("") : `<div class="empty-state">Brak dostępnych pojazdów — akcję można utworzyć, a pojazdy dodać później.</div>`;
-}
-
-
-
+  const listHtml = renderVehicleChecklist(available);
+ 
   const bodyHTML = `
     <div class="form-group">
       <label for="fLocation">Lokalizacja</label>
@@ -803,10 +787,10 @@ function openNewActionModal(){
     </div>
     <div class="form-group">
       <label>Pojazdy do zadysponowania</label>
-      <div class="checklist">${listHtml}</div>
+      ${listHtml}
     </div>
   `;
-
+ 
   openModal({
     title: "Nowy wyjazd",
     wide: true,
@@ -821,8 +805,8 @@ function openNewActionModal(){
           toast("Podaj lokalizację i rodzaj zdarzenia.", "danger");
           return false;
         }
-        const checked = [...modal.querySelectorAll('input[type="checkbox"]:checked')].map(c => c.value);
-
+        const checked = getCheckedValues(modal);
+ 
         const action = {
           id: uid("a"),
           number: nextActionNumber(),
@@ -833,7 +817,7 @@ function openNewActionModal(){
           history: []
         };
         logToAction(action, `Utworzono AKCJĘ #${action.number}`);
-
+ 
         checked.forEach(vid => {
           const v = vehicleById(vid);
           if(!v) return;
@@ -842,7 +826,7 @@ function openNewActionModal(){
           v.actionId = action.id;
           logToAction(action, `Dodano ${v.code} do AKCJA #${action.number}`);
         });
-
+ 
         DB.actions.push(action);
         saveActions(); saveVehicles();
         renderAll();
@@ -852,7 +836,7 @@ function openNewActionModal(){
     ]
   });
 }
-
+ 
 /* ============================================================
    15. RENDER — POJAZDY
    ============================================================ */
@@ -869,18 +853,18 @@ function renderUnitFilterRow(){
     });
   });
 }
-
+ 
 function renderVehicles(){
   renderUnitFilterRow();
   const grid = document.getElementById("vehiclesGrid");
   let list = DB.vehicles;
   if(UI.vehicleUnitFilter !== "ALL") list = list.filter(v => v.unitId === UI.vehicleUnitFilter);
-
+ 
   if(!list.length){
     grid.innerHTML = `<div class="empty-state">Brak pojazdów spełniających kryteria filtra.</div>`;
     return;
   }
-
+ 
   grid.innerHTML = list.map(v => {
     const inAction = v.actionId ? actionById(v.actionId) : null;
     return `
@@ -903,12 +887,12 @@ function renderVehicles(){
       </div>
     </div>
   `;}).join("");
-
+ 
   grid.querySelectorAll("[data-edit-vehicle]").forEach(b => b.addEventListener("click", (e) => { e.stopPropagation(); openEditVehicleModal(b.dataset.editVehicle); }));
   grid.querySelectorAll("[data-del-vehicle]").forEach(b => b.addEventListener("click", (e) => { e.stopPropagation(); deleteVehicleFlow(b.dataset.delVehicle); }));
   grid.querySelectorAll("[data-goto-action]").forEach(b => b.addEventListener("click", (e) => { e.stopPropagation(); openActionDetail(b.dataset.gotoAction); }));
 }
-
+ 
 function openAddVehicleModal(){
   if(!DB.units.length){
     toast("Najpierw dodaj przynajmniej jedną jednostkę.", "danger");
@@ -953,14 +937,14 @@ function openAddVehicleModal(){
     ]
   });
 }
-
+ 
 function openEditVehicleModal(vehicleId){
   const v = vehicleById(vehicleId);
   if(!v) return;
   const unitOptions = DB.units.map(u => `<option value="${u.id}" ${u.id===v.unitId?"selected":""}>${esc(u.name)}</option>`).join("");
   const statusOptions = Object.keys(STATUS).map(s => `<option value="${s}" ${s===v.status?"selected":""}>${STATUS_LABEL[s]}</option>`).join("");
   const lockedStatus = !!v.actionId;
-
+ 
   openModal({
     title: `Edytuj pojazd — ${v.code}`,
     bodyHTML: `
@@ -1006,7 +990,7 @@ function openEditVehicleModal(vehicleId){
     ]
   });
 }
-
+ 
 function deleteVehicleFlow(vehicleId){
   const v = vehicleById(vehicleId);
   if(!v) return;
@@ -1029,7 +1013,7 @@ function deleteVehicleFlow(vehicleId){
     }
   );
 }
-
+ 
 /* ============================================================
    16. RENDER — JEDNOSTKI
    ============================================================ */
@@ -1063,7 +1047,7 @@ function renderUnits(){
       </div>
     </div>
   `;}).join("");
-
+ 
   grid.querySelectorAll("[data-rename-unit]").forEach(b => b.addEventListener("click", () => openRenameUnitModal(b.dataset.renameUnit)));
   grid.querySelectorAll("[data-del-unit]").forEach(b => b.addEventListener("click", () => deleteUnitFlow(b.dataset.delUnit)));
   grid.querySelectorAll("[data-filter-unit]").forEach(b => b.addEventListener("click", () => {
@@ -1071,7 +1055,7 @@ function renderUnits(){
     switchView("vehicles");
   }));
 }
-
+ 
 function openAddUnitModal(){
   openModal({
     title: "Dodaj jednostkę",
@@ -1094,7 +1078,7 @@ function openAddUnitModal(){
     ]
   });
 }
-
+ 
 function openRenameUnitModal(unitId){
   const u = unitById(unitId);
   if(!u) return;
@@ -1119,7 +1103,7 @@ function openRenameUnitModal(unitId){
     ]
   });
 }
-
+ 
 function deleteUnitFlow(unitId){
   const u = unitById(unitId);
   if(!u) return;
@@ -1145,7 +1129,7 @@ function deleteUnitFlow(unitId){
     toast(`Jednostka ${u.name} usunięta.`, "ok");
   });
 }
-
+ 
 /* ============================================================
    17. RENDER — HISTORIA
    ============================================================ */
@@ -1179,7 +1163,7 @@ function renderHistory(){
     });
   });
 }
-
+ 
 function renderHistoryDetail(){
   const a = DB.history.find(h => h.id === UI.currentHistoryId);
   const body = document.getElementById("historyDetailBody");
@@ -1216,7 +1200,7 @@ function renderHistoryDetail(){
   `;
   document.getElementById("btnBackFromHistoryDetail").onclick = () => switchView("history");
 }
-
+ 
 /* ============================================================
    18. RENDER — PROFILE
    ============================================================ */
@@ -1241,7 +1225,7 @@ function renderProfiles(){
       </div>
     </div>
   `).join("");
-
+ 
   grid.querySelectorAll("[data-switch-profile]").forEach(b => b.addEventListener("click", () => {
     DB.activeProfileId = b.dataset.switchProfile;
     saveActiveProfile();
@@ -1251,7 +1235,7 @@ function renderProfiles(){
   grid.querySelectorAll("[data-rename-profile]").forEach(b => b.addEventListener("click", () => openEditProfileModal(b.dataset.renameProfile)));
   grid.querySelectorAll("[data-del-profile]").forEach(b => b.addEventListener("click", () => deleteProfileFlow(b.dataset.delProfile)));
 }
-
+ 
 function openAddProfileModal(){
   openModal({
     title: "Nowy profil",
@@ -1280,7 +1264,7 @@ function openAddProfileModal(){
     ]
   });
 }
-
+ 
 function openEditProfileModal(profileId){
   const p = profileById(profileId);
   if(!p) return;
@@ -1310,7 +1294,7 @@ function openEditProfileModal(profileId){
     ]
   });
 }
-
+ 
 function deleteProfileFlow(profileId){
   if(DB.profiles.length <= 1){
     toast("Nie można usunąć jedynego profilu.", "danger");
@@ -1329,7 +1313,7 @@ function deleteProfileFlow(profileId){
     toast(`Profil ${p.name} usunięty.`, "ok");
   });
 }
-
+ 
 /* ============================================================
    19. RENDER — USTAWIENIA
    ============================================================ */
@@ -1340,7 +1324,7 @@ function renderSettings(){
     <div class="stat-card"><div class="stat-num">${DB.actions.length}</div><div class="stat-lbl">Aktywne akcje</div></div>
   `;
 }
-
+ 
 function bindSettingsActions(){
   document.querySelectorAll("[data-clear]").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -1371,7 +1355,7 @@ function bindSettingsActions(){
     );
   });
 }
-
+ 
 function handleClear(kind){
   const map = {
     history: {
@@ -1413,7 +1397,7 @@ function handleClear(kind){
     toast(cfg.title + " — wykonano.", "ok");
   });
 }
-
+ 
 /* ============================================================
    20. RENDER GLOBALNY / PROFIL W SIDEBARZE / ZEGAR
    ============================================================ */
@@ -1423,7 +1407,7 @@ function renderSidebarProfile(){
   document.getElementById("activeProfileName").textContent = name;
   document.getElementById("profileAvatar").textContent = name.charAt(0).toUpperCase();
 }
-
+ 
 function tickClock(){
   const t = nowFull();
   const sc = document.getElementById("sidebarClock");
@@ -1431,7 +1415,7 @@ function tickClock(){
   if(sc) sc.textContent = t;
   if(mc) mc.textContent = t.slice(0,5);
 }
-
+ 
 function renderAll(){
   renderSidebarProfile();
   switch(UI.view){
@@ -1452,7 +1436,7 @@ function renderAll(){
     badge.dataset.zero = DB.actions.length === 0 ? "1" : "0";
   }
 }
-
+ 
 /* ============================================================
    21. BINDOWANIE ZDARZEŃ GLOBALNYCH
    ============================================================ */
@@ -1461,29 +1445,29 @@ function bindGlobalEvents(){
     btn.addEventListener("click", () => switchView(btn.dataset.view));
   });
   document.getElementById("activeProfileBox").addEventListener("click", () => switchView("profiles"));
-
+ 
   document.getElementById("btnNewActionMain").addEventListener("click", openNewActionModal);
   document.getElementById("btnNewActionActions").addEventListener("click", openNewActionModal);
   document.getElementById("btnAddVehicle").addEventListener("click", openAddVehicleModal);
   document.getElementById("btnAddUnit").addEventListener("click", openAddUnitModal);
   document.getElementById("btnAddProfile").addEventListener("click", openAddProfileModal);
-
+ 
   document.getElementById("menuToggle").addEventListener("click", () => {
     document.getElementById("sidebar").classList.toggle("open");
     document.getElementById("navOverlay").classList.toggle("show");
   });
   document.getElementById("navOverlay").addEventListener("click", closeMobileNav);
-
+ 
   document.addEventListener("keydown", (e) => {
     if(e.key === "Escape"){
       const backdrops = document.querySelectorAll(".modal-backdrop");
       if(backdrops.length) closeModal(backdrops[backdrops.length - 1]);
     }
   });
-
+ 
   bindSettingsActions();
 }
-
+ 
 /* ============================================================
    22. START
    ============================================================ */
@@ -1496,7 +1480,8 @@ function init(){
   // codzienna kontrola resetu historii (na wypadek pozostawienia karty otwartej przez północ)
   setInterval(checkDailyReset, 60000);
 }
-
+ 
 document.addEventListener("DOMContentLoaded", init);
-
+ 
 })();
+ 

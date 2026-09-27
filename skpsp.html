@@ -1,1 +1,262 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SD-01 &middot; Stanowisko Dyspozytorskie</title>
+<link rel="stylesheet" href="skpsp.css">
+</head>
+<body>
 
+<div class="app" id="app">
+
+  <!-- ============ MOBILE TOPBAR ============ -->
+  <header class="mobile-topbar">
+    <button class="icon-btn" id="menuToggle" aria-label="Menu">
+      <span class="burger"></span>
+    </button>
+    <div class="mobile-title">SD&#8209;01</div>
+    <div class="mobile-clock" id="mobileClock">--:--</div>
+  </header>
+
+  <div class="overlay" id="navOverlay"></div>
+
+  <!-- ============ SIDEBAR ============ -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-mark">SD</div>
+      <div class="brand-text">
+        <div class="brand-title">Stanowisko Dyspozytorskie</div>
+        <div class="brand-sub">konsola zarządzania</div>
+      </div>
+    </div>
+
+    <div class="sidebar-nav">
+      <button class="nav-item active" data-view="dashboard">
+        <span class="nav-ico">&#9635;</span> Dashboard
+      </button>
+      <button class="nav-item" data-view="actions">
+        <span class="nav-ico">&#9873;</span> Akcje
+        <span class="nav-badge" id="navBadgeActions">0</span>
+      </button>
+      <button class="nav-item" data-view="vehicles">
+        <span class="nav-ico">&#9881;</span> Pojazdy
+      </button>
+      <button class="nav-item" data-view="units">
+        <span class="nav-ico">&#9733;</span> Jednostki
+      </button>
+      <button class="nav-item" data-view="history">
+        <span class="nav-ico">&#8635;</span> Historia
+      </button>
+      <button class="nav-item" data-view="profiles">
+        <span class="nav-ico">&#9787;</span> Profile
+      </button>
+      <button class="nav-item" data-view="settings">
+        <span class="nav-ico">&#9881;&#65039;</span> Ustawienia
+      </button>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="active-profile-box" id="activeProfileBox" data-view="profiles">
+        <div class="profile-avatar" id="profileAvatar">D</div>
+        <div class="profile-meta">
+          <div class="profile-label">Aktywny profil</div>
+          <div class="profile-name" id="activeProfileName">—</div>
+        </div>
+      </div>
+      <div class="sidebar-clock" id="sidebarClock">--:--:--</div>
+    </div>
+  </nav>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+
+    <!-- ---------- DASHBOARD ---------- -->
+    <section class="view" id="view-dashboard">
+      <div class="view-header">
+        <div>
+          <h1>Dashboard</h1>
+          <p class="view-sub">Bieżący stan sił i środków</p>
+        </div>
+        <button class="btn btn-primary btn-lg" id="btnNewActionMain">+ NOWY WYJAZD</button>
+      </div>
+
+      <div class="stat-row" id="statRow"></div>
+
+      <div class="dash-grid">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Aktywne akcje</h2>
+            <button class="link-btn" data-view="actions">wszystkie &rarr;</button>
+          </div>
+          <div class="panel-body" id="dashActiveActions"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Pojazdy</h2>
+            <button class="link-btn" data-view="vehicles">wszystkie &rarr;</button>
+          </div>
+          <div class="panel-body" id="dashVehicles"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Ostatnie zdarzenia w logu</h2>
+        </div>
+        <div class="panel-body" id="dashLog"></div>
+      </div>
+    </section>
+
+    <!-- ---------- ACTIONS LIST ---------- -->
+    <section class="view hidden" id="view-actions">
+      <div class="view-header">
+        <div>
+          <h1>Akcje</h1>
+          <p class="view-sub">Aktywne wyjazdy jednostek</p>
+        </div>
+        <button class="btn btn-primary btn-lg" id="btnNewActionActions">+ NOWY WYJAZD</button>
+      </div>
+      <div class="cards-grid" id="actionsGrid"></div>
+    </section>
+
+    <!-- ---------- ACTION DETAIL ---------- -->
+    <section class="view hidden" id="view-action-detail">
+      <div class="view-header">
+        <div>
+          <button class="btn btn-ghost" id="btnBackFromDetail">&larr; POWRÓT</button>
+        </div>
+        <div class="detail-actions" id="detailActionButtons"></div>
+      </div>
+      <div id="actionDetailBody"></div>
+    </section>
+
+    <!-- ---------- VEHICLES ---------- -->
+    <section class="view hidden" id="view-vehicles">
+      <div class="view-header">
+        <div>
+          <h1>Pojazdy</h1>
+          <p class="view-sub">Wykaz i statusy pojazdów</p>
+        </div>
+        <button class="btn btn-primary btn-lg" id="btnAddVehicle">+ DODAJ POJAZD</button>
+      </div>
+      <div class="filter-row" id="unitFilterRow"></div>
+      <div class="cards-grid" id="vehiclesGrid"></div>
+    </section>
+
+    <!-- ---------- UNITS ---------- -->
+    <section class="view hidden" id="view-units">
+      <div class="view-header">
+        <div>
+          <h1>Jednostki</h1>
+          <p class="view-sub">JRG oraz jednostki OSP</p>
+        </div>
+        <button class="btn btn-primary btn-lg" id="btnAddUnit">+ DODAJ JEDNOSTKĘ</button>
+      </div>
+      <div class="cards-grid" id="unitsGrid"></div>
+    </section>
+
+    <!-- ---------- HISTORY ---------- -->
+    <section class="view hidden" id="view-history">
+      <div class="view-header">
+        <div>
+          <h1>Historia</h1>
+          <p class="view-sub" id="historyDateLabel">Zakończone akcje — dziś</p>
+        </div>
+      </div>
+      <div class="cards-grid" id="historyGrid"></div>
+    </section>
+
+    <!-- ---------- HISTORY DETAIL ---------- -->
+    <section class="view hidden" id="view-history-detail">
+      <div class="view-header">
+        <div>
+          <button class="btn btn-ghost" id="btnBackFromHistoryDetail">&larr; POWRÓT</button>
+        </div>
+      </div>
+      <div id="historyDetailBody"></div>
+    </section>
+
+    <!-- ---------- PROFILES ---------- -->
+    <section class="view hidden" id="view-profiles">
+      <div class="view-header">
+        <div>
+          <h1>Profile</h1>
+          <p class="view-sub">Profile dyspozytorskie</p>
+        </div>
+        <button class="btn btn-primary btn-lg" id="btnAddProfile">+ NOWY PROFIL</button>
+      </div>
+      <div class="cards-grid" id="profilesGrid"></div>
+    </section>
+
+    <!-- ---------- SETTINGS ---------- -->
+    <section class="view hidden" id="view-settings">
+      <div class="view-header">
+        <div>
+          <h1>Ustawienia</h1>
+          <p class="view-sub">Dane i konfiguracja systemu</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Dane</h2></div>
+        <div class="panel-body">
+          <div class="settings-stats" id="settingsStats"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h2>Zarządzanie danymi</h2></div>
+        <div class="panel-body">
+          <div class="settings-danger-row">
+            <div>
+              <div class="settings-item-title">Historia</div>
+              <div class="settings-item-desc">Usuń wpisy historii bieżącego dnia.</div>
+            </div>
+            <button class="btn btn-outline-danger" data-clear="history">Wyczyść historię</button>
+          </div>
+          <div class="settings-danger-row">
+            <div>
+              <div class="settings-item-title">Pojazdy</div>
+              <div class="settings-item-desc">Usuń wszystkie pojazdy (poza uczestniczącymi w aktywnych akcjach).</div>
+            </div>
+            <button class="btn btn-outline-danger" data-clear="vehicles">Wyczyść pojazdy</button>
+          </div>
+          <div class="settings-danger-row">
+            <div>
+              <div class="settings-item-title">Jednostki</div>
+              <div class="settings-item-desc">Usuń wszystkie jednostki niezawierające pojazdów.</div>
+            </div>
+            <button class="btn btn-outline-danger" data-clear="units">Wyczyść jednostki</button>
+          </div>
+          <div class="settings-danger-row">
+            <div>
+              <div class="settings-item-title">Profile</div>
+              <div class="settings-item-desc">Usuń wszystkie profile poza jednym domyślnym.</div>
+            </div>
+            <button class="btn btn-outline-danger" data-clear="profiles">Wyczyść profile</button>
+          </div>
+          <div class="settings-danger-row settings-danger-row--strong">
+            <div>
+              <div class="settings-item-title">Wszystkie dane</div>
+              <div class="settings-item-desc">Usuwa jednostki, pojazdy, akcje, historię i profile oraz przywraca dane demonstracyjne.</div>
+            </div>
+            <button class="btn btn-danger" id="btnDeleteAllData">USUŃ WSZYSTKIE DANE</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============ MODAL ROOT ============ -->
+<div class="modal-root" id="modalRoot"></div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast-stack" id="toastStack"></div>
+
+<script src="skpsp.js"></script>
+</body>
+</html>

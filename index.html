@@ -1,406 +1,231 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>michael.fries</title>
+<title>Michael Fries</title>
+<meta name="description" content="Michael Fries – software engineer. Boty Discord, aplikacje C++ i wszystko o komputerach.">
+<meta name="theme-color" content="#0d1017">
+<meta property="og:title" content="Michael Fries">
+<meta property="og:description" content="Software engineer. Discord bots, C++ apps and anything about computers.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Space+Mono&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
 <style>
 :root{
-  --bg:#050806;
-  --panel:rgba(10,18,12,0.55);
-  --line:#123320;
-  --green:#39ff6a;
-  --green-dim:#1c7a3c;
-  --green-faint:#0d3b1f;
-  --cyan:#3df2ff;
-  --white:#f4fff6;
-  --text-dim:#5a8a6b;
+  --bg:#0d1017;
+  --panel:#151a23;
+  --panel-2:#1a2130;
+  --line:#242c3b;
+  --text:#e8ebf2;
+  --muted:#8c95a8;
+  --accent:#8b9bff;
+  --accent-2:#5eead4;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-::selection{background:var(--green);color:#000;}
-html,body{height:100%;}
+::selection{background:var(--accent);color:#0d1017;}
 body{
-  background:var(--bg);
-  color:var(--text-dim);
-  font-family:'JetBrains Mono',monospace;
-  overflow:hidden;
+  min-height:100vh;
+  background:
+    radial-gradient(600px 300px at 50% -80px,rgba(139,155,255,.16),transparent 70%),
+    var(--bg);
+  color:var(--muted);
+  font-family:'Inter',system-ui,sans-serif;
   display:flex;
+  flex-direction:column;
   align-items:center;
-  justify-content:center;
-  position:relative;
+  gap:16px;
+  padding:48px 16px;
 }
-#matrix-canvas{
-  position:fixed;
-  inset:0;
-  z-index:0;
-  opacity:0.18;
-}
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:repeating-linear-gradient(
-    to bottom,
-    rgba(57,255,106,0.035),
-    rgba(57,255,106,0.035) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-  pointer-events:none;
-  z-index:2;
-  mix-blend-mode:overlay;
-}
-body::after{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.65) 140%);
-  pointer-events:none;
-  z-index:3;
-}
-.card{
-  position:relative;
-  z-index:5;
-  width:380px;
-  max-width:90vw;
+.window{
+  width:440px;max-width:100%;
   background:var(--panel);
-  backdrop-filter:blur(18px);
-  border:1px solid var(--green-faint);
+  border:1px solid var(--line);
   border-radius:14px;
-  padding:36px 30px 28px;
-  box-shadow:
-    0 0 0 1px rgba(0,0,0,0.3),
-    0 25px 80px rgba(0,0,0,0.6),
-    0 0 60px rgba(57,255,106,0.08);
-  text-align:center;
-  animation:rise .7s cubic-bezier(.2,.8,.2,1) both;
-}
-@keyframes rise{
-  from{opacity:0;transform:translateY(24px) scale(.98);}
-  to{opacity:1;transform:translateY(0) scale(1);}
-}
-.views{
-  position:absolute;
-  top:14px;
-  right:16px;
-  font-size:10.5px;
-  color:var(--text-dim);
-  letter-spacing:0.5px;
-  display:flex;
-  align-items:center;
-  gap:5px;
-}
-.views .dot{
-  width:6px;height:6px;
-  border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 6px var(--green);
-  animation:pulse 2s infinite;
-}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
-.avatar-wrap{
-  position:relative;
-  width:96px;height:96px;
-  margin:0 auto 18px;
-}
-.avatar-ring{
-  position:absolute;
-  inset:-6px;
-  border-radius:50%;
-  border:1px solid var(--green-dim);
-  animation:spin 8s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-.card-ring{
-  position:absolute;
-  inset:-1px;
-  width:calc(100% + 2px);
-  height:calc(100% + 2px);
-  pointer-events:none;
-  z-index:6;
-  overflow:visible;
-}
-.card-ring rect{
-  fill:none;
-  stroke:var(--green);
-  stroke-width:1;
-  stroke-linecap:round;
-  stroke-dasharray:16 384;
-  filter:drop-shadow(0 0 6px rgba(57,255,106,0.5));
-  animation:ring-move 3.6s linear infinite;
-  color: linear-gradient(0deg, var(--green), var(--green-dim));
-  vector-effect:non-scaling-stroke;
-}
-@keyframes ring-move{
-  to{ stroke-dashoffset:-400; }
-}
-.avatar{
-  width:96px;height:96px;
-  border-radius:50%;
-  background:linear-gradient(160deg,#0d1a10,#050806);
-  border:1px solid var(--green-faint);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:34px;
-  font-weight:800;
-  color:var(--green);
-  text-shadow:0 0 14px rgba(57,255,106,0.6);
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
   overflow:hidden;
 }
-.avatar img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  filter:saturate(1.05) contrast(1.05);
+.titlebar{
+  display:flex;align-items:center;gap:7px;
+  padding:11px 14px;
+  background:var(--panel-2);
+  border-bottom:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;
+  font-size:11.5px;color:var(--muted);
 }
-.username{
-  font-size:22px;
-  font-weight:800;
-  color:var(--white);
-  letter-spacing:0.5px;
-  position:relative;
-  display:inline-block;
+.titlebar i{width:10px;height:10px;border-radius:50%;background:#2f394d;}
+.titlebar span{margin-left:6px;}
+.titlebar .views{margin-left:auto;display:flex;align-items:center;gap:6px;}
+.titlebar .views::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent-2);}
+
+.profile{padding:30px 28px 26px;text-align:center;}
+.avatar{
+  width:92px;height:92px;margin:0 auto 16px;border-radius:50%;overflow:hidden;
+  border:2px solid var(--line);
+  box-shadow:0 0 0 4px rgba(139,155,255,.14);
+  background:var(--panel-2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:30px;font-weight:700;color:var(--accent);
 }
-.username .cursor{
-  display:inline-block;
-  width:2px;
-  height:18px;
-  background:var(--green);
-  margin-left:3px;
-  vertical-align:middle;
-  animation:blink 1s step-end infinite;
-  box-shadow:0 0 6px var(--green);
-}
-@keyframes blink{50%{opacity:0;}}
-.pronouns{
-  font-size:11px;
-  color:var(--text-dim);
-  margin-top:4px;
-  letter-spacing:1px;
-  text-transform:uppercase;
-}
-.bio{
-  margin-top:16px;
-  font-size:12.5px;
-  line-height:1.7;
-  color:var(--text-dim);
-  font-family:'Space Mono',monospace;
-}
-.bio .accent{color:var(--green);}
-.tags{
-  margin-top:16px;
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:8px;
-}
+.avatar img{width:100%;height:100%;object-fit:cover;}
+h1{font-size:24px;font-weight:700;color:var(--text);letter-spacing:-.3px;}
+.role{margin-top:4px;font-size:13.5px;color:var(--accent);font-weight:500;}
+.bio{margin:14px auto 0;max-width:340px;font-size:14px;line-height:1.6;}
+.tags{margin-top:16px;display:flex;justify-content:center;flex-wrap:wrap;gap:8px;}
 .tag{
-  font-size:10px;
-  letter-spacing:0.5px;
-  padding:4px 10px;
-  border:1px solid var(--green-faint);
-  border-radius:20px;
-  color:var(--cyan);
+  font-family:'JetBrains Mono',monospace;font-size:11.5px;
+  padding:4px 11px;border-radius:7px;
+  background:var(--panel-2);border:1px solid var(--line);color:var(--text);
 }
-.socials{
-  margin-top:24px;
-  display:flex;
-  justify-content:center;
-  gap:14px;
-}
+.socials{margin-top:22px;display:flex;justify-content:center;gap:10px;}
 .social{
-  width:38px;height:38px;
-  border-radius:9px;
-  border:1px solid var(--green-faint);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:var(--text-dim);
+  position:relative;width:40px;height:40px;border-radius:10px;
+  border:1px solid var(--line);background:var(--panel-2);color:var(--muted);
+  display:flex;align-items:center;justify-content:center;
+  text-decoration:none;cursor:pointer;
+  transition:color .15s,border-color .15s,background .15s;
+}
+.social svg{width:17px;height:17px;fill:currentColor;}
+.social:hover{color:var(--text);border-color:var(--accent);background:#1f2740;}
+.tip{
+  position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);
+  white-space:nowrap;font-size:11px;padding:4px 9px;border-radius:6px;
+  background:var(--text);color:var(--bg);opacity:0;pointer-events:none;transition:opacity .15s;
+}
+.tip.show{opacity:1;}
+
+.projects{padding:8px;display:grid;gap:4px;}
+.project{
+  display:flex;align-items:center;gap:14px;
+  padding:12px;border-radius:9px;
   text-decoration:none;
-  transition:all .2s;
-  position:relative;
+  transition:background .15s;
 }
-.social svg{width:16px;height:16px;fill:currentColor;}
-.social:hover{
-  color:var(--bg);
-  background:var(--green);
-  border-color:var(--green);
-  box-shadow:0 0 18px rgba(57,255,106,0.5);
-  transform:translateY(-3px);
+.project:hover,.project:focus-visible{background:var(--panel-2);}
+.project .icon{
+  flex:none;width:38px;height:38px;border-radius:9px;
+  background:rgba(139,155,255,.12);color:var(--accent);
+  display:flex;align-items:center;justify-content:center;
 }
-.divider{
-  margin:24px 0 16px;
-  height:1px;
-  background:linear-gradient(90deg,transparent,var(--green-faint),transparent);
-}
-.footer-line{
-  font-size:10px;
-  color:var(--text-dim);
-  letter-spacing:0.5px;
-}
-.footer-line span{color:var(--green-dim);}
-.audio-toggle{
-  position:absolute;
-  top:14px;left:16px;
-  width:26px;height:26px;
-  border-radius:6px;
-  border:1px solid var(--green-faint);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  color:var(--text-dim);
-  transition:all .2s;
-}
-.audio-toggle:hover{color:var(--green);border-color:var(--green-dim);}
-.audio-toggle svg{width:12px;height:12px;fill:currentColor;}
-@media (prefers-reduced-motion:reduce){
-  *{animation:none !important;transition:none !important;}
-}
-a:focus-visible, .audio-toggle:focus-visible{
-  outline:2px solid var(--cyan);
-  outline-offset:2px;
-}
+.project .icon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+.project .info{flex:1;min-width:0;}
+.project .name{display:block;font-size:14px;font-weight:600;color:var(--text);}
+.project .desc{display:block;margin-top:2px;font-size:12.5px;line-height:1.45;}
+.project .arrow{flex:none;color:var(--muted);transition:transform .15s,color .15s;}
+.project .arrow svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.project:hover .arrow{color:var(--accent);transform:translateX(3px);}
+
+footer{font-family:'JetBrains Mono',monospace;font-size:11.5px;margin-top:4px;}
+
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;}}
 </style>
 </head>
 <body>
-<canvas id="matrix-canvas"></canvas>
 
-<div class="card">
-  <svg class="card-ring" aria-hidden="true">
-    <rect x="1" y="1" width="calc(100% - 2px)" height="calc(100% - 2px)" rx="15" ry="15" pathLength="400"></rect>
-  </svg>
-  <div class="views"><span class="dot"></span><span id="view-count">···</span> views</div>
-
-  <div class="avatar-wrap">
-    <div class="avatar-ring"></div>
-    <div class="avatar"><img src="https://i.pinimg.com/564x/37/17/d6/3717d6a414d8dc80186aa48cbd089804.jpg" alt="michael.fries avatar"></div>
+<main class="window" aria-label="Profil">
+  <div class="titlebar">
+    <i></i><i></i><i></i><span>michael.fries</span>
+    <div class="views" title="Liczba wyświetleń"><span id="view-count">···</span></div>
   </div>
-
-  <div class="username">Michael Fries<span class="cursor"></span></div>
-  <div class="pronouns">CERTIFIED LARP</div>
-
-  <div class="bio">
-    <span class="accent">&gt;</span> software engineer<br>
-    Discord bots, C++ apps and anything about computers.
+  <div class="profile">
+    <div class="avatar"><img src="https://i.pinimg.com/564x/37/17/d6/3717d6a414d8dc80186aa48cbd089804.jpg" alt="Avatar Michaela Friesa" onerror="this.replaceWith('MF')"></div>
+    <h1>Michael Fries</h1>
+    <div class="role">Software engineer</div>
+    <p class="bio">Discord bots, C++ apps and anything about computers.</p>
+    <div class="tags">
+      <span class="tag">Python</span>
+      <span class="tag">C++</span>
+      <span class="tag">JavaScript</span>
+    </div>
+    <div class="socials">
+      <button class="social" id="discord-btn" type="button" aria-label="Discord – kopiuj nazwę użytkownika" data-user="TWOJ_NICK_DISCORD">
+        <span class="tip" id="discord-tip" role="status"></span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.6 3l-.3.6a14.2 14.2 0 0 1 4 1.6 15.3 15.3 0 0 0-13.6 0A14.2 14.2 0 0 1 9.7 3l-.3-.6a19.8 19.8 0 0 0-4.7 1.5C1.7 8.5 1 12.5 1.3 16.4a19.9 19.9 0 0 0 6 3l1-1.6a13 13 0 0 1-1.9-.9l.5-.4a14.3 14.3 0 0 0 12.2 0l.5.4a13 13 0 0 1-1.9.9l1 1.6a19.9 19.9 0 0 0 6-3c.4-4.5-.7-8.5-3-12ZM8.9 14.3c-.9 0-1.6-.8-1.6-1.8s.7-1.8 1.6-1.8 1.6.8 1.6 1.8-.7 1.8-1.6 1.8Zm6.2 0c-.9 0-1.6-.8-1.6-1.8s.7-1.8 1.6-1.8 1.6.8 1.6 1.8-.7 1.8-1.6 1.8Z"/></svg>
+      </button>
+      <a class="social" href="https://github.com/michaelfriesdev/" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1-1.5-1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7 3.6 3.6 0 0 1 .1-2.7s.9-.3 2.9 1a10 10 0 0 1 5.2 0c2-1.3 2.9-1 2.9-1a3.6 3.6 0 0 1 .1 2.7 3.9 3.9 0 0 1 1 2.7c0 3.9-2.4 4.7-4.6 5 .3.3.6 1 .6 2v2.9c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+      <a class="social" href="https://www.youtube.com/@DntHckMe" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8ZM9.75 15.5v-7l6 3.5-6 3.5Z"/></svg>
+      </a>
+    </div>
   </div>
+</main>
 
-  <div class="tags">
-    <span class="tag">Python</span>
-    <span class="tag">C++</span>
-    <span class="tag">JavaScript</span>
-  </div>
-
-  <div class="socials">
-    <a class="social" href="#" aria-label="Discord">
-      <svg viewBox="0 0 24 24"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.6 3l-.3.6a14.2 14.2 0 0 1 4 1.6 15.3 15.3 0 0 0-13.6 0A14.2 14.2 0 0 1 9.7 3l-.3-.6a19.8 19.8 0 0 0-4.7 1.5C1.7 8.5 1 12.5 1.3 16.4a19.9 19.9 0 0 0 6 3l1-1.6a13 13 0 0 1-1.9-.9l.5-.4a14.3 14.3 0 0 0 12.2 0l.5.4a13 13 0 0 1-1.9.9l1 1.6a19.9 19.9 0 0 0 6-3c.4-4.5-.7-8.5-3-12ZM8.9 14.3c-.9 0-1.6-.8-1.6-1.8s.7-1.8 1.6-1.8 1.6.8 1.6 1.8-.7 1.8-1.6 1.8Zm6.2 0c-.9 0-1.6-.8-1.6-1.8s.7-1.8 1.6-1.8 1.6.8 1.6 1.8-.7 1.8-1.6 1.8Z"/></svg>
+<section class="window" aria-label="Projekty">
+  <div class="titlebar"><i></i><i></i><i></i><span>projekty</span></div>
+  <nav class="projects">
+    <a class="project" href="/taryfikator">
+      <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16M4 12h16M4 19h10"/><circle cx="19" cy="19" r="2"/></svg></span>
+      <span class="info"><span class="name">Taryfikator</span><span class="desc">Szybkie wyszukiwanie wykroczeń i ich taryf.</span></span>
+      <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </a>
-    <a class="social" href="https://github.com/michaelfriesdev/" aria-label="GitHub">
-      <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.2-1-1.5-1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.7.4-1.1.6-1.4-2.2-.3-4.6-1.1-4.6-5a3.9 3.9 0 0 1 1-2.7 3.6 3.6 0 0 1 .1-2.7s.9-.3 2.9 1a10 10 0 0 1 5.2 0c2-1.3 2.9-1 2.9-1a3.6 3.6 0 0 1 .1 2.7 3.9 3.9 0 0 1 1 2.7c0 3.9-2.4 4.7-4.6 5 .3.3.6 1 .6 2v2.9c0 .3.2.6.7.5A10 10 0 0 0 12 2Z"/></svg>
+    <a class="project" href="/skpsp">
+      <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12l3 3 5-6"/></svg></span>
+      <span class="info"><span class="name">SKPSP</span><span class="desc">Narzędzie webowe SKPSP.</span></span>
+      <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </a>
-    <a class="social" href="https://www.youtube.com/@DntHckMe" aria-label="Youtube">
-      <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.6 3.5 12 3.5 12 3.5s-7.6 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.8.6 9.4.6 9.4.6s7.6 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8ZM9.75 15.5v-7l6 3.5-6 3.5Z"/></svg>
+    <a class="project" href="/oznaczenia">
+      <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17v.01"/></svg></span>
+      <span class="info"><span class="name">Oznaczenia</span><span class="desc">Przegląd oznaczeń z własną czcionką.</span></span>
+      <span class="arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
     </a>
-  </div>
+  </nav>
+</section>
 
-  <div class="divider"></div>
-  <div class="footer-line"><span>[</span> michaelfries.tech <span>]</span></div>
-</div>
+<footer>michaelfries.tech</footer>
 
 <script>
 (function(){
-  var canvas=document.getElementById('matrix-canvas');
-  var ctx=canvas.getContext('2d');
-  var w,h,cols,drops;
-  var chars='アイウエオカキクケコサシスセソ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  function resize(){
-    w=canvas.width=window.innerWidth;
-    h=canvas.height=window.innerHeight;
-    cols=Math.floor(w/16);
-    drops=new Array(cols).fill(0).map(function(){return Math.random()*-50;});
-  }
-  window.addEventListener('resize',resize);
-  resize();
-  function draw(){
-    ctx.fillStyle='rgba(5,8,6,0.08)';
-    ctx.fillRect(0,0,w,h);
-    ctx.fillStyle='#39ff6a';
-    ctx.font='14px monospace';
-    for(var i=0;i<cols;i++){
-      var text=chars.charAt(Math.floor(Math.random()*chars.length));
-      ctx.fillText(text,i*16,drops[i]*16);
-      if(drops[i]*16>h && Math.random()>0.975){
-        drops[i]=0;
-      }
-      drops[i]++;
+  /* Discord – kopiuje nick do schowka */
+  var btn=document.getElementById('discord-btn');
+  var tip=document.getElementById('discord-tip');
+  btn.addEventListener('click',function(){
+    var user=btn.dataset.user;
+    function done(ok){
+      tip.textContent=ok?'Skopiowano: '+user:user;
+      tip.classList.add('show');
+      setTimeout(function(){tip.classList.remove('show');},1800);
     }
-    requestAnimationFrame(draw);
-  }
-  draw();
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(user).then(function(){done(true);},function(){done(false);});
+    }else done(false);
+  });
 
 
-  var SUPABASE_URL = "https://yrttmrpkfpsvneywsxtt.supabase.co";
-  var SUPABASE_KEY = "sb_publishable_eIkTHJV9M6Ou98tQI8R03g_DKul07sy";
+  var SUPABASE_URL="https://yrttmrpkfpsvneywsxtt.supabase.co";
+  var SUPABASE_KEY="sb_publishable_eIkTHJV9M6Ou98tQI8R03g_DKul07sy";
   var viewEl=document.getElementById('view-count');
   var COUNTED_KEY="mf_counted_v2";
-
   function countedWithin24h(){
-    try{
-      var t=localStorage.getItem(COUNTED_KEY);
-      return t && (Date.now()-Number(t))<86400000;
-    }catch(e){ return false; }
+    try{var t=localStorage.getItem(COUNTED_KEY);return t&&(Date.now()-Number(t))<86400000;}
+    catch(e){return false;}
   }
-  function markCounted(){
-    try{ localStorage.setItem(COUNTED_KEY, Date.now()); }catch(e){}
-  }
+  function markCounted(){try{localStorage.setItem(COUNTED_KEY,Date.now());}catch(e){}}
+  function fmt(n){return Number(n).toLocaleString('en-US')+' views';}
 
   async function updateViews(){
-    viewEl.textContent='···';
-
-    if(!SUPABASE_URL || !SUPABASE_KEY){
-      viewEl.textContent='n/a';
-      console.warn('Uzupełnij SUPABASE_URL i SUPABASE_KEY, żeby licznik działał.');
-      return;
-    }
     try{
-      var supabase=window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
+      var sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
       if(!countedWithin24h()){
-        var bump=await supabase.rpc('increment_views', { row_key: 'profile-views' });
-        if(bump.error) throw bump.error;
+        var bump=await sb.rpc('increment_views',{row_key:'profile-views'});
+        if(bump.error)throw bump.error;
         markCounted();
-        viewEl.textContent=Number(bump.data).toLocaleString("en-US");
+        viewEl.textContent=fmt(bump.data);
         return;
       }
-
-      var read=await supabase.from("stats").select("value").eq("key","profile-views").single();
-      if(read.error) throw read.error;
-      viewEl.textContent=Number(read.data.value).toLocaleString("en-US");
+      var read=await sb.from('stats').select('value').eq('key','profile-views').single();
+      if(read.error)throw read.error;
+      viewEl.textContent=fmt(read.data.value);
     }catch(e){
-      console.error('Blad licznika wyswietlen:', e);
+      console.error('Błąd licznika wyświetleń:',e);
       viewEl.textContent='n/a';
     }
   }
-  updateViews();
-
-
-  var toggle=document.getElementById('audio-toggle');
-  var muted=true;
-  function flip(){
-    muted=!muted;
-    toggle.innerHTML=muted
-      ? '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/></svg>'
-      : '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z"/></svg>';
-  }
-  toggle.addEventListener('click',flip);
-  toggle.addEventListener('keydown',function(e){
-    if(e.key==='Enter'||e.key===' '){e.preventDefault();flip();}
-  });
+  if(window.supabase)updateViews();
+  else window.addEventListener('load',function(){window.supabase?updateViews():(viewEl.textContent='n/a');});
 })();
 </script>
 </body>

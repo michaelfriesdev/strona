@@ -4,385 +4,253 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Taryfikator Policyjny</title>
+<meta name="theme-color" content="#0d1017">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-    :root {
-        --navy: #0b2545;
-        --navy-light: #13355e;
-        --accent: #ffcc00;
-        --bg: #eef1f5;
-        --card: #ffffff;
-        --text: #1c1c1c;
-        --muted: #6b7280;
-        --danger: #c0392b;
-    }
+:root{
+  --bg:#0d1017;
+  --panel:#151a23;
+  --panel-2:#1a2130;
+  --line:#242c3b;
+  --text:#e8ebf2;
+  --muted:#8c95a8;
+  --accent:#8b9bff;
+  --accent-2:#5eead4;
+  --fine:#f5b85c;
+  --jail:#f87189;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+::selection{background:var(--accent);color:#0d1017;}
+body{
+  min-height:100vh;
+  background:radial-gradient(700px 300px at 50% -80px,rgba(139,155,255,.16),transparent 70%),var(--bg);
+  color:var(--muted);
+  font-family:'Inter',system-ui,sans-serif;
+  display:flex;flex-direction:column;
+}
+main{width:92%;max-width:1060px;margin:0 auto;padding:40px 0 20px;flex:1;display:grid;gap:16px;}
+.head h1{font-size:26px;font-weight:700;color:var(--text);letter-spacing:-.3px;}
+.head p{margin-top:6px;font-size:14px;max-width:560px;line-height:1.55;}
+.back{
+  display:inline-block;margin-bottom:14px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+  color:var(--muted);text-decoration:none;
+}
+.back:hover{color:var(--accent);}
 
-    * { box-sizing: border-box; }
+.window{
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 20px 50px rgba(0,0,0,.3);overflow:hidden;
+}
+.titlebar{
+  display:flex;align-items:center;gap:7px;padding:11px 14px;
+  background:var(--panel-2);border-bottom:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;font-size:11.5px;
+}
+.titlebar i{width:10px;height:10px;border-radius:50%;background:#2f394d;}
+.titlebar span{margin-left:6px;}
 
-    body {
-        font-family: "Segoe UI", Arial, Helvetica, sans-serif;
-        background-color: var(--bg);
-        margin: 0;
-        padding: 0;
-        color: var(--text);
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
+.controls{display:flex;flex-wrap:wrap;gap:12px;padding:14px;}
+#searchInput{
+  flex:1;min-width:220px;padding:10px 14px;font:inherit;font-size:14px;
+  color:var(--text);background:var(--bg);
+  border:1px solid var(--line);border-radius:9px;outline:none;
+  transition:border-color .15s;
+}
+#searchInput::placeholder{color:var(--muted);}
+#searchInput:focus{border-color:var(--accent);}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{
+  padding:10px 16px;font:inherit;font-size:13.5px;font-weight:600;
+  border-radius:9px;border:1px solid var(--line);cursor:pointer;
+  background:var(--panel-2);color:var(--text);white-space:nowrap;
+  transition:border-color .15s,background .15s;
+}
+.btn:hover{border-color:var(--accent);}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#0d1017;}
+.btn-primary:hover{background:#a3b0ff;}
+.btn-danger:hover{border-color:var(--jail);color:var(--jail);}
 
-    header {
-        background: linear-gradient(135deg, var(--navy), var(--navy-light));
-        color: white;
-        padding: 28px 20px;
-        text-align: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    }
+.table-wrapper{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+th{
+  font-size:12px;font-weight:600;color:var(--muted);text-align:left;
+  padding:11px 14px;border-bottom:1px solid var(--line);white-space:nowrap;
+}
+td{padding:11px 14px;border-bottom:1px solid var(--line);font-size:14px;color:var(--text);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr{transition:background .12s;cursor:pointer;}
+tbody tr:hover{background:var(--panel-2);}
+tbody tr:has(input:checked){background:rgba(139,155,255,.1);}
+tbody tr.hidden-row{display:none;}
+th:first-child,td:first-child{text-align:center;width:56px;}
+td:nth-child(n+3){font-family:'JetBrains Mono',monospace;font-size:13px;white-space:nowrap;}
+input[type="checkbox"]{width:17px;height:17px;cursor:pointer;accent-color:var(--accent);}
+.fine-col{color:var(--fine);}
+.jail-col{color:var(--jail);}
+.points-col{color:var(--accent-2);}
 
-    header h1 {
-        margin: 0;
-        font-size: 28px;
-        letter-spacing: 0.5px;
-    }
+.summary-bar{display:flex;justify-content:center;padding:6px 0 10px;}
+#summaryButton{padding:14px 32px;font-size:15px;}
 
-    header p {
-        margin: 6px 0 0;
-        color: #cbd8ea;
-        font-size: 14px;
-    }
+#overlay{display:none;position:fixed;inset:0;background:rgba(5,7,11,.7);z-index:100;}
+#summaryBox{
+  display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  z-index:101;width:92%;max-width:440px;max-height:82vh;overflow-y:auto;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 30px 80px rgba(0,0,0,.6);
+}
+#summaryBox .titlebar{position:sticky;top:0;}
+.summary-body{padding:18px 20px 20px;color:var(--text);font-size:14px;}
+#summaryContent p{margin:8px 0;}
+#summaryContent p span{color:var(--muted);}
+#summaryContent ul{margin:6px 0 14px;padding-left:20px;line-height:1.6;}
+.totals{display:grid;gap:8px;margin-top:6px;}
+.total{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--panel-2);
+}
+.total b{font-family:'JetBrains Mono',monospace;font-weight:500;}
+.summary-body .btn{margin-top:16px;width:100%;}
 
-    main {
-        margin: 24px auto;
-        width: 90%;
-        max-width: 1100px;
-        flex: 1;
-    }
-
-    .controls {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 20px;
-        background: var(--card);
-        padding: 16px;
-        border-radius: 10px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    }
-
-    #searchInput {
-        flex: 1;
-        min-width: 220px;
-        padding: 10px 14px;
-        font-size: 15px;
-        border: 1px solid #d0d5dd;
-        border-radius: 6px;
-        outline: none;
-        transition: border-color 0.15s;
-    }
-
-    #searchInput:focus {
-        border-color: var(--navy-light);
-    }
-
-    .btn {
-        padding: 10px 18px;
-        font-size: 14px;
-        font-weight: 600;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: background-color 0.15s, transform 0.05s;
-        white-space: nowrap;
-    }
-
-    .btn:active { transform: scale(0.97); }
-
-    .btn-primary {
-        background-color: var(--navy);
-        color: white;
-    }
-    .btn-primary:hover { background-color: var(--navy-light); }
-
-    .btn-danger {
-        background-color: var(--danger);
-        color: white;
-    }
-    .btn-danger:hover { background-color: #a5311f; }
-
-    h2 {
-        color: var(--navy);
-        border-bottom: 3px solid var(--accent);
-        display: inline-block;
-        padding-bottom: 4px;
-        margin-top: 32px;
-    }
-
-    .table-wrapper {
-        overflow-x: auto;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        margin-bottom: 10px;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        background: var(--card);
-    }
-
-    thead {
-        background-color: var(--navy);
-        color: white;
-    }
-
-    td, th {
-        padding: 12px 15px;
-        border-bottom: 1px solid #e5e7eb;
-        text-align: left;
-    }
-
-    th:first-child, td:first-child {
-        text-align: center;
-        width: 50px;
-    }
-
-    tbody tr {
-        transition: background-color 0.12s;
-    }
-
-    tbody tr:nth-child(even) {
-        background-color: #f7f9fb;
-    }
-
-    tbody tr:hover {
-        background-color: #eaf1fb;
-    }
-
-    tbody tr.hidden-row {
-        display: none;
-    }
-
-    input[type="checkbox"] {
-        width: 17px;
-        height: 17px;
-        cursor: pointer;
-        accent-color: var(--navy);
-    }
-
-    .fine-col { color: #b45309; font-weight: 600; }
-    .jail-col { color: var(--danger); font-weight: 600; }
-    .points-col { color: #1d4ed8; font-weight: 600; }
-
-    .no-results {
-        text-align: center;
-        padding: 20px;
-        color: var(--muted);
-        font-style: italic;
-    }
-
-    #summaryButton {
-        display: block;
-        margin: 30px auto 10px;
-        padding: 16px 34px;
-        font-size: 16px;
-        font-weight: 700;
-        background-color: var(--accent);
-        color: var(--navy);
-        border: none;
-        cursor: pointer;
-        border-radius: 8px;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-        transition: transform 0.1s, background-color 0.15s;
-    }
-    #summaryButton:hover {
-        background-color: #e6b800;
-        transform: translateY(-1px);
-    }
-
-    #overlay {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.45);
-        z-index: 100;
-    }
-
-    #summaryBox {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: var(--card);
-        padding: 26px 30px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        border-radius: 12px;
-        z-index: 101;
-        width: 90%;
-        max-width: 420px;
-        max-height: 80vh;
-        overflow-y: auto;
-    }
-
-    #summaryBox h3 {
-        margin-top: 0;
-        color: var(--navy);
-    }
-
-    #summaryContent p { margin: 8px 0; }
-    #summaryContent ul { margin: 6px 0 14px; padding-left: 20px; }
-
-    #summaryBox button {
-        margin-top: 14px;
-        padding: 10px 20px;
-        background-color: var(--navy);
-        color: white;
-        border: none;
-        cursor: pointer;
-        border-radius: 6px;
-        font-weight: 600;
-    }
-    #summaryBox button:hover { background-color: var(--navy-light); }
-
-    footer {
-        background-color: #1c1c1c;
-        color: #ccc;
-        padding: 14px;
-        font-size: 14px;
-        text-align: center;
-        margin-top: 40px;
-    }
-
-    footer a { color: var(--accent); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
+footer{padding:18px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;}
+footer a{color:var(--accent);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+@media (max-width:600px){
+  th,td{padding:10px;}
+  .btn-row{width:100%;} .btn-row .btn{flex:1;}
+}
 </style>
 </head>
 <body>
-    <header>
-        <h1>Taryfikator Policyjny</h1>
-        <p>Wybierz wykroczenia, aby obliczyć łączny mandat, karę więzienia i punkty karne</p>
-    </header>
+<main>
+  <div class="head">
+    <a class="back" href="/">&larr; michaelfries.tech</a>
+    <h1>Taryfikator Policyjny</h1>
+    <p>Wybierz wykroczenia, aby obliczyć łączny mandat, karę więzienia i punkty karne.</p>
+  </div>
 
-    <main>
-        <div class="controls">
-            <input type="text" id="searchInput" placeholder="🔍 Szukaj wykroczenia..." oninput="filterOffenses()">
-            <div style="display:flex; gap:10px;">
-                <button class="btn btn-danger" onclick="clearAll()">Usuń wszystkie zaznaczenia</button>
-                <button class="btn btn-primary" onclick="calculatePenalty()">Podsumowanie</button>
-            </div>
-        </div>
-
-        <h2>Wykroczenia Drogowe</h2>
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Wybierz</th>
-                        <th>Wykroczenie</th>
-                        <th>Mandat (PLN)</th>
-                        <th>Miesiące więzienia</th>
-                        <th>Punkty karne</th>
-                    </tr>
-                </thead>
-                <tbody id="trafficOffensesBody"></tbody>
-            </table>
-        </div>
-
-        <h2>Wykroczenia Ogólne</h2>
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Wybierz</th>
-                        <th>Wykroczenie</th>
-                        <th>Mandat (PLN)</th>
-                        <th>Miesiące więzienia</th>
-                        <th>Punkty karne</th>
-                    </tr>
-                </thead>
-                <tbody id="generalOffensesBody"></tbody>
-            </table>
-        </div>
-
-        <button id="summaryButton" onclick="calculatePenalty()">Podsumowanie</button>
-    </main>
-
-    <div id="overlay" onclick="closeSummary()"></div>
-    <div id="summaryBox">
-        <h3>Podsumowanie</h3>
-        <div id="summaryContent"></div>
-        <button onclick="closeSummary()">Zamknij</button>
+  <div class="window">
+    <div class="titlebar"><i></i><i></i><i></i><span>filtr</span></div>
+    <div class="controls">
+      <input type="text" id="searchInput" placeholder="Szukaj wykroczenia..." aria-label="Szukaj wykroczenia" oninput="filterOffenses()">
+      <div class="btn-row">
+        <button class="btn btn-danger" onclick="clearAll()">Usuń zaznaczenia</button>
+        <button class="btn btn-primary" onclick="calculatePenalty()">Podsumowanie</button>
+      </div>
     </div>
+  </div>
 
-    <footer>
-        Zrobione przez <a href="https://guns.lol/michaelfries" target="_blank" rel="noopener">Michael Fries</a>
-    </footer>
+  <section class="window">
+    <div class="titlebar"><i></i><i></i><i></i><span>wykroczenia drogowe</span></div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Wybierz</th><th>Wykroczenie</th><th>Mandat (PLN)</th><th>Więzienie (mies.)</th><th>Punkty karne</th></tr></thead>
+        <tbody id="trafficOffensesBody"></tbody>
+      </table>
+    </div>
+  </section>
 
-    <!-- Dane wykroczeń wczytywane z osobnego pliku -->
-    <script src="offenses.js"></script>
-    <script>
-        function populateTable(tableId, offenses) {
-            const table = document.getElementById(tableId);
-            const rows = offenses.map(([offense, fine, jail, points]) => `
-                <tr data-name="${offense.toLowerCase()}">
-                    <td><input type="checkbox" data-offense="${offense}" data-fine="${fine}" data-jail="${jail}" data-points="${points}"></td>
-                    <td>${offense}</td>
-                    <td class="fine-col">${fine.toLocaleString('pl-PL')}</td>
-                    <td class="jail-col">${jail}</td>
-                    <td class="points-col">${points}</td>
-                </tr>`).join("");
-            table.innerHTML = rows;
-        }
+  <section class="window">
+    <div class="titlebar"><i></i><i></i><i></i><span>wykroczenia ogólne</span></div>
+    <div class="table-wrapper">
+      <table>
+        <thead><tr><th>Wybierz</th><th>Wykroczenie</th><th>Mandat (PLN)</th><th>Więzienie (mies.)</th><th>Punkty karne</th></tr></thead>
+        <tbody id="generalOffensesBody"></tbody>
+      </table>
+    </div>
+  </section>
 
-        function calculatePenalty() {
-            let totalFine = 0;
-            let totalJailTime = 0;
-            let totalPoints = 0;
-            let selectedOffenses = [];
+  <div class="summary-bar">
+    <button id="summaryButton" class="btn btn-primary" onclick="calculatePenalty()">Podsumowanie</button>
+  </div>
+</main>
 
-            document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
-                totalFine += parseInt(checkbox.dataset.fine);
-                totalJailTime += parseInt(checkbox.dataset.jail);
-                totalPoints += parseInt(checkbox.dataset.points);
-                selectedOffenses.push(checkbox.dataset.offense);
-            });
+<div id="overlay" onclick="closeSummary()"></div>
+<div id="summaryBox" role="dialog" aria-modal="true" aria-label="Podsumowanie">
+  <div class="titlebar"><i></i><i></i><i></i><span>podsumowanie</span></div>
+  <div class="summary-body">
+    <div id="summaryContent"></div>
+    <button class="btn" onclick="closeSummary()">Zamknij</button>
+  </div>
+</div>
 
-            const content = document.getElementById("summaryContent");
+<footer>
+  Zrobione przez <a href="https://guns.lol/michaelfries" target="_blank" rel="noopener">Michael Fries</a>
+</footer>
 
-            if (selectedOffenses.length === 0) {
-                content.innerHTML = `<p>Nie wybrano żadnych wykroczeń.</p>`;
-            } else {
-                content.innerHTML = `
-                    <p><strong>Wybrane wykroczenia (${selectedOffenses.length}):</strong></p>
-                    <ul>${selectedOffenses.map(o => `<li>${o}</li>`).join("")}</ul>
-                    <p><strong>Łączny mandat:</strong> ${totalFine.toLocaleString('pl-PL')} PLN</p>
-                    <p><strong>Łączna kara więzienia:</strong> ${totalJailTime} miesięcy</p>
-                    <p><strong>Łączne punkty karne:</strong> ${totalPoints}</p>`;
-            }
+<script src="offenses.js"></script>
+<script>
+function populateTable(tableId, offenses) {
+  const table = document.getElementById(tableId);
+  table.innerHTML = offenses.map(([offense, fine, jail, points]) => `
+    <tr data-name="${offense.toLowerCase()}">
+      <td><input type="checkbox" aria-label="${offense}" data-offense="${offense}" data-fine="${fine}" data-jail="${jail}" data-points="${points}"></td>
+      <td>${offense}</td>
+      <td class="fine-col">${fine.toLocaleString('pl-PL')}</td>
+      <td class="jail-col">${jail}</td>
+      <td class="points-col">${points}</td>
+    </tr>`).join("");
+}
 
-            document.getElementById("summaryBox").style.display = "block";
-            document.getElementById("overlay").style.display = "block";
-        }
+/* klik w cały wiersz zaznacza wykroczenie */
+document.addEventListener('click', e => {
+  const row = e.target.closest('tbody tr');
+  if (!row || e.target.matches('input')) return;
+  const cb = row.querySelector('input[type="checkbox"]');
+  if (cb) cb.checked = !cb.checked;
+});
 
-        function closeSummary() {
-            document.getElementById("summaryBox").style.display = "none";
-            document.getElementById("overlay").style.display = "none";
-        }
+function calculatePenalty() {
+  let totalFine = 0, totalJailTime = 0, totalPoints = 0;
+  const selected = [];
 
-        function clearAll() {
-            document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => cb.checked = false);
-        }
+  document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+    totalFine += parseInt(cb.dataset.fine);
+    totalJailTime += parseInt(cb.dataset.jail);
+    totalPoints += parseInt(cb.dataset.points);
+    selected.push(cb.dataset.offense);
+  });
 
-        function filterOffenses() {
-            const query = document.getElementById("searchInput").value.trim().toLowerCase();
-            document.querySelectorAll("tbody tr").forEach(row => {
-                const matches = row.dataset.name.includes(query);
-                row.classList.toggle("hidden-row", !matches);
-            });
-        }
+  const content = document.getElementById("summaryContent");
+  if (selected.length === 0) {
+    content.innerHTML = `<p>Nie wybrano żadnych wykroczeń.</p>`;
+  } else {
+    content.innerHTML = `
+      <p><strong>Wybrane wykroczenia (${selected.length}):</strong></p>
+      <ul>${selected.map(o => `<li>${o}</li>`).join("")}</ul>
+      <div class="totals">
+        <div class="total"><span>Łączny mandat</span><b class="fine-col">${totalFine.toLocaleString('pl-PL')} PLN</b></div>
+        <div class="total"><span>Kara więzienia</span><b class="jail-col">${totalJailTime} mies.</b></div>
+        <div class="total"><span>Punkty karne</span><b class="points-col">${totalPoints}</b></div>
+      </div>`;
+  }
+  document.getElementById("summaryBox").style.display = "block";
+  document.getElementById("overlay").style.display = "block";
+}
 
-        populateTable("trafficOffensesBody", trafficOffenses);
-        populateTable("generalOffensesBody", generalOffenses);
-    </script>
+function closeSummary() {
+  document.getElementById("summaryBox").style.display = "none";
+  document.getElementById("overlay").style.display = "none";
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSummary(); });
+
+function clearAll() {
+  document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => cb.checked = false);
+}
+
+function filterOffenses() {
+  const query = document.getElementById("searchInput").value.trim().toLowerCase();
+  document.querySelectorAll("tbody tr").forEach(row => {
+    row.classList.toggle("hidden-row", !row.dataset.name.includes(query));
+  });
+}
+
+populateTable("trafficOffensesBody", trafficOffenses);
+populateTable("generalOffensesBody", generalOffenses);
+</script>
 </body>
 </html>

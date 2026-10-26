@@ -421,7 +421,6 @@
                 generateRandom();
             });
 
-            // ---------- Button ripple animation (generic, applied to all buttons) ----------
             document.querySelectorAll('button').forEach(function(btn) {
                 btn.addEventListener('pointerdown', function(e) {
                     const rect = btn.getBoundingClientRect();
@@ -491,9 +490,6 @@
                 downloadLink.href = canvas.toDataURL('image/png');
             }
 
-            // =====================================================
-            // Custom color picker (HSV square + hue strip + presets)
-            // =====================================================
             const swatchBtn = document.getElementById('swatchBtn');
             const colorPanel = document.getElementById('colorPanel');
             const svCanvas = document.getElementById('svCanvas');
